@@ -1,0 +1,43 @@
+body {
+	font-size: 12px;
+	margin:0px; padding:0;
+}
+
+/* Estilo para el sistema Inicio*/
+
+
+@font-face {
+    font-family: 'UbuntuRegular';
+    src: url('../fonts/ubuntu/ubuntu-r-webfont.eot');
+    src: url('../fonts/ubuntu/ubuntu-r-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/ubuntu/ubuntu-r-webfont.woff') format('woff'),
+         url('../fonts/ubuntu/ubuntu-r-webfont.ttf') format('truetype'),
+         url('../fonts/ubuntu/ubuntu-r-webfont.svg#UbuntuRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+.inputText
+{
+	border: 1px solid #aed0ea;
+	height: 18px;
+}
+
+.selectText
+{
+	border: 1px solid #aed0ea;
+}
+
+#divBarraSistemaS{
+
+	width:100%;
+	margin:auto;
+	display:block;
+	position: fixed;
+	top:0;
+	left:0;
+	z-index: 99;
+}
+
+/* Estilo para el sistema Fin*/

@@ -1,0 +1,47 @@
+{% extends 'FrontendBundle::frontend.html.twig' %}
+{% block body %}
+<table border="0" cellpadding="0" cellspacing="0" align="center" width="90%"  height="100%">
+        <tr width="100%" align="left">
+            <td>
+                <div id="divMenu" class="ui-widget-header" style="height:30px">
+                    {% include 'FrontendBundle::menu.html.twig' %}
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td width="100%" valign="top" class="ui-widget-content2 ln_formatos" colspan="2">
+                <div id="divPanelSistema" class="ui-widget-content" align="left">
+							
+                </div>
+            </td>
+        </tr>
+	<tr>
+            <td width="100%">
+                <div id="pie_pagina" style="font-size:9px; height:12px" class="ui-widget-header">
+                    {% include 'FrontendBundle::footer.html.twig' %}
+		</div>
+           </td>
+       </tr>
+</table>
+{% endblock %}
+
+{% block custom_javascripts %}
+<script type="text/javascript">
+// BUTTONS Menu
+$(document).ready(function(){
+    $('.fg-button').hover(
+        function(){ $(this).removeClass('ui-state-default').addClass('ui-state-focus'); },
+        function(){ $(this).removeClass('ui-state-focus').addClass('ui-state-default'); }
+        );				
+    });
+
+// Iniciando los menus
+$(document).ready(function(){
+    $('#menuSeguros').menu({ 
+        content: $('#menuSeguros').next().html(),
+        showSpeed: 200, flyOut: true
+    });
+});
+</script>
+{% endblock %}
+   
