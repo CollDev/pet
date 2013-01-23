@@ -27,7 +27,8 @@
 
 {% block custom_javascripts %}
 <script type="text/javascript">
-// BUTTONS Menu
+(function ($) {
+   // BUTTONS Menu
 $(document).ready(function(){
     $('.fg-button').hover(
         function(){ $(this).removeClass('ui-state-default').addClass('ui-state-focus'); },
@@ -42,6 +43,7 @@ $(document).ready(function(){
         showSpeed: 200, flyOut: true
     });
 });
+}(jQuery));    
 </script>
 {% endblock %}
    

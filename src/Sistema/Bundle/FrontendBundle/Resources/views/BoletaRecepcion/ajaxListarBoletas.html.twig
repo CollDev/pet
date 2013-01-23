@@ -1,0 +1,28 @@
+<div class="error">
+    {{ form_errors(form) }}
+</div>
+<table id="myTable" border="0" class="ui-widget">
+<thead class="ui-widget-header">
+    <tr>
+        <th>Num Boleta</th>
+        <th>Fecha Llegada</th>
+        <th>Fecha Salida</th>
+        <th>Acci&oacute;n</th>
+    </tr>
+</thead>
+<tbody class="ui-widget-content">
+    {% for boletaRecepcion in boletasRecepcion %}
+    <tr>
+        <td >{{ boletaRecepcion.id }}</td>
+        <td >{{ boletaRecepcion.fechaIngreso | date('d/m/Y') }}</td>
+        <td >{{ boletaRecepcion.fechaSalida | date('d/m/Y') }}</td>
+        <td ><button id="choose-{{ boletaRecepcion.id }}" 
+                     class="ui-button ui-widget ui-corner-all ui-state-default ui-button-text-only"
+                     onclick="elegirBoletaRecepcion('{{ boletaRecepcion.id }}',
+                                 '{{ url('material_listar', { 'boletaRecepcionId': boletaRecepcion.id})}}')"
+                     value="Elegir">Elegir</button></td>
+    </tr>
+    {% endfor %}
+    
+</tbody>
+</table>

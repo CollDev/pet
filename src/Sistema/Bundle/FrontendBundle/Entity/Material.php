@@ -91,4 +91,9 @@ class Material
     {
         return $this->stock;
     }
+    
+    public function __toString()
+    {
+        return $this->nombre;
+    }
 }

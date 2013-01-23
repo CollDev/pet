@@ -4,17 +4,14 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <!--
     <parameters>
-        <parameter key="frontend.example.class">Sistema\Bundle\FrontendBundle\Example</parameter>
+        <parameter key="frontend.type.boleta_recepcion_selector.class">Sistema\Bundle\FrontendBundle\Form\Type\BoletaRecepcionSelectorType</parameter>
     </parameters>
-
+    
     <services>
-        <service id="frontend.example" class="%frontend.example.class%">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
+        <service id="frontend.type.boleta_recepcion_selector" class="%frontend.type.boleta_recepcion_selector.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <tag name="form.type" alias="boleta_recepcion_selector" />
         </service>
     </services>
-    -->
 </container>

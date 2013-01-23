@@ -1,0 +1,16 @@
+<?xml version ="1.0" encoding="utf-8"?>
+<rows>
+  <page>1</page>
+  <total>1</total>
+  <records>1</records>
+  {% for recepcionMaterial in recepcionMateriales %}
+    <row id = '{{recepcionMaterial.id}}'>
+      <cell> {{ recepcionMaterial.id }} </cell>
+      <cell> {{ recepcionMaterial.boletaRecepcion.id }} </cell>
+      <cell> {{ recepcionMaterial.material.nombre }} </cell>
+      <cell> {{ recepcionMaterial.fechaIngreso | date('d/m/Y')}} </cell>
+      <cell> {{ recepcionMaterial.unidadMedida.nombre }} </cell>
+      <cell> {{ recepcionMaterial.cantidad }} </cell>
+    </row>
+    {% endfor %}
+</rows>

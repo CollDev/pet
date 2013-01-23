@@ -1,46 +1,61 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Mantenimiento de Siniestros</title>
-
-</head>
-<body>
+{% extends '::layout.html.twig' %}
+{% block body %}
     <div id="divFormCompanias">
         <h3>
-            <a href="#">Material</a>
+            <a href="#">Recepci&oacute;n Material</a>
         </h3>
         <div>
+            <form id="registrar" action="#" method="post" {{ form_enctype(form) }} onsubmit="return false;">
             <table border="0" cellpadding="2" cellspacing="2" style="height:100px" >
                 <tr>
                     <td>
+                        <div class="error hide" >
+                            Error al procesar la acci&oacute;n
+                        </div>
                         <div class="ui-widget-content">
                             <table border="0" cellpadding="2" cellspacing="2" >
                                 <tr>
-                                    <td>Nro Boleta Rec: </td>
-                                    <td><input type="text" id="txt1" class="inputText" style="width:150px"><a href="#" onclick="buscarPedido();" >
+                                    <td>{{ form_label(form.boleta_recepcion) }} </td>
+                                    <td>{{ form_widget(form.boleta_recepcion) }}
+                                        <a id="nro-boleta" href="#" onclick="buscarPedido('{{ url("boleta_recepcion_ajax_listar") }}');" >
                                             <img border="0" width="15" src="{{ asset('bundles/frontend/images/toolbar_find.png' ) }}" />  </a>
+                                            <br />
+                                            {{ form_errors(form.boleta_recepcion) }}
                                     </td>
-                                    <td>Cod Material: </td>
-                                    <td><input type="text" id="txt2" class="inputText" style="width:150px"><a href="#" onclick="buscarOrden();" >
-                                            <img border="0" width="15" src="{{ asset('bundles/frontend/images/toolbar_find.png' ) }}" />  </a>
+                                    <td>{{ form_label(form.material)}}</td>
+                                    <td>{{ form_widget(form.material) }}
+                                        {{ form_errors(form.material) }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Fecha Ingreso: </td>
-                                    <td><input type="text" id="txt3" class="inputText" style="width:150px" >
+                                    <td>{{ form_label(form.fecha_ingreso) }}</td>
+                                    <td>
+                                        {{ form_widget(form.fecha_ingreso) }}
+                                        <br />
+                                        {{ form_errors(form.fecha_ingreso) }}
                                     </td>
-                                    <td>Uni.Med: </td>
-                                    <td><select id="select1" ><option value="0" >--Seleccione--</option><option value="1">Atendido</option><option value="2">Pendiente</option></select>
+                                    <td>{{form_label(form.unidad_medida) }}</td>
+                                    <td>
+                                        {{ form_widget(form.unidad_medida) }}
+                                        <br />
+                                        {{ form_errors(form.unidad_medida) }}
                                     </td>
                                 </tr>
 
                                 <tr>
-                                    <td>Cantidad: </td>
-                                        <td><input type="text" id="txt3" class="inputText" style="width:150px" >
+                                    <td>{{ form_label(form.cantidad) }}</td>
+                                    <td>
+                                        {{ form_widget(form.cantidad) }}
+                                        <a href="#" onclick="obtenerPeso('{{path('balanza_peso')}}', '{{ form.cantidad.vars.id }}' );" >
+                                            <img border="0" src="{{ asset('bundles/frontend/images/scale-32x32.png' ) }}" />
+                                        </a>
+                                        <br />
+                                        {{ form_errors(form.cantidad) }}
                                     </td>
                                 </tr>
                             </table>
+                                
+                            {{ form_rest(form) }}
                          </div>
                     </td>
                 </tr>
@@ -51,10 +66,9 @@
                             <div class="divBtns">
                                 <table width="100%" >
                                     <tr>
-                                        <td   align="center" >
-                                            <button onclick="alert('Grabo satisfactoriamente');" >Grabar</button>
-                                            <button onclick="alert('Registro eliminado');" >Eliminar</button>
-                                            <button onclick="limpiar();" >Limpiar</button>
+                                        <td align="center" >
+                                            <button onclick="grabar('{{ path('material_registrar') }}', '{{ url('material_listar') }}' ); return false;" >Grabar</button>
+                                            <button onclick="limpiar('{{ url('material_listar') }}'); return false;" >Limpiar</button>
                                         </td>
                                     </tr>
                                 </table>
@@ -74,46 +88,40 @@
 		</tr>
 				
             </table>
+            </form>                    
         </div>
     </div>
 	
-    <div id="dlgDatosPopUp" title="Modificacion Productos">
-        <table border="0" cellpadding="2" cellspacing="2">
-            <tr>
-                <td>Cod. Material:</td>
-                <td> <input type="text" id="txt10" class="inputText" style="width:100px" value=""></input> </td>
-            </tr>
-            <tr>
-                <td>Material:</td>
-                <td> <input type="text" id="txt11" class="inputText" style="width:100px" value=""></input> </td>
-            </tr>
-            <tr>
-                <td>Unidad Medida:</td>
-                <td> <input type="text" id="txt12" class="inputText" style="width:100px" value=""></input> </td>
-            </tr>
-            <tr>
-                <td>Cantidad:</td>
-                <td> <input type="text" id="txt13" class="inputText" style="width:100px" value=""></input> </td>
-            </tr>
-            <tr>
-                <td align="center" >&nbsp;</td>
-            </tr>
-            <tr>
-                <td width="100%" colspan="2" >
-                    <div class="ui-widget-content">
-                        <div class="divBtns">
-                            <table width="100%">
-                                <tr>
-                                    <td align="left">
-                                        <button onclick="llenarDetalle();" >Buscar</button>&nbsp;<button onclick="alert('Registro modificado');cerrarDialog('dlgDatosPopUp');buscarGrilla2();" >Grabar</button>
-                                    </td>
-				</tr>
-                            </table>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-        </table>
+    <div id="dlgDatosPopUp" title="Buscar Boleta de Recepcion">
+        {% render url('boleta_recepcion_buscar') %}
     </div>
-</body>
-</html>
+{% endblock %}
+{% block custom_javascripts %}
+<script>
+    (function ($) {
+   	$( "#divFormCompanias" ).accordion({autoHeight:false});
+		$("button", ".divBtns").button();
+                $("#nro-boleta").button();
+		/*$("#divTabsDetProducto").tabs({
+			ajaxOptions: {
+				error: function( xhr, status, index, anchor ) {
+					$( anchor.hash ).html(
+						"Couldn't load this tab. We'll try to fix this as soon as possible. " +
+						"If this wouldn't be a demo." );
+				}
+			}
+		});
+		*/
+		
+		crearGrilla('{{ url('material_listar', {'boletaRecepcionId': 0})}}');
+
+		$("#dlgDatosPopUp").dialog({
+			autoOpen:false,
+			resizable: false,
+			height:250,
+			width:400,
+			modal:true
+		});
+}(jQuery));    
+</script>
+{% endblock %}

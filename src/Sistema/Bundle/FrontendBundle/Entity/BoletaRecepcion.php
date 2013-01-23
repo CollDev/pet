@@ -68,6 +68,18 @@ class BoletaRecepcion
      */
     private $neto;
 
+    /**
+     * Set id
+     * 
+     * @param integer $id
+     * @return BoletaRecepcion
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        
+        return $this;
+    }
 
     /**
      * Get id
@@ -78,7 +90,7 @@ class BoletaRecepcion
     {
         return $this->id;
     }
-
+        
     /**
      * Set cliente
      *
@@ -238,5 +250,10 @@ class BoletaRecepcion
     public function getNeto()
     {
         return $this->neto;
+    }
+    
+    public function __toString()
+    {
+        return 'BR-'.$this->getId();
     }
 }

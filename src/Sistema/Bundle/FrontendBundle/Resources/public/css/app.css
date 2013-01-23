@@ -39,5 +39,14 @@ body {
 	left:0;
 	z-index: 99;
 }
+.error
+{
+    
+}
 
+.hide
+{
+    display: none;
+    visibility: hidden;
+}
 /* Estilo para el sistema Fin*/

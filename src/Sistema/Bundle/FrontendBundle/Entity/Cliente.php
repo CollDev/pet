@@ -131,10 +131,10 @@ class Cliente
     /**
      * Set estado
      *
-     * @param Sistema\Bundle\FrontendBundle\Entity\BoletaRecepcion $estado
+     * @param Sistema\Bundle\FrontendBundle\Entity\Estado $estado
      * @return Cliente
      */
-    public function setEstado(\Sistema\Bundle\FrontendBundle\Entity\BoletaRecepcion $estado)
+    public function setEstado(\Sistema\Bundle\FrontendBundle\Entity\Estado $estado)
     {
         $this->estado = $estado;
     
@@ -144,7 +144,7 @@ class Cliente
     /**
      * Get estado
      *
-     * @return Sistema\Bundle\FrontendBundle\Entity\BoletaRecepcion
+     * @return Sistema\Bundle\FrontendBundle\Entity\Estado
      */
     public function getEstado()
     {

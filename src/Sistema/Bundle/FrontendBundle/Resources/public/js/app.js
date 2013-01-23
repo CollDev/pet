@@ -15,88 +15,120 @@ function cerrarDialog(dialog)
     $("#" + dialog).dialog( "close" );
 }
 
-
-$(function() {
-		$( "#divFormCompanias" ).accordion({autoHeight:false});
-		$("button", ".divBtns").button();
-		$("#divTabsDetProducto").tabs({
-			ajaxOptions: {
-				error: function( xhr, status, index, anchor ) {
-					$( anchor.hash ).html(
-						"Couldn't load this tab. We'll try to fix this as soon as possible. " +
-						"If this wouldn't be a demo." );
-				}
-			}
-		});
-		
-		
-		crearGrilla();
-
-		$("#dlgDatosPopUp").dialog({
-			autoOpen:false,
-			resizable: false,
-			height:250,
-			width:400,
-			modal:true
-		});
-		
-	});
-
-function crearGrilla(){
-	jQuery("#lstSiniestro").jqGrid({
-			datatype: "local",
-			colNames:['Cod. Producto','Producto','Uni. Med.','Cantidad'],
-			colModel:[
-				{name:'cod',index:'cod', width:80},
-				{name:'desc',index:'desc', width:200},
-				{name:'estado',index:'estado', width:100},
-				{name:'dat4',index:'dat4', width:100}
-			],
-			rowNum:20,
-			rowList:[20,40,60,80,100],
-			pager:'#pagerlstSiniestro',
-			viewrecords: true,
-			//shrinkToFit:false,
-			height:260,
-			width:720,
-			caption:"Resultados encontrados",
-			ondblClickRow:function(){verDetallePartePersonal();}
-		});
+function grabar(url, currentUrl)
+{
+    var xhqr = $.post(url,$('#registrar').serialize(),  function(data) {
+            //$('.result').removeClass('hide');
+            //$('#tableList tr:last').after(data);
+            //$('.result').html('Registro Agregado');
+            //muestraPagina('divPanelSistema', currentUrl );
+            
+            $('#divPanelSistema').html(data);
+            $("#lstSiniestro").GridUnload();
+            boletaRecepcionId = $('#sistema_bundle_frontendbundle_recepcionmaterialtype_boleta_recepcion').val();
+            targetUrl = currentUrl + '?boletaRecepcionId='+ boletaRecepcionId;
+            crearGrilla(targetUrl);
+            
+            
+        })
+            .error( function () {
+                $('.error').removeClass('hide');
+            });
+    
+    return false;
+    
 }
 
-function verDetallePartePersonal()
-	{
-		$( "#dlgDatosPopUp" ).dialog( "open" );
-		llenarDetalle();
-	}
-
-
-function llenarDetalle(){
-	document.getElementById("txt10").value = "2";
-	document.getElementById("txt11").value = "Arrancador";
-	document.getElementById("txt12").value = "UN";
-	document.getElementById("txt13").value = "1";
+function obtenerPeso(url,id)
+{
+    var xhqr = $.post(url, function(data) {
+            $('#'+id).val(data);
+        })
+         .error( function () {
+              $('.error').removeClass('hide');
+         });
+    return false;
 }
+
+function crearGrilla(targetUrl){
+    	jQuery("#lstSiniestro").jqGrid({
+            url: targetUrl,
+            datatype: 'xml',
+            mtype: 'GET',
+            colNames:['Cod. Rec. Material', 'Cod. Boleta Recepcion', 'Material', 'Fecha Ingreso', 'Uni. Med.','Cantidad'],
+            colModel:[
+                {name:'cod',index:'id', width:100},
+                {name:'boleta_recepcion',index:'boleta_recepcion', width:100},
+                {name:'material',index:'material', width:100},
+                {name:'fecha_ingreso',index:'fecha_ingreso', width:100},
+		{name:'unidad_medida',index:'unidad_medida', width:100},
+		{name:'cantidad',index:'cantidad', width:100}
+            ],
+            rowNum:20,
+            rowList:[20,40,60,80,100],
+            pager:'#pagerlstSiniestro',
+            viewrecords: true,
+            //shrinkToFit:false,
+            height:260,
+            width:720,
+            caption:"Resultados encontrados",
+            ondblClickRow:function(rowId){editarRecepcionMaterial(this, rowId);}
+});
+}
+
+function editarRecepcionMaterial(jqGrid, rowId)
+{
+    var rowData = jQuery(jqGrid).getRowData(rowId); 
+    var recepcionMaterialId = rowData['cod'];
+    var boletaRecepcionId = rowData['boleta_recepcion'];
+    var material = rowData['material'];
+    var fechaIngreso = rowData['fecha_ingreso'];
+    var unidadMedida = rowData['unidad_medida'];
+    var cantidad = rowData['cantidad'];
+    
+    $('#sistema_bundle_frontendbundle_recepcionmaterialtype_boleta_recepcion').val(boletaRecepcionId);
+    
+    jQuery("select#sistema_bundle_frontendbundle_recepcionmaterialtype_material option:contains("+material+")").attr('selected', true);
+    //console.log(jQuery("select#sistema_bundle_frontendbundle_recepcionmaterialtype_material option:contains("+material+")").val());
+    $('#sistema_bundle_frontendbundle_recepcionmaterialtype_fecha_ingreso').val(fechaIngreso);
+    
+    $("select#sistema_bundle_frontendbundle_recepcionmaterialtype_unidad_medida option:contains("+unidadMedida+")").attr('selected', true);
+    //console.log($("select#sistema_bundle_frontendbundle_recepcionmaterialtype_unidad_medida option:contains("+unidadMedida+")"));
+    $('#sistema_bundle_frontendbundle_recepcionmaterialtype_cantidad').val(cantidad);
+    
+    $('#sistema_bundle_frontendbundle_recepcionmaterialtype_accion').val('editar');
+    $('#sistema_bundle_frontendbundle_recepcionmaterialtype_recepcion_material').val(recepcionMaterialId);
+    
+}
+
 function buscarOrden(){
 	document.getElementById("txt2").value = "897564213";
 }
 
-
-function limpiar(){
-	document.getElementById("txt1").value = '';
-	document.getElementById("txt2").value = '';
-	document.getElementById("txt3").value = '';
-	document.getElementById("select1").value = '0';
-	$("#lstSiniestro").GridUnload();
-	crearGrilla();
+function limpiar(targetUrl){
+        $('input:text').val('');
+        $('input:hidden').val('');
+        $("#lstSiniestro").GridUnload();
+        crearGrilla(targetUrl);
 }
-
 	
-function buscarPedido(){
-	document.getElementById("txt1").value = '32165';
-	document.getElementById("txt2").value = '564217';
-	document.getElementById("txt3").value = '24/08/2012';
-	document.getElementById("select1").value = '2'
+function buscarPedido(url){
+        
+        $( "#nro-boleta" )
+            .click(function() {
+                $( "#dlgDatosPopUp" ).dialog( "open" );
+            });
+                    
+        $("#buscar-boleta")
+            .click(function() {
+                $.post(url, $('#popup').serialize(), function (data) {
+                   $('.resultados').html(data); 
+                });
+            
+                return false;
+            });
+                    
+                    /*
 	$("#lstSiniestro").GridUnload();
 	crearGrilla();
 		
@@ -109,6 +141,15 @@ function buscarPedido(){
 			jQuery("#lstSiniestro").jqGrid('addRowData',i+1,datosConsultasSiniestro[i]);
 		
 		jQuery("#lstSiniestro").jqGrid('navGrid','#pagerlstSiniestro',{edit:false,add:false,del:false,search:false,refresh:false});
+                */
+}
+
+function elegirBoletaRecepcion(id, targetUrl)
+{
+    $('#sistema_bundle_frontendbundle_recepcionmaterialtype_boleta_recepcion').val(id);
+    $("#dlgDatosPopUp").dialog("close");
+    $("#lstSiniestro").GridUnload();
+    crearGrilla(targetUrl);
 }
 
 function buscarGrilla2(){
