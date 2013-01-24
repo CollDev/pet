@@ -1,3 +1,13 @@
+usuario_login:
+    pattern:   /login
+    defaults:   { _controller: FrontendBundle:Default:login }
+
+usuario_login_check:
+    pattern:   /login_check
+
+usuario_logout:
+    pattern:   /logout
+
 frontend:
     resource: "@FrontendBundle/Controller/"
     type:     annotation

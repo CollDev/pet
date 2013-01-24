@@ -15,18 +15,7 @@
                         <img src="{{ asset('bundles/frontend/images/user-info1.png') }}" border="0"/>
                     </td>
                     <td align="Left">
-                        <table>
-                            <tr>
-                                <td align="left">
-                                    P012896
-                                </td>
-                            </tr>
-                            <tr>
-                                <td align="left">
-                                    Usuario Generico
-                                </td>
-                            </tr>
-                        </table>
+                        {% render url('usuario_autenticado')%}
                     </td>
                     <td width="26px" align="center">
                         <a id="idCerrarSesion" href="#" style="cursor:pointer;">

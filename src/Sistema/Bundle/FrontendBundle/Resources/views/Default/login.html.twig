@@ -1,0 +1,35 @@
+{% extends '::layout.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block body %}
+        <div class="row-fluid">
+            <div class="span12" >
+                <form action="{{ path('usuario_login_check') }}" method="post" class="form-signin">
+                    <h2 class="form-signin-heading">{{ title }}</h2>
+                    <div class="control-group">
+                    <label class="control-label" for="username">Usuario:</label>
+                        <div class="controls">
+                            <input type="text" id="username" name="_username"
+                           value="{{ last_username}}" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                    <label class="control-label" for="password">Contraseña:</label>
+                        <div class="controls">
+                            <input type="password" id="password" name="_password" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <input type="submit" name="login" value="Acceder" class="btn btn-primary"/>
+                        </div>
+                    </div>
+                    <input type="hidden" name="_target_path" value="inicio" />
+                    {% if error %}
+                        <div class="alert">{{ error.message }}</div>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+
+{% endblock %}

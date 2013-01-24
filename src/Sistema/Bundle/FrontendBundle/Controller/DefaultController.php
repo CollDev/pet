@@ -11,7 +11,7 @@ use Sistema\Bundle\FrontendBundle\Entity\Cliente;
 use Sistema\Bundle\FrontendBundle\Entity\Estado;
 use Sistema\Bundle\FrontendBundle\Entity\BoletaRecepcion;
 use Sistema\Bundle\FrontendBundle\Entity\Unidad;
-
+use Symfony\Component\Security\Core\SecurityContext;
 class DefaultController extends Controller
 {
     /**
@@ -21,6 +21,30 @@ class DefaultController extends Controller
     public function indexAction()
     {
         return [];
+    }
+
+    public function loginAction()
+    {
+        $peticion = $this->getRequest();
+        $sesion = $peticion->getSession();
+        $error = $peticion->attributes->get(
+            SecurityContext::AUTHENTICATION_ERROR,
+            $sesion->get(SecurityContext::AUTHENTICATION_ERROR)
+        );
+        return $this->render('FrontendBundle:Default:login.html.twig', [
+        'last_username' => $sesion->get(SecurityContext::LAST_USERNAME),
+        'error' => $error, 'title' => 'Sistema Información'
+        ]);
+    }
+    
+    /**
+     * @Route("/usuario/autenticado", name="usuario_autenticado")
+     * @Template()
+     */
+    public function usuarioAutenticadoAction()
+    {
+        $usuario= $this->get('security.context')->getToken()->getUser();
+        return  ['usuario' => $usuario ];
     }
     
     /**

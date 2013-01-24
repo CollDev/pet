@@ -18,12 +18,20 @@ security:
                     admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
 
     firewalls:
+        login:
+            pattern:  ^/login$
+            anonymous: ~
+
+        frontend:
+            pattern:    ^/
+            form_login:
+                check_path: usuario_login_check
+                login_path: usuario_login
+                default_target_path: inicio
+            logout: true
+            
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-
-        login:
-            pattern:  ^/demo/secured/login$
             security: false
 
         secured_area:
@@ -37,7 +45,11 @@ security:
             #anonymous: ~
             #http_basic:
             #    realm: "Secured Demo Area"
-
+    providers:
+        usuarios:
+            entity: {class: Sistema\Bundle\FrontendBundle\Entity\Usuario, property: usuario}
+    encoders:
+        Sistema\Bundle\FrontendBundle\Entity\Usuario: plaintext
     access_control:
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         #- { path: ^/_internal/secure, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
