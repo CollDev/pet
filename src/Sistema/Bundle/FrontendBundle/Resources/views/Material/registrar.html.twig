@@ -68,6 +68,7 @@
                                     <tr>
                                         <td align="center" >
                                             <button onclick="grabar('{{ path('material_registrar') }}', '{{ url('material_listar') }}' ); return false;" >Grabar</button>
+                                            <button onclick="eliminar('{{ path('material_eliminar') }}', '{{ url('material_listar') }}' ); return false;" >Eliminar</button>
                                             <button onclick="limpiar('{{ url('material_listar') }}'); return false;" >Limpiar</button>
                                         </td>
                                     </tr>
@@ -88,7 +89,24 @@
 		</tr>
 				
             </table>
-            </form>                    
+            </form>     
+            <form id="imprimir" method="post" >
+                <input type="hidden" id="boleta_impresion_id" name="boleta_impresion_id" />
+                <div class="ui-widget-content">
+                    <div class="divBtns">
+                    <table>
+                    <tr>
+                        <td>
+                            <button onclick="imprimir('{{ path('material_imprimir') }}' ); return false;" >Imprimir Boleta Recepción</button>
+                        </td>
+                    </tr>    
+                </table>
+                </div>
+                        
+               </div>
+                <div class="impresion hide">
+                </div>
+            </form>
         </div>
     </div>
 	

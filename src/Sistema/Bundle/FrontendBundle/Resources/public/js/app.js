@@ -39,6 +39,32 @@ function grabar(url, currentUrl)
     
 }
 
+function eliminar(url, currentUrl)
+{
+    $('#sistema_bundle_frontendbundle_recepcionmaterialtype_accion').val('eliminar');
+    var xhqr = $.post(url,$('#registrar').serialize(),  function(data) {
+        $('#sistema_bundle_frontendbundle_recepcionmaterialtype_accion').val('');
+        $('#sistema_bundle_frontendbundle_recepcionmaterialtype_cantidad').val('');
+        $('#sistema_bundle_frontendbundle_recepcionmaterialtype_fecha_ingreso').val('');
+        $('#sistema_bundle_frontendbundle_recepcionmaterialtype_boleta_recepcion').val('');
+        $("#lstSiniestro").GridUnload();
+        boletaRecepcionId = $('#sistema_bundle_frontendbundle_recepcionmaterialtype_boleta_recepcion').val();
+        targetUrl = currentUrl + '?boletaRecepcionId='+ boletaRecepcionId;
+        crearGrilla(targetUrl);
+    });
+    return false;
+}
+
+function imprimir(url)
+{
+    var xhqr = $.post(url,$('#imprimir').serialize(),  function(data) {
+        
+        $('.impresion').html(data);
+        $('.impresion').printElement();
+    });
+    
+}
+
 function obtenerPeso(url,id)
 {
     var xhqr = $.post(url, function(data) {
@@ -72,28 +98,45 @@ function crearGrilla(targetUrl){
             height:260,
             width:720,
             caption:"Resultados encontrados",
-            ondblClickRow:function(rowId){editarRecepcionMaterial(this, rowId);}
+            ondblClickRow:function(rowId){
+                
+                var rowData = jQuery(this).getRowData(rowId); 
+                var recepcionMaterialId = rowData['cod'];
+                var boletaRecepcionId = $.trim(rowData['boleta_recepcion']);
+                
+                var fechaIngreso = $.trim(rowData['fecha_ingreso']);
+                var unidadMedida = $.trim(rowData['unidad_medida']);
+                var cantidad = rowData['cantidad'];
+                var material = $.trim(rowData['material']);
+                
+                $('#sistema_bundle_frontendbundle_recepcionmaterialtype_boleta_recepcion').val(boletaRecepcionId);
+                
+                console.log($('#sistema_bundle_frontendbundle_recepcionmaterialtype_material option:contains('+ material +') ').val());
+                $('#sistema_bundle_frontendbundle_recepcionmaterialtype_material option:contains('+ material +') ').attr('selected', true);
+                $('#sistema_bundle_frontendbundle_recepcionmaterialtype_fecha_ingreso').val(fechaIngreso);
+                $('#sistema_bundle_frontendbundle_recepcionmaterialtype_unidad_medida option:contains('+ unidadMedida +') ').attr('selected', true);
+                
+                $('#sistema_bundle_frontendbundle_recepcionmaterialtype_cantidad').val(cantidad);
+                $('#sistema_bundle_frontendbundle_recepcionmaterialtype_accion').val('editar');
+                $('#sistema_bundle_frontendbundle_recepcionmaterialtype_recepcion_material').val(recepcionMaterialId);
+                //editarRecepcionMaterial(this, rowId);
+            }
 });
 }
 
 function editarRecepcionMaterial(jqGrid, rowId)
 {
     var rowData = jQuery(jqGrid).getRowData(rowId); 
-    var recepcionMaterialId = rowData['cod'];
-    var boletaRecepcionId = rowData['boleta_recepcion'];
-    var material = rowData['material'];
-    var fechaIngreso = rowData['fecha_ingreso'];
-    var unidadMedida = rowData['unidad_medida'];
-    var cantidad = rowData['cantidad'];
+    
     
     $('#sistema_bundle_frontendbundle_recepcionmaterialtype_boleta_recepcion').val(boletaRecepcionId);
     
-    jQuery("select#sistema_bundle_frontendbundle_recepcionmaterialtype_material option:contains("+material+")").attr('selected', true);
-    //console.log(jQuery("select#sistema_bundle_frontendbundle_recepcionmaterialtype_material option:contains("+material+")").val());
+    $("#sistema_bundle_frontendbundle_recepcionmaterialtype_material option:contains('"+material+"')").attr('selected', true);
+    console.log($('#sistema_bundle_frontendbundle_recepcionmaterialtype_material option:contains('+material+')').val());
     $('#sistema_bundle_frontendbundle_recepcionmaterialtype_fecha_ingreso').val(fechaIngreso);
     
-    $("select#sistema_bundle_frontendbundle_recepcionmaterialtype_unidad_medida option:contains("+unidadMedida+")").attr('selected', true);
-    //console.log($("select#sistema_bundle_frontendbundle_recepcionmaterialtype_unidad_medida option:contains("+unidadMedida+")"));
+    $('#sistema_bundle_frontendbundle_recepcionmaterialtype_unidad_medida option:contains('+unidadMedida+')').attr('selected', true);
+    
     $('#sistema_bundle_frontendbundle_recepcionmaterialtype_cantidad').val(cantidad);
     
     $('#sistema_bundle_frontendbundle_recepcionmaterialtype_accion').val('editar');
@@ -109,6 +152,7 @@ function limpiar(targetUrl){
         $('input:text').val('');
         $('input:hidden').val('');
         $("#lstSiniestro").GridUnload();
+        $('#boleta_impresion_id').val('');
         crearGrilla(targetUrl);
 }
 	
@@ -124,7 +168,6 @@ function buscarPedido(url){
                 $.post(url, $('#popup').serialize(), function (data) {
                    $('.resultados').html(data); 
                 });
-            
                 return false;
             });
                     
@@ -147,9 +190,14 @@ function buscarPedido(url){
 function elegirBoletaRecepcion(id, targetUrl)
 {
     $('#sistema_bundle_frontendbundle_recepcionmaterialtype_boleta_recepcion').val(id);
+    $('#sistema_bundle_frontendbundle_recepcionmaterialtype_accion').val('');
+    $('#sistema_bundle_frontendbundle_recepcionmaterialtype_cantidad').val('');
+    $('#sistema_bundle_frontendbundle_recepcionmaterialtype_fecha_ingreso').val('');
+    $('#boleta_impresion_id').val(id);
     $("#dlgDatosPopUp").dialog("close");
     $("#lstSiniestro").GridUnload();
     crearGrilla(targetUrl);
+    
 }
 
 function buscarGrilla2(){

@@ -1,0 +1,42 @@
+<html>
+    <body>
+        <h2>Boleta Recepci&oacute;n {{ boletaRecepcion.id }}
+        <table>
+            <tr>
+                <td>Num Boleta Recepcion</td>
+                <td>Cliente</td>
+                <td>Fecha Ingreso</td>
+                <td>Fecha Salida</td>
+                
+            </tr>
+            <tr>
+                <td>{{ boletaRecepcion.id }} </td>
+                <td>{{ boletaRecepcion.cliente.razonSocial }} </td>
+                <td>{{ boletaRecepcion.fechaIngreso | date('d/m/Y')}}</td>
+                <td>{{ boletaRecepcion.fechaSalida | date('d/m/Y')}}</td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td>Num. Boleta Material</td>
+                <td>Fecha Ingreso</td>
+                <td>Unidad Medida</td>
+                <td>Material</td>
+                <td>Cantidad</td>
+            </tr>
+            
+            
+            {% for recepcionMaterial in recepcionesMaterial %}
+            <tr>
+                <td>{{ recepcionMaterial.id }}</td>
+                <td>{{ recepcionMaterial.fechaIngreso | date('d/m/Y') }}</td>
+                <td>{{ recepcionMaterial.unidadMedida.nombre }}</td>
+                <td>{{ recepcionMaterial.material.nombre }}</td>
+                <td>{{ recepcionMaterial.cantidad }}</td>
+                <td></td>
+            </tr>
+            {% endfor %}
+        </table>        
+                
+    </body>
+</html>

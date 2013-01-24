@@ -16,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\Finder\Finder;
 
 /**
  *  @Route("/balanza")
@@ -28,13 +29,22 @@ class BalanzaController extends Controller
      */
     public function obtenerPeso()
     {
-        $peso = $this->getPesoBalanza();
+        $rootDir = $this->get('kernel')->getRootDir();
+        $peso = $this->getPesoBalanza($rootDir);
         return new Response($peso);
     }
     
-    private function getPesoBalanza()
+    private function getPesoBalanza($rootDir)
     {
-        return rand(100,10000);
+        $balazaDir = $rootDir.'/../data/balanza';
+        $finder = new Finder();
+        $finder->files()->in($balazaDir);
+
+        foreach ($finder as $file) {
+            $balanzaPeso = $file->getContents();
+            break;
+        }
+        return trim($balanzaPeso);
     }
 }
 

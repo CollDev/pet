@@ -26,7 +26,7 @@ class RecepcionMaterialManager extends BaseManager
     public function editar($recepcionMaterialId, $recepcionMaterial)
     {
         $recepcionMaterialExistente = $this->repository->find($recepcionMaterialId);
-        
+        if(isset($recepcionMaterialExistente)) {
         $recepcionMaterialExistente->setBoletaRecepcion($recepcionMaterial->getBoletaRecepcion());
         $recepcionMaterialExistente->setMaterial($recepcionMaterial->getMaterial());
         $recepcionMaterialExistente->setUnidadMedida($recepcionMaterial->getUnidadMedida());
@@ -34,6 +34,13 @@ class RecepcionMaterialManager extends BaseManager
         $recepcionMaterialExistente->setFechaIngreso($recepcionMaterial->getFechaIngreso());
         
         $this->guardar($recepcionMaterialExistente);
+        }
+    }
+    
+    public function eliminarById($recepcionMaterialId)
+    {
+        $recepcionMaterialExistente = $this->repository->find($recepcionMaterialId);
+        $this->eliminar($recepcionMaterialExistente);
     }
 }
 

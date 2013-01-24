@@ -8,6 +8,7 @@
         <parameter key="recepcion_material_repository.class">Sistema\Bundle\FrontendBundle\Repository\RecepcionMaterialRepository</parameter>
         <parameter key="recepcion_material_entity.class">Sistema\Bundle\FrontendBundle\Entity\RecepcionMaterial</parameter>
         
+        <parameter key="boleta_recepcion_manager.class">Sistema\Bundle\FrontendBundle\Doctrine\BoletaRecepcionManager</parameter>
         <parameter key="boleta_recepcion_repository.class">Sistema\Bundle\FrontendBundle\Repository\BoletaRecepcionRepository</parameter>
         <parameter key="boleta_recepcion_entity.class">Sistema\Bundle\FrontendBundle\Entity\BoletaRecepcion</parameter>
         
@@ -17,6 +18,11 @@
         <service id="recepcion_material.manager" class="%recepcion_material_manager.class%">
             <argument type="service" id="sistema.entity_manager" />
             <argument>%recepcion_material_entity.class%</argument>
+        </service>
+        
+        <service id="boleta_recepcion.manager" class="%boleta_recepcion_manager.class%">
+            <argument type="service" id="sistema.entity_manager" />
+            <argument>%boleta_recepcion_entity.class%</argument>
         </service>
 
         <service id="boleta_recepcion.repository" class="%boleta_recepcion_repository.class%"
