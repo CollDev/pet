@@ -18,7 +18,7 @@
                         {% render url('usuario_autenticado')%}
                     </td>
                     <td width="26px" align="center">
-                        <a id="idCerrarSesion" href="#" style="cursor:pointer;">
+                        <a id="idCerrarSesion" href="{{ path('usuario_logout')}}" style="cursor:pointer;">
                             <img src="{{ asset('bundles/frontend/images/logout.png') }}" border="0" title="Cerrar sesion"/>
                         </a>
                     </td>
