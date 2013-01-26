@@ -68,7 +68,7 @@ class BoletaRecepcionToNumberTransformer implements DataTransformerInterface
 
         if (null === $boletaRecepcion) {
             throw new TransformationFailedException(sprintf(
-                'La Boleta de Recepción Número "%s" no existe!',
+                'Boleta Recepción "%s" no existe!',
                 $number
             ));
         }

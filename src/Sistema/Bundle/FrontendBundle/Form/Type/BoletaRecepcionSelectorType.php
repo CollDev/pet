@@ -42,7 +42,7 @@ class BoletaRecepcionSelectorType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'invalid_message' => 'La boleta de recepción seleccionado no existe',
+            'invalid_message' => 'La boleta no existe',
         ));
     }
 
