@@ -1,137 +1,59 @@
-{% extends '::layout.html.twig' %}
+{% extends 'FrontendBundle::frontend.html.twig' %}
 {% block body %}
-    <div id="divFormCompanias">
-        <h3>
-            <a href="#">Recepci&oacute;n Material</a>
-        </h3>
-        <div>
-            <form id="registrar" action="#" method="post" {{ form_enctype(form) }} onsubmit="return false;">
-            <table border="0" cellpadding="2" cellspacing="2" style="height:100px" >
-                <tr>
-                    <td>
-                        <div class="error hide" >
-                            Error al procesar la acci&oacute;n
-                        </div>
-                        <div class="ui-widget-content">
-                            <table border="0" cellpadding="2" cellspacing="2" >
-                                <tr>
-                                    <td>{{ form_label(form.boleta_recepcion) }} </td>
-                                    <td>{{ form_widget(form.boleta_recepcion) }}
-                                        <a id="nro-boleta" href="#" onclick="buscarPedido('{{ url("boleta_recepcion_ajax_listar") }}');" >
-                                            <img border="0" width="15" src="{{ asset('bundles/frontend/images/toolbar_find.png' ) }}" />  </a>
-                                            <br />
-                                            {{ form_errors(form.boleta_recepcion) }}
-                                    </td>
-                                    <td>{{ form_label(form.material)}}</td>
-                                    <td>{{ form_widget(form.material) }}
-                                        {{ form_errors(form.material) }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>{{ form_label(form.fecha_ingreso) }}</td>
-                                    <td>
-                                        {{ form_widget(form.fecha_ingreso) }}
-                                        <br />
-                                        {{ form_errors(form.fecha_ingreso) }}
-                                    </td>
-                                    <td>{{form_label(form.unidad_medida) }}</td>
-                                    <td>
-                                        {{ form_widget(form.unidad_medida) }}
-                                        <br />
-                                        {{ form_errors(form.unidad_medida) }}
-                                    </td>
-                                </tr>
 
-                                <tr>
-                                    <td>{{ form_label(form.cantidad) }}</td>
-                                    <td>
-                                        {{ form_widget(form.cantidad) }}
-                                        <a href="#" onclick="obtenerPeso('{{path('balanza_peso')}}', '{{ form.cantidad.vars.id }}' );" >
-                                            <img border="0" src="{{ asset('bundles/frontend/images/scale-32x32.png' ) }}" />
-                                        </a>
-                                        <br />
-                                        {{ form_errors(form.cantidad) }}
-                                    </td>
-                                </tr>
-                            </table>
-                                
-                            {{ form_rest(form) }}
-                         </div>
-                    </td>
-                </tr>
+<table border="0" cellpadding="0" cellspacing="0" align="center" width="90%"  height="100%">
+        <tr width="100%" align="left">
+            <td>
+                <div id="divMenu" class="ui-widget-header" style="height:30px">
+                    {% include 'FrontendBundle::menu.html.twig' %}
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td width="100%" valign="top" class="ui-widget-content2 ln_formatos" colspan="2">
+                {% include 'FrontendBundle:Material:formularioMaterial.html.twig' with {'form': form} %}
+            </td>
+        </tr>
+	<tr>
+            <td width="100%">
+                <div id="pie_pagina" style="font-size:9px; height:12px" class="ui-widget-header">
+                    {% include 'FrontendBundle::footer.html.twig' %}
+		</div>
+           </td>
+       </tr>
+</table>
 
-		<tr>
-                    <td>
-                        <div class="ui-widget-content">
-                            <div class="divBtns">
-                                <table width="100%" >
-                                    <tr>
-                                        <td align="center" >
-                                            <button onclick="grabar('{{ path('material_registrar') }}', '{{ url('material_listar') }}' ); return false;" >Grabar</button>
-                                            <button onclick="eliminar('{{ path('material_eliminar') }}', '{{ url('material_listar') }}' ); return false;" >Eliminar</button>
-                                            <button onclick="limpiar('{{ url('material_listar') }}'); return false;" >Limpiar</button>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-			</div>
-                    </td>
-                </tr>
-				
-		<tr>
-                    <td align="center">
-                        <div id="lstCompaniasDiv">
-                            <table id="lstSiniestro"></table>
-                            <div id="pagerlstSiniestro"></div>
-			</div>
-						
-                    </td>
-		</tr>
-				
-            </table>
-            </form>     
-            <form id="imprimir" method="post" >
-                <input type="hidden" id="boleta_impresion_id" name="boleta_impresion_id" />
-                <div class="ui-widget-content">
-                    <div class="divBtns">
-                    <table>
-                    <tr>
-                        <td>
-                            <button onclick="imprimir('{{ path('material_imprimir') }}' ); return false;" >Imprimir Boleta Recepción</button>
-                        </td>
-                    </tr>    
-                </table>
-                </div>
-                        
-               </div>
-                <div class="impresion hide">
-                </div>
-            </form>
-        </div>
-    </div>
+  
 	
     <div id="dlgDatosPopUp" title="Buscar Boleta de Recepcion">
         {% render url('boleta_recepcion_buscar') %}
     </div>
 {% endblock %}
 {% block custom_javascripts %}
+    {% include 'FrontendBundle::jsMenu.html.twig' %}
+{% endblock %}
+{% block custom2_javascripts %}
 <script>
     (function ($) {
    	$( "#divFormCompanias" ).accordion({autoHeight:false});
 		$("button", ".divBtns").button();
                 $("#nro-boleta").button();
-		/*$("#divTabsDetProducto").tabs({
-			ajaxOptions: {
-				error: function( xhr, status, index, anchor ) {
-					$( anchor.hash ).html(
-						"Couldn't load this tab. We'll try to fix this as soon as possible. " +
-						"If this wouldn't be a demo." );
-				}
-			}
-		});
-		*/
-		
-		crearGrilla('{{ url('material_listar', {'boletaRecepcionId': 0})}}');
+                
+                $(document).on('click', '#nro-boleta', { url : '{{ url("boleta_recepcion_ajax_listar") }}'}, buscarPedido );
+                $(document).on('click', '#limpiar', { url : '{{ url('material_listar') }}'}, limpiar );
+                $(document).on('click', '#eliminar', { url : '{{ url('material_eliminar') }}', currentUrl : '{{ url('material_listar') }}'}, eliminar );
+                
+                
+                {% if  form.vars.value.boletaRecepcion.id is defined %}
+                    crearGrilla('{{ url('material_listar', {'boletaRecepcionId': form.vars.value.boletaRecepcion.id})}}');
+                {% else %}
+                    crearGrilla('{{ url('material_listar')}}');
+                {% endif %}
+                    
+                $('#sistema_bundle_frontendbundle_recepcionmaterialtype_accion').val('');
+                $('#sistema_bundle_frontendbundle_recepcionmaterialtype_cantidad').val('');
+                $('#sistema_bundle_frontendbundle_recepcionmaterialtype_fecha_ingreso').val('');
+                $('#boleta_impresion_id').val('');
 
 		$("#dlgDatosPopUp").dialog({
 			autoOpen:false,

@@ -41,9 +41,11 @@ body {
 }
 .error
 {
+
+}
+.red {
     color: red;
 }
-
 .hide
 {
     display: none;

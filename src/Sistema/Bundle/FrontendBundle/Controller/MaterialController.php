@@ -58,7 +58,7 @@ class MaterialController extends Controller
                     $recepcionMaterialManager->editar($recepcionMaterialId, $recepcionMaterial);
                 }
                 
-                $url = $this->generateUrl('inicio');
+                //return $this->render('FrontendBundle:Material:formularioMaterial.html.twig', ['form' => $form->createView()] );
                 //$this->redirect($url);
             }                
         }

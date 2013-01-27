@@ -17,11 +17,9 @@ function cerrarDialog(dialog)
 
 function grabar(url, currentUrl)
 {
-    var xhqr = $.post(url,$('#registrar').serialize(),  function(data) {
-            //$('.result').removeClass('hide');
-            //$('#tableList tr:last').after(data);
-            //$('.result').html('Registro Agregado');
-            //muestraPagina('divPanelSistema', currentUrl );
+   //$('.error').addClass('hide');
+   //$('#registrar').submit();
+        /*var xhqr = $.post(url,$('#registrar').serialize(),  function(data) {
             
             $('#divPanelSistema').html(data);
             $("#lstSiniestro").GridUnload();
@@ -33,27 +31,37 @@ function grabar(url, currentUrl)
             .error( function () {
                 $('.error').removeClass('hide');
             });
-    
-    return false;
-    
+        return false;*/
+        
+   
 }
 
-function eliminar(url, currentUrl)
-{
+function eliminar(event) {
+    
+   var r=confirm("Desea Eliminar el registro");
+   
+   if (r === true ) {
+       
+       url = event.data.url;
+    currentUrl = event.data.currentUrl;
     $('#sistema_bundle_frontendbundle_recepcionmaterialtype_accion').val('eliminar');
+    boletaRecepcionId = $('#sistema_bundle_frontendbundle_recepcionmaterialtype_boleta_recepcion').val();
+    targetUrl = currentUrl + '?boletaRecepcionId='+ boletaRecepcionId;
+    recepcionMaterialId = $('#sistema_bundle_frontendbundle_recepcionmaterialtype_recepcion_material').val();
     var xhqr = $.post(url,$('#registrar').serialize(),  function(data) {
         
         $('#sistema_bundle_frontendbundle_recepcionmaterialtype_accion').val('');
         $('#sistema_bundle_frontendbundle_recepcionmaterialtype_cantidad').val('');
         $('#sistema_bundle_frontendbundle_recepcionmaterialtype_fecha_ingreso').val('');
-        $('#sistema_bundle_frontendbundle_recepcionmaterialtype_boleta_recepcion').val('');
+        $('#sistema_bundle_frontendbundle_recepcionmaterialtype_recepcion_material').val('');
         $("#lstSiniestro").GridUnload();
-        
-        boletaRecepcionId = $('#sistema_bundle_frontendbundle_recepcionmaterialtype_boleta_recepcion').val();
-        targetUrl = currentUrl + '?boletaRecepcionId='+ boletaRecepcionId;
+        $('#errorMsg').removeClass('hide');
+        $('#errorMsg').html('El registro'+ recepcionMaterialId +'fue eliminado');
         crearGrilla(targetUrl);
         
     });
+   }
+   
     return false;
 }
 
@@ -125,43 +133,27 @@ function crearGrilla(targetUrl){
     });
 }
 
-function limpiar(targetUrl){
+function limpiar(event){
         $('#registrar input:text').val('');
         $('#registrar input:hidden').val('');
         $("#lstSiniestro").GridUnload();
         $('#boleta_impresion_id').val('');
-        crearGrilla(targetUrl);
+        $('#errorMsg').addClass('hide');
+        crearGrilla(event.data.url);
+        return false;
 }
 	
-function buscarPedido(url){
+function buscarPedido(event){
         
-        $( "#nro-boleta" )
-            .click(function() {
-                $( "#dlgDatosPopUp" ).dialog( "open" );
-            });
-                    
+        $( "#dlgDatosPopUp" ).dialog( "open" );
+        
         $("#buscar-boleta")
             .click(function() {
-                $.post(url, $('#popup').serialize(), function (data) {
+                $.post(event.data.url, $('#popup').serialize(), function (data) {
                    $('.resultados').html(data); 
                 });
                 return false;
             });
-                    
-                    /*
-	$("#lstSiniestro").GridUnload();
-	crearGrilla();
-		
-		var datosConsultasSiniestro = [
-				{cod:"1",desc:"Radiador",estado:"UN",dat4:"1"},
-				{cod:"2",desc:"Arrancador",estado:"UN",dat4:"1"}
-		];
-		
-		for(var i=0;i <= datosConsultasSiniestro.length; i++)
-			jQuery("#lstSiniestro").jqGrid('addRowData',i+1,datosConsultasSiniestro[i]);
-		
-		jQuery("#lstSiniestro").jqGrid('navGrid','#pagerlstSiniestro',{edit:false,add:false,del:false,search:false,refresh:false});
-                */
 }
 
 function elegirBoletaRecepcion(id, targetUrl)
@@ -173,6 +165,7 @@ function elegirBoletaRecepcion(id, targetUrl)
     $('#boleta_impresion_id').val(id);
     $("#dlgDatosPopUp").dialog("close");
     $("#lstSiniestro").GridUnload();
+    $('#errorMsg').addClass('hide');
     crearGrilla(targetUrl);
     
 }

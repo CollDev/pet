@@ -1,0 +1,19 @@
+<script type="text/javascript">
+(function ($) {
+   // BUTTONS Menu
+$(document).ready(function(){
+    $('.fg-button').hover(
+        function(){ $(this).removeClass('ui-state-default').addClass('ui-state-focus'); },
+        function(){ $(this).removeClass('ui-state-focus').addClass('ui-state-default'); }
+        );				
+    });
+
+// Iniciando los menus
+$(document).ready(function(){
+    $('#menuSeguros').menu({ 
+        content: $('#menuSeguros').next().html(),
+        showSpeed: 200, flyOut: true
+    });
+});
+}(jQuery));    
+</script>
