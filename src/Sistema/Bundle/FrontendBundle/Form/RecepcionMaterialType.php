@@ -20,7 +20,8 @@ class RecepcionMaterialType extends AbstractType
                     return $unidadMedidaRepository->getUnidadMedidaTonelada();
                 },
                 'attr' => [ 'readonly' => true ],
-                'required' => true ] )
+                'required' => true ] 
+                )
             ->add('fecha_ingreso', 'date', ['widget' => 'single_text'])
             ->add('cantidad', 'text', ['attr' => ['class'=> 'inputText', 'readonly' => true ] ])
             ->add('accion', 'hidden', ['mapped' => false, 'data' => ''])
