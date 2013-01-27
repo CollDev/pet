@@ -1,18 +1,18 @@
-<--- --------------------------------------------------------------------------------------- ----
+//--- --------------------------------------------------------------------------------------- ----
 	
-	Blog Entry:
-	Ask Ben: Print Part Of A Web Page With jQuery
+//	Blog Entry:
+//	Ask Ben: Print Part Of A Web Page With jQuery
 	
-	Author:
-	Ben Nadel / Kinky Solutions
+//	Author:
+//	Ben Nadel / Kinky Solutions
 	
-	Link:
-	http://www.bennadel.com/index.cfm?event=blog.view&id=1591
+//	Link:
+//	http://www.bennadel.com/index.cfm?event=blog.view&id=1591
 	
-	Date Posted:
-	May 21, 2009 at 9:10 PM
+//	Date Posted:
+//	May 21, 2009 at 9:10 PM
 	
----- --------------------------------------------------------------------------------------- --->
+//---- --------------------------------------------------------------------------------------- --->
 
 
 // Create a jquery plugin that prints the given element.

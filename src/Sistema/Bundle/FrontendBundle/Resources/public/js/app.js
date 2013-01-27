@@ -29,7 +29,6 @@ function grabar(url, currentUrl)
             targetUrl = currentUrl + '?boletaRecepcionId='+ boletaRecepcionId;
             crearGrilla(targetUrl);
             
-            
         })
             .error( function () {
                 $('.error').removeClass('hide');
@@ -43,14 +42,17 @@ function eliminar(url, currentUrl)
 {
     $('#sistema_bundle_frontendbundle_recepcionmaterialtype_accion').val('eliminar');
     var xhqr = $.post(url,$('#registrar').serialize(),  function(data) {
+        
         $('#sistema_bundle_frontendbundle_recepcionmaterialtype_accion').val('');
         $('#sistema_bundle_frontendbundle_recepcionmaterialtype_cantidad').val('');
         $('#sistema_bundle_frontendbundle_recepcionmaterialtype_fecha_ingreso').val('');
         $('#sistema_bundle_frontendbundle_recepcionmaterialtype_boleta_recepcion').val('');
         $("#lstSiniestro").GridUnload();
+        
         boletaRecepcionId = $('#sistema_bundle_frontendbundle_recepcionmaterialtype_boleta_recepcion').val();
         targetUrl = currentUrl + '?boletaRecepcionId='+ boletaRecepcionId;
         crearGrilla(targetUrl);
+        
     });
     return false;
 }
@@ -110,8 +112,7 @@ function crearGrilla(targetUrl){
                 var material = $.trim(rowData['material']);
                 
                 $('#sistema_bundle_frontendbundle_recepcionmaterialtype_boleta_recepcion').val(boletaRecepcionId);
-                
-                console.log($('#sistema_bundle_frontendbundle_recepcionmaterialtype_material option:contains('+ material +') ').val());
+       
                 $('#sistema_bundle_frontendbundle_recepcionmaterialtype_material option:contains('+ material +') ').attr('selected', true);
                 $('#sistema_bundle_frontendbundle_recepcionmaterialtype_fecha_ingreso').val(fechaIngreso);
                 $('#sistema_bundle_frontendbundle_recepcionmaterialtype_unidad_medida option:contains('+ unidadMedida +') ').attr('selected', true);
@@ -119,33 +120,9 @@ function crearGrilla(targetUrl){
                 $('#sistema_bundle_frontendbundle_recepcionmaterialtype_cantidad').val(cantidad);
                 $('#sistema_bundle_frontendbundle_recepcionmaterialtype_accion').val('editar');
                 $('#sistema_bundle_frontendbundle_recepcionmaterialtype_recepcion_material').val(recepcionMaterialId);
-                //editarRecepcionMaterial(this, rowId);
+                
             }
-});
-}
-
-function editarRecepcionMaterial(jqGrid, rowId)
-{
-    var rowData = jQuery(jqGrid).getRowData(rowId); 
-    
-    
-    $('#sistema_bundle_frontendbundle_recepcionmaterialtype_boleta_recepcion').val(boletaRecepcionId);
-    
-    $("#sistema_bundle_frontendbundle_recepcionmaterialtype_material option:contains('"+material+"')").attr('selected', true);
-    console.log($('#sistema_bundle_frontendbundle_recepcionmaterialtype_material option:contains('+material+')').val());
-    $('#sistema_bundle_frontendbundle_recepcionmaterialtype_fecha_ingreso').val(fechaIngreso);
-    
-    $('#sistema_bundle_frontendbundle_recepcionmaterialtype_unidad_medida option:contains('+unidadMedida+')').attr('selected', true);
-    
-    $('#sistema_bundle_frontendbundle_recepcionmaterialtype_cantidad').val(cantidad);
-    
-    $('#sistema_bundle_frontendbundle_recepcionmaterialtype_accion').val('editar');
-    $('#sistema_bundle_frontendbundle_recepcionmaterialtype_recepcion_material').val(recepcionMaterialId);
-    
-}
-
-function buscarOrden(){
-	document.getElementById("txt2").value = "897564213";
+    });
 }
 
 function limpiar(targetUrl){
