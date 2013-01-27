@@ -12,4 +12,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class UnidadMedidaRepository extends EntityRepository
 {
+    public function getUnidadMedidaTonelada()
+    {
+        $em = $this->getEntityManager();
+        $queryBuilder = $em->createQueryBuilder();
+        $queryBuilder->select('um')
+                ->from('FrontendBundle:UnidadMedida', 'um')
+                ->add('where', $queryBuilder->expr()->eq('um.nombre', ':nombre'))
+                ->setParameter('nombre', 'TN');
+        return $queryBuilder;
+    }
 }

@@ -5,6 +5,7 @@ namespace Sistema\Bundle\FrontendBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Sistema\Bundle\FrontendBundle\Repository\UnidadMedidaRepository;
 
 class RecepcionMaterialType extends AbstractType
 {
@@ -13,7 +14,13 @@ class RecepcionMaterialType extends AbstractType
         $builder
             ->add('boleta_recepcion', 'boleta_recepcion_selector' , ['attr' => ['class'=> 'inputText', 'readonly' => true ] ])
             ->add('material', null, [ 'required' => true ])
-            ->add('unidad_medida', null, [ 'required' => true ] )
+            ->add('unidad_medida', 'entity', [ 'class' => 'FrontendBundle:UnidadMedida',
+                'property' => 'nombre',
+                'query_builder' => function(UnidadMedidaRepository $unidadMedidaRepository) {
+                    return $unidadMedidaRepository->getUnidadMedidaTonelada();
+                },
+                'attr' => [ 'readonly' => true ],
+                'required' => true ] )
             ->add('fecha_ingreso', 'date', ['widget' => 'single_text'])
             ->add('cantidad', 'text', ['attr' => ['class'=> 'inputText', 'readonly' => true ] ])
             ->add('accion', 'hidden', ['mapped' => false, 'data' => ''])
