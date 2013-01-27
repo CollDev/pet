@@ -149,8 +149,8 @@ function buscarOrden(){
 }
 
 function limpiar(targetUrl){
-        $('input:text').val('');
-        $('input:hidden').val('');
+        $('#registrar input:text').val('');
+        $('#registrar input:hidden').val('');
         $("#lstSiniestro").GridUnload();
         $('#boleta_impresion_id').val('');
         crearGrilla(targetUrl);
