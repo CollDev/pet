@@ -12,7 +12,7 @@ class RecepcionMaterialType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('boleta_recepcion', 'boleta_recepcion_selector' , ['attr' => ['class'=> 'inputText', 'readonly' => true ] ])
+            ->add('boleta_recepcion', 'boleta_recepcion_selector' , ['attr' => ['class'=> 'inputText required', 'readonly' => true ], 'required' => true ])
             ->add('material', null, [ 'required' => true ])
             ->add('unidad_medida', 'entity', [ 'class' => 'FrontendBundle:UnidadMedida',
                 'property' => 'nombre',
@@ -22,8 +22,8 @@ class RecepcionMaterialType extends AbstractType
                 'attr' => [ 'readonly' => true ],
                 'required' => true ] 
                 )
-            ->add('fecha_ingreso', 'date', ['widget' => 'single_text'])
-            ->add('cantidad', 'text', ['attr' => ['class'=> 'inputText', 'readonly' => true ] ])
+            ->add('fecha_ingreso', 'date', ['widget' => 'single_text', 'required' => true  ])
+            ->add('cantidad', 'text', ['attr' => ['class'=> 'inputText required', 'readonly' => true, 'required' => true ] ])
             ->add('accion', 'hidden', ['mapped' => false, 'data' => ''])
             ->add('recepcion_material', 'hidden', ['mapped' => false, 'data' => ''])
         ;

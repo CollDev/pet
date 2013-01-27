@@ -3,6 +3,7 @@
 namespace Sistema\Bundle\FrontendBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * RecepcionMaterial
@@ -22,7 +23,7 @@ class RecepcionMaterial
     private $id;
 
     /**
-     *
+     * @Assert\NotBlank(message="Este valor no debe estar en blanco")
      * @ORM\ManyToOne(targetEntity="Sistema\Bundle\FrontendBundle\Entity\BoletaRecepcion")
      */
     private $boleta_recepcion;
@@ -35,7 +36,7 @@ class RecepcionMaterial
 
     /**
      * @var \DateTime
-     *
+     * @Assert\NotBlank(message="Este valor no debe estar en blanco")
      * @ORM\Column(name="fecha_ingreso", type="datetime")
      */
     private $fecha_ingreso;
@@ -48,7 +49,7 @@ class RecepcionMaterial
 
     /**
      * @var float
-     *
+     * @Assert\NotBlank(message="Este valor no debe estar en blanco")
      * @ORM\Column(name="cantidad", type="decimal", precision=10, scale=2 )
      */
     private $cantidad;
