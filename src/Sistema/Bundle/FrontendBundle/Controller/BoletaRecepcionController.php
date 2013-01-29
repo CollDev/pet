@@ -32,10 +32,10 @@ class BoletaRecepcionController extends Controller
         $boletaRecepcion = new BoletaRecepcion();
         $searchForm = $this->createFormBuilder()
                 ->add('id','text', ['required'=> false ])
-                ->add('fecha_ingreso', 'date', ['widget' => 'single_text',
-                     'required' => false])
-                ->add('fecha_salida', 'date', ['widget' => 'single_text',
-                    'required' => false])
+                //->add('fecha_ingreso', 'date', ['widget' => 'single_text',
+                //     'required' => false])
+                //->add('fecha_salida', 'date', ['widget' => 'single_text',
+                //    'required' => false])
                 ->getForm();
         $boletasRecepcion = [];
         if($request->getMethod()== 'POST') {

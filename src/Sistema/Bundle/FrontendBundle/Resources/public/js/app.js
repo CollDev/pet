@@ -146,7 +146,8 @@ function limpiar(event){
 function buscarPedido(event){
         
         $( "#dlgDatosPopUp" ).dialog( "open" );
-        
+        $('#form_id').val('');
+        $('.resultados').html('');
         $("#buscar-boleta")
             .click(function() {
                 $.post(event.data.url, $('#popup').serialize(), function (data) {

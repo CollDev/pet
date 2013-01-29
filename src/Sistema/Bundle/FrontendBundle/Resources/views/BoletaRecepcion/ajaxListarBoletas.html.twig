@@ -1,6 +1,11 @@
-<div class="error">
+<div class="error red">
     {{ form_errors(form) }}
+    {% if boletasRecepcion | length == 0 %} 
+        La Boleta no fue encontrada.
+    {% endif %}
 </div>
+
+{% if boletasRecepcion | length > 0 %} 
 <table id="myTable" border="0" class="ui-widget">
 <thead class="ui-widget-header">
     <tr>
@@ -11,6 +16,7 @@
     </tr>
 </thead>
 <tbody class="ui-widget-content">
+    
     {% for boletaRecepcion in boletasRecepcion %}
     <tr>
         <td >{{ boletaRecepcion.id }}</td>
@@ -26,3 +32,4 @@
     
 </tbody>
 </table>
+{% endif %}
