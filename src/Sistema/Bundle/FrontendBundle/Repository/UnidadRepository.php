@@ -12,4 +12,18 @@ use Doctrine\ORM\EntityRepository;
  */
 class UnidadRepository extends EntityRepository
 {
+    public function getUnidadesConMantenimiento($dias)
+    {
+        $hoy = new \DateTime();
+        $fechaLimite = $hoy->add(new \DateInterval('P'.$dias.'D'));
+        
+        $query = $this->createQueryBuilder('u')
+                ->where('u.fecha_mantenimiento < :fechaLimite 
+                    AND u.estado = :activo')
+                ->setParameter('fechaLimite', $fechaLimite)
+                ->setParameter('activo', 1)
+                ->getQuery();
+        
+        return $query;
+    }
 }

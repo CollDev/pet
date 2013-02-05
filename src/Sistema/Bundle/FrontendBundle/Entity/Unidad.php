@@ -180,5 +180,10 @@ class Unidad
     {
         return $this->estado;
     }
+    
+    public function __toString()
+    {
+        return 'Unidad '.$this->getId().'  '.$this->getMarca() ;
+    }
 
 }

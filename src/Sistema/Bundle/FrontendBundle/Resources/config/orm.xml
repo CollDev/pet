@@ -12,6 +12,10 @@
         <parameter key="boleta_recepcion_repository.class">Sistema\Bundle\FrontendBundle\Repository\BoletaRecepcionRepository</parameter>
         <parameter key="boleta_recepcion_entity.class">Sistema\Bundle\FrontendBundle\Entity\BoletaRecepcion</parameter>
         
+        <parameter key="unidad_manager.class">Sistema\Bundle\FrontendBundle\Doctrine\UnidadManager</parameter>
+        <parameter key="unidad_repository.class">Sistema\Bundle\FrontendBundle\Repository\UnidadRepository</parameter>
+        <parameter key="unidad_entity.class">Sistema\Bundle\FrontendBundle\Entity\Unidad</parameter>
+        
     </parameters>
 
     <services>
@@ -24,11 +28,22 @@
             <argument type="service" id="sistema.entity_manager" />
             <argument>%boleta_recepcion_entity.class%</argument>
         </service>
+        
+        <service id="unidad.manager" class="%unidad_manager.class%">
+            <argument type="service" id="sistema.entity_manager" />
+            <argument>%unidad_entity.class%</argument>
+        </service>
 
         <service id="boleta_recepcion.repository" class="%boleta_recepcion_repository.class%"
                  factory-service="doctrine.orm.default_entity_manager"
                  factory-method="getRepository">
             <argument>%boleta_recepcion_entity.class%</argument>
+        </service>
+        
+        <service id="unidad.repository" class="%unidad_repository.class%"
+                 factory-service="doctrine.orm.default_entity_manager"
+                 factory-method="getRepository">
+            <argument>%unidad_entity.class%</argument>
         </service>
         
         
