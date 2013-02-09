@@ -117,10 +117,25 @@
                                 <form id="imprimir" method="post" >
                                     <input type="hidden" id="boleta_impresion_id" name="boleta_impresion_id" />
                                     
-                                    <table border="0" cellpadding="2" cellspacing="2" style="width:60%" >
+                                    <table border="0" cellpadding="2" cellspacing="2" width="60%" >
+                                        <tr>
+                                            <td align="center">
+                                                <div id="boletaRecepcion_resultado" >
+                                                    
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">
+                                                <div id="boletaRecepcion_estado_div" class="hide">
+                                                    <span id="boletaRecepcion_estado"></span>
+                                                </div>
+                                            </td>
+                                        </tr>
                                         <tr><td align="center">
                                     <div class="ui-widget-content">
                                         <div class="divBtns">
+                                            <button onclick="completar('{{ path('boleta_recepcion_completar')}}'); return false;" >Cerrar Boleta</button>
                                             <button onclick="imprimir('{{ path('material_imprimir') }}' ); return false;" >Imprimir Boleta Recepción</button>
                                         </div>
                                    </div>

@@ -1,0 +1,11 @@
+<p>Avisos Topes :</p>
+<div class="ui-state-highlight ui-corner-all" 
+     style="font-size:11px; padding: 4px 4px 4px 4px; height:40px; ">
+    <ul>
+        <li>
+        {% for aviso in avisos %}
+            Faltan {{ aviso.dias }} para Llenar el {{ aviso.titulo}}.<br />
+        {% endfor %}
+        </li>
+    </ul>
+</div>

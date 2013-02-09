@@ -9,7 +9,10 @@ use Sistema\Bundle\FrontendBundle\Entity\UnidadMedida;
 use Sistema\Bundle\FrontendBundle\Entity\Material;
 use Sistema\Bundle\FrontendBundle\Entity\Cliente;
 use Sistema\Bundle\FrontendBundle\Entity\Estado;
+use Sistema\Bundle\FrontendBundle\Entity\Indicador;
+use Sistema\Bundle\FrontendBundle\Entity\Topes;
 use Sistema\Bundle\FrontendBundle\Entity\BoletaRecepcion;
+
 use Sistema\Bundle\FrontendBundle\Entity\Unidad;
 use Symfony\Component\Security\Core\SecurityContext;
 class DefaultController extends Controller
@@ -20,7 +23,9 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        return [];
+        $usuario= $this->get('security.context')->getToken()->getUser();
+        $isPerfilSupervisor = ($usuario->getPerfil() == 1) ;
+        return ['isPerfilSupervisor' => $isPerfilSupervisor];
     }
 
     public function loginAction()
@@ -44,7 +49,38 @@ class DefaultController extends Controller
     public function usuarioAutenticadoAction()
     {
         $usuario= $this->get('security.context')->getToken()->getUser();
-        return  ['usuario' => $usuario ];
+        if($usuario->getPerfil() == 1) {
+            $nombrePerfil = 'Supervisor';
+        }
+        else if ($usuario->getPerfil() == 1) {
+            $nombrePerfil = 'Usuario';
+        }
+        else {
+            $nombrePerfil = 'Jefe de Planta';
+        }
+        
+        return  ['usuario' => $usuario, 'perfil' => $nombrePerfil ];
+    }
+    
+    /**
+     * @Route("/menu/listar", name="menu_listar")
+     * @Template()
+     */
+    public function menuAction()
+    {
+        $usuario= $this->get('security.context')->getToken()->getUser();
+        
+        if($usuario->getPerfil() == 1) {
+            $nombrePerfil = 'Supervisor';
+        }
+        else if ($usuario->getPerfil() == 1) {
+            $nombrePerfil = 'Usuario';
+        }
+        else {
+            $nombrePerfil = 'Jefe de Planta';
+        }
+        
+        return  ['usuario' => $usuario, 'perfil' => $nombrePerfil ];
     }
     
     /**
@@ -62,6 +98,7 @@ class DefaultController extends Controller
      */
     public function cargarDatosAction()
     {
+        
         $em = $this->getDoctrine()->getManager();
         
         /*$unidadMedida = new UnidadMedida();
@@ -93,7 +130,7 @@ class DefaultController extends Controller
         $estado2 = new Estado();
         $estado2->setNombre('Inactivo');
         $em->persist($estado2);
-         */
+         
         $estado = $em->getRepository('FrontendBundle:Estado')->find(1);
         /*
         $cliente = new Cliente();
@@ -104,6 +141,7 @@ class DefaultController extends Controller
         $em->persist($cliente);
         $em->flush();
         */
+        /*
         $cliente = $em->getRepository('FrontendBundle:Cliente')->find(1);
         
         $unidad = new Unidad();
@@ -125,7 +163,70 @@ class DefaultController extends Controller
         $boletaRecepcion->setUnidad($unidad);
         $em->persist($boletaRecepcion);
         $em->flush();
+        */
+      /*  
+      $indicador = new Indicador();
+      $indicador->setNombre('Porcentaje Tope');
+      $indicador->setEstandar('SI');
+      $em->persist($indicador);
+      */
+      $unidadMedida = $em->getRepository('FrontendBundle:UnidadMedida')->find(1);
+      $indicador = $em->getRepository('FrontendBundle:Indicador')->find(11);
+      /*$tope = new Topes();
+      $tope->setDescripcion('Tope');
+      $tope->setIndicador($indicador);
+      $tope->setUnidadMedida($unidadMedida);
+      $tope->setAcumulado(10);
+      $tope->setPrevio(0);
+      $em->persist($tope);
+      */
+      $tope2 = new Topes();
+      $tope2->setDescripcion('Tope');
+      $tope2->setIndicador($indicador);
+      $tope2->setUnidadMedida($unidadMedida);
+      $tope2->setAcumulado(20);
+      $tope2->setPrevio(10);
+      $em->persist($tope2);
+      
+      $em->flush();
+        
         
         return [];
     }
+    
+    /**
+     * @Route("/cargarTopeDatos", name="carga_tope_datos")
+     * 
+     */
+    public function cargarTopeDatosAction()
+    {
+      $em = $this->getDoctrine()->getManager(); 
+      $indicador = new Indicador();
+      $indicador->setNombre('Porcentaje Tope');
+      $indicador->setEstandar('SI');
+      $em->persist($indicador);
+      $unidadMedida = $em->getRepository('FrontendBundle:UnidadMedida')->find(1);
+      
+      $tope = new Topes();
+      $tope->setDescripcion('Tope');
+      $tope->setIndicador($indicador);
+      $tope->setUnidadMedida($unidadMedida);
+      $tope->setAcumulado(10);
+      $tope->setPrevio(0);
+      $em->persist($tope);
+      
+      $tope2 = new Topes();
+      $tope->setDescripcion('Tope');
+      $tope->setIndicador($indicador);
+      $tope->setUnidadMedida($unidadMedida);
+      $tope->setAcumulado(20);
+      $tope->setPrevio(10);
+      $em->persist($tope2);
+      
+      $em->flush();
+      
+      return $this->render('FrontendBundle:Default:cargaDatos.html.twig', []);
+    }
+    
+    
 }

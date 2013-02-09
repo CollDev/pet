@@ -27,6 +27,18 @@ class AvisoController extends Controller
         return ['avisos' => $avisos ];
     }
     
+    /**
+     * @Route("/listar/tope", name="listar_avisos_tope")
+     * @Template()
+     */
+    public function listarAvisosTopeAction()
+    {
+        $aviso = $this->get('aviso_tope.service');
+        $avisos = $aviso->getAvisosTope(5);
+        return ['avisos' => $avisos];
+        
+    }
+    
 }
 
 ?>

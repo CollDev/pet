@@ -12,4 +12,32 @@ use Doctrine\ORM\EntityRepository;
  */
 class IncidenciaRepository extends EntityRepository
 {
+    public function buscarIncidencia($criteria)
+    {
+        $qb = $this->createQueryBuilder("b");
+        foreach ($criteria as $field => $value) {
+            if (!$this->getClassMetadata()->hasField($field)) {
+                continue;
+            }
+            if(!empty($value)) {
+                if(in_array($field, ['fecha_incidencia'] )) {
+                    
+                    $date = $value->format('Y-m-d');
+                    $nextDayDate = date('Y-m-d', strtotime('+1 day', strtotime($date)));
+                    
+                    $qb ->andWhere($qb->expr()->gte('b.'.$field, ':b_'.$field))
+                    ->setParameter('b_'.$field, $value);
+                    $qb ->andWhere($qb->expr()->lt('b.'.$field, ':b_'.$field))
+                    ->setParameter('b_'.$field, new \DateTime(strtotime($nextDayDate)));
+                    
+                }
+                else {
+                    $qb ->andWhere($qb->expr()->eq('b.'.$field, ':b_'.$field))
+                    ->setParameter('b_'.$field, $value);
+                }
+                
+            }
+        }
+        return $qb->getQuery()->getResult();
+    }
 }

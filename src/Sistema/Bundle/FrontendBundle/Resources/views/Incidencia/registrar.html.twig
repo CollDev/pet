@@ -1,0 +1,64 @@
+{% extends 'FrontendBundle::frontend.html.twig' %}
+{% block body %}
+
+<table border="0" cellpadding="0" cellspacing="0" align="center" width="90%"  height="100%">
+        <tr width="100%" align="left">
+            <td>
+                <div id="divMenu" class="ui-widget-header" style="height:30px">
+                    {% render url('menu_listar') %}
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td width="100%" valign="top" class="ui-widget-content2 ln_formatos" colspan="2">
+                {% include 'FrontendBundle:Incidencia:formularioIncidencia.html.twig' with {'form': form, 'mensaje': mensaje} %}
+            </td>
+        </tr>
+	<tr>
+            <td width="100%">
+                <div id="pie_pagina" style="font-size:9px; height:12px" class="ui-widget-header">
+                    {% include 'FrontendBundle::footer.html.twig' %}
+		</div>
+           </td>
+       </tr>
+</table>
+
+    <div id="dlgDatosPopUp" title="Buscar Incidencia">
+        {% render url('incidencia_buscar') %}
+    </div>
+{% endblock %}
+{% block custom_javascripts %}
+    {% include 'FrontendBundle::jsMenu.html.twig' %}
+{% endblock %}
+{% block custom2_javascripts %}
+<script>
+    (function ($) {
+   	$( "#divFormCompanias" ).accordion({autoHeight:false});
+		$("button", ".divBtns").button();
+                $("#nro-incidencia").button();
+                
+                $(document).on('click', '#nro-incidencia', { url : '{{ url("incidencia_ajax_listar") }}'}, buscarIncidencia );
+                $(document).on('click', '#limpiar', { url : '{{ url('incidencia_registrar') }}'}, limpiarIncidencia );
+                $(document).on('click', '#eliminar', { url : '{{ url('incidencia_eliminar') }}', currentUrl : '{{ url('incidencia_registrar') }}'}, eliminarIncidencia );
+                
+                    
+                $('#sistema_bundle_frontendbundle_incidenciatype_accion').val('');
+                $('#sistema_bundle_frontendbundle_incidenciatype_observacion').val('');
+                $('#sistema_bundle_frontendbundle_incidenciatype_maquinaria').val('');
+                $('#sistema_bundle_frontendbundle_incidenciatype_incidencia').val('');
+                $('#sistema_bundle_frontendbundle_incidenciatype_fecha_incidencia').val('');
+                $('#sistema_bundle_frontendbundle_incidenciatype_nro_incidencia').val('');
+                $('#sistema_bundle_frontendbundle_incidenciatype_tipo_incidencia').val('');
+                $('#sistema_bundle_frontendbundle_incidenciatype_estado').val('');
+
+		$("#dlgDatosPopUp").dialog({
+			autoOpen:false,
+			resizable: false,
+			height:250,
+			width:400,
+			modal:true
+		});
+
+}(jQuery));    
+</script>
+{% endblock %}

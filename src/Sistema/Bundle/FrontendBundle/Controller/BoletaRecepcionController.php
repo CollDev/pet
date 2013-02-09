@@ -61,10 +61,6 @@ class BoletaRecepcionController extends Controller
         $boletaRecepcion = new BoletaRecepcion();
         $searchForm = $this->createFormBuilder()
                 ->add('id','text')
-                ->add('fecha_ingreso', 'date', ['widget' => 'single_text',
-                     'required' => false])
-                ->add('fecha_salida', 'date', ['widget' => 'single_text',
-                    'required' => false])
                 ->getForm();
         $boletasRecepcion = [];
         if($request->getMethod()== 'POST') {
@@ -79,6 +75,32 @@ class BoletaRecepcionController extends Controller
              'boletasRecepcion' =>  $boletasRecepcion ];
             
             //'boletasRecepcion' => implode('->',array_keys($searchForm->getData()))  ];
+    }
+    
+    /**
+     * @Route("/completar", name="boleta_recepcion_completar")
+     * @Template()
+     */
+    public function completarAction()
+    {
+        $request = $this->getRequest();
+        $boletaRecepcionManager = $this->get('boleta_recepcion.manager');
+        $topeManager = $this->get('tope.manager');
+        $boletaRecepcion = new BoletaRecepcion();
+        
+        $estado = '';
+        if($request->getMethod()== 'POST') {
+                $boletaRecepcionId = $request->request->get('boleta_impresion_id','');
+            if( $boletaRecepcionId !='' ) {
+                $boletaRecepcionManager
+                    ->completarBoleta($boletaRecepcionId);
+                $boletaRecepcion = $boletaRecepcionManager->findByPk($boletaRecepcionId);
+                $topeManager->actualizarTope($boletaRecepcion);
+                $estado = $boletaRecepcion->getEstado()->getNombre();
+            }
+        }
+        return ['estado' => $estado ];
+        
     }
     
 }

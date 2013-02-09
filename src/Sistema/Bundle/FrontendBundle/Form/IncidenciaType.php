@@ -11,12 +11,16 @@ class IncidenciaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('fecha_incidencia')
-            ->add('maquinaria')
-            ->add('observacion')
-            ->add('tipo_incidencia')
-            ->add('estado')
-            ->add('unidad')
+            ->add('nro_incidencia', 'text' , 
+                ['attr' => ['class'=> 'inputText', 'readonly' => true ],
+                'required' => false, 'mapped' => false ])
+            ->add('maquinaria', null, ['label' => 'Nro Maquinaria'])
+            ->add('fecha_incidencia', 'date', ['widget' => 'single_text', 'required' => true  ])                                    
+            ->add('observacion', 'textarea')
+            ->add('tipo_incidencia', null, ['required' => true ])
+            ->add('estado', null, ['required' => true ] )
+            ->add('accion', 'hidden', ['mapped' => false, 'data' => ''])
+            ->add('incidencia', 'hidden', ['mapped' => false, 'data' => ''])
         ;
     }
 

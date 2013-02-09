@@ -54,6 +54,13 @@ class Topes
      * @ORM\Column(name="previo", type="decimal", precision=10, scale=2)
      */
     private $previo;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_registro", type="datetime", nullable=true)
+     */
+    private $fecha_registro;
 
 
     /**
@@ -180,4 +187,28 @@ class Topes
     {
         return $this->previo;
     }
+
+    /**
+     * Set fecha_registro
+     *
+     * @param \DateTime $fecha_registro
+     * @return Topes
+     */
+    public function setFechaRegistro(\DateTime $fecha_registro) {
+        $this->fecha_registro = $fecha_registro;
+        
+        return $this;
+    }
+
+    
+    /**
+     * Get fecha_registro
+     * 
+     * @return \DateTime
+     */
+    public function getFechaRegistro() {
+        return $this->fecha_registro;
+    }
+
+
 }

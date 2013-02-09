@@ -42,6 +42,30 @@ class RecepcionMaterialManager extends BaseManager
         $recepcionMaterialExistente = $this->repository->find($recepcionMaterialId);
         $this->eliminar($recepcionMaterialExistente);
     }
+    
+    public function analizarIndicadores($fechas)
+    {
+      $indicadores = $this->repository->analizarIndicadores($fechas);
+      
+      $indicadoresNormalizados = $this->normalizarIndicadores($indicadores);
+      return $indicadoresNormalizados;
+    }
+    
+    private function normalizarIndicadores($indicadores)
+    {
+        $sumatoria = function ($resultado, $indicador) {
+             $resultado= $resultado + $indicador['total'];
+             return $resultado;
+        };
+        $total = array_reduce($indicadores, $sumatoria, 0);
+        
+        $normalizar = function($indicador) use ($total) {
+            $indicador['total'] = number_format(100*$indicador['total']/$total, 0);
+            return $indicador;
+        };
+        $indicadoresNormalizados = array_map($normalizar, $indicadores);
+        return $indicadoresNormalizados;
+    }
 }
 
 ?>

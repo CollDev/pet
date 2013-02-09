@@ -25,7 +25,8 @@
         <td ><button id="choose-{{ boletaRecepcion.id }}" 
                      class="ui-button ui-widget ui-corner-all ui-state-default ui-button-text-only"
                      onclick="elegirBoletaRecepcion('{{ boletaRecepcion.id }}',
-                                 '{{ url('material_listar', { 'boletaRecepcionId': boletaRecepcion.id})}}')"
+                                 '{{ url('material_listar', { 'boletaRecepcionId': boletaRecepcion.id})}}',
+                             '{{ boletaRecepcion.estado.nombre }}')"
                      value="Elegir">Elegir</button></td>
     </tr>
     {% endfor %}

@@ -1,0 +1,117 @@
+<div id="divPanelSistema" class="ui-widget-content" align="left">
+			  <div id="divFormCompanias">
+                            <h3>
+                                <a href="#">Registrar Incidencia</a>
+                            </h3>
+                            <div>
+                                <form id="registrar" action="{{ path('incidencia_registrar') }}" method="post" {{ form_enctype(form) }} >
+                                <table border="0" cellpadding="2" cellspacing="2" style="height:100px" >
+                                    <tr>
+                                        <td>
+                                            {% if mensaje != '' %}
+                                            <div id="errorMsg" class="ui-state-default ui-corner-all error " style="font-size:11px; padding: 4px 4px 4px 4px; height:20px; width:240px">
+                                                {{mensaje}}
+                                            </div>
+                                            {% endif %}
+                                            <div class="ui-widget-content">
+                                                <table border="0" cellpadding="2" cellspacing="2" >
+                                                    <tr>
+                                                        <td>{{ form_label(form.nro_incidencia) }} </td>
+                                                        <td>{{ form_widget(form.nro_incidencia) }}
+                                                            <a id="nro-incidencia" href="#"  >
+                                                                <img border="0" width="15" src="{{ asset('bundles/frontend/images/toolbar_find.png' ) }}" />  </a>
+                                                                <br />
+                                                                    
+                                                        </td>
+                                                        <td>{{ form_label(form.fecha_incidencia)}}</td>
+                                                        <td>{{ form_widget(form.fecha_incidencia) }}
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <span class="red">
+                                                                {{form_errors(form.nro_incidencia)}}
+                                                            </span>
+                                                        </td>
+                                                        <td colspan="2">
+                                                            <span class="red">
+                                                                {{form_errors(form.fecha_incidencia)}}
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{{ form_label(form.estado) }}</td>
+                                                        <td>
+                                                            {{ form_widget(form.estado) }}
+                                                        </td>
+                                                        <td>{{form_label(form.maquinaria) }}</td>
+                                                        <td>
+                                                            {{ form_widget(form.maquinaria) }}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <span class="red">
+                                                                {{form_errors(form.estado)}}
+                                                            </span>
+                                                        </td>
+                                                        <td colspan="2">
+                                                            <span class="red">
+                                                                {{form_errors(form.maquinaria)}}
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>{{ form_label(form.tipo_incidencia) }}</td>
+                                                        <td>
+                                                            {{ form_widget(form.tipo_incidencia) }}
+                                                        </td>
+                                                        <td>{{ form_label(form.observacion) }}</td>
+                                                        <td>
+                                                            {{ form_widget(form.observacion) }}
+                                                        </td>
+                                                        
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <span class="red">{{ form_errors(form.tipo_incidencia) }}</span>
+                                                        </td>
+                                                        <td colspan="2">
+                                                            <span class="red">{{ form_errors(form.observacion) }}</span>
+                                                        </td>
+                                                        
+                                                    </tr>
+                                                </table>
+
+                                                {{ form_rest(form) }}
+                                             </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <div class="ui-widget-content">
+                                                <div class="divBtns">
+                                                    <table width="100%" >
+                                                        <tr>
+                                                            <td align="center" >
+                                                                <button id="grabar" name="grabar" type="submit" >Grabar</button>
+                                                                <button type="buttom" id="eliminar" >Eliminar</button>
+                                                                <button type="button" id="limpiar"  >Limpiar</button>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                 
+                                </table>
+                                </form>     
+                                
+                            </div>
+                        </div>				
+</div>
+

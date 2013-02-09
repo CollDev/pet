@@ -1,7 +1,17 @@
-<p>Avisos :<br /></p>
-<div> 
+<p>Avisos Mantenimiento :</p>
+<div class="ui-state-default ui-corner-all" 
+     style="font-size:11px; padding: 4px 4px 4px 4px; height:40px; ">
+    <ul>
     {% for aviso in avisos %}
-        {{ aviso.titulo}} - Faltan {{ aviso.dias }} para su Mantenimiento.<br />
+    <li>
+        {% if  aviso.dias >= 0 %}
+            {{ aviso.titulo}} - Faltan {{ aviso.dias }} para su Mantenimiento.<br />
+        {% else %}
+            {{ aviso.titulo}} {{ aviso.dias }} ya pasaron de su Mantenimiento Agendado.<br />
+        {% endif%}
+    </li>
+        
     {% endfor %}
+    </ul>
 </div>
 

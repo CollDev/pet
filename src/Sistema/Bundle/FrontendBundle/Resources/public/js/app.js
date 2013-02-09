@@ -65,6 +65,32 @@ function eliminar(event) {
     return false;
 }
 
+function eliminarIncidencia(event) {
+    
+    var r=confirm("Desea Eliminar el registro");
+    if (r === true ) {
+       
+    url = event.data.url;
+    currentUrl = event.data.currentUrl;
+    $('#sistema_bundle_frontendbundle_incidenciatype_accion').val('eliminar');
+    incidenciaId = $('#sistema_bundle_frontendbundle_incidenciatype_incidencia').val();
+    
+    var xhqr = $.post(url,$('#registrar').serialize(),  function(data) {
+        
+        $('#sistema_bundle_frontendbundle_incidenciatype_accion').val('');
+        $('#sistema_bundle_frontendbundle_incidenciatype_observacion').val('');
+        $('#sistema_bundle_frontendbundle_incidenciatype_fecha_incidencia').val('');
+        $('#sistema_bundle_frontendbundle_incidenciatype_recepcion_maquinaria').val('');
+        
+        $('#errorMsg').removeClass('hide');
+        $('#errorMsg').html('El registro'+ incidencialId +'fue eliminado');
+        
+    });
+   }
+    
+    return false;
+}
+
 function imprimir(url)
 {
     var xhqr = $.post(url,$('#imprimir').serialize(),  function(data) {
@@ -72,6 +98,22 @@ function imprimir(url)
         $('.impresion').html(data);
         $('.impresion').printElement();
     });
+    
+}
+
+function completar(url)
+{
+    var boletaId = $('#boleta_impresion_id').val();
+    if (boletaId == '') {
+        $( "#dlgDatos" ).dialog( "open" );
+         $('#boletaRecepcion_estado_div').html('No existe boleta a completar');
+    }
+    else {
+        var xhqr = $.post(url,$('#imprimir').serialize(),  function(data) {
+            $('#boletaRecepcion_resultado').html(data);
+        });     
+    }   
+    
     
 }
 
@@ -134,36 +176,73 @@ function crearGrilla(targetUrl){
 }
 
 function limpiar(event){
-        $('#registrar input:text').val('');
-        $('#registrar input:hidden').val('');
-        $("#lstSiniestro").GridUnload();
-        $('#boleta_impresion_id').val('');
-        $('#errorMsg').addClass('hide');
-        crearGrilla(event.data.url);
-        return false;
-}
-	
-function buscarPedido(event){
-        
-        $( "#dlgDatosPopUp" ).dialog( "open" );
-        $('#form_id').val('');
-        $('.resultados').html('');
-        $("#buscar-boleta")
-            .click(function() {
-                $.post(event.data.url, $('#popup').serialize(), function (data) {
-                   $('.resultados').html(data); 
-                });
-                return false;
-            });
+    $('#registrar input:text').val('');
+    $('#registrar input:hidden[name*="recepcion_material"]').val('');
+    $('#registrar input:hidden[name*="accion"]').val('');
+    $("#lstSiniestro").GridUnload();
+    $('#boleta_impresion_id').val('');
+    $('#errorMsg').addClass('hide');
+    $('#boletaRecepcion_estado_div').removeClass('hide').addClass('hide');
+    $('#boletaRecepcion_estado').html('');
+    crearGrilla(event.data.url);
+    return false;
 }
 
-function elegirBoletaRecepcion(id, targetUrl)
+function limpiarIncidencia(event) {
+    $('#registrar input:text').val('');
+    $('#registrar textarea').val('');
+    $('#registrar input:hidden[name*="accion"]').val('');
+    
+    $('#errorMsg').addClass('hide');
+    return false;
+}
+
+function limpiarFechas(event) {
+    $('#form_fecha_inicio').val('');
+    $('#form_fecha_fin').val('');
+    $('#errorMsg').addClass('hide');
+    return false;
+}
+
+function buscarPedido(event){
+        
+    $( "#dlgDatosPopUp" ).dialog( "open" );
+    $('#form_id').val('');
+    $('.resultados').html('');
+    $("#buscar-boleta")
+        .click(function() {
+            $.post(event.data.url, $('#popup').serialize(), function (data) {
+                $('.resultados').html(data); 
+            });
+            return false;
+        });
+}
+
+function buscarIncidencia(event){
+        
+    $( "#dlgDatosPopUp" ).dialog( "open" );
+    $('#form_id').val('');
+    $('.resultados').html('');
+    $("#buscar-incidencia")
+        .click(function() {
+            $.post(event.data.url, $('#popup').serialize(), function (data) {
+               $('.resultados').html(data); 
+            });
+            return false;
+        });
+}
+
+
+
+function elegirBoletaRecepcion(id, targetUrl, boletaEstado)
 {
     $('#sistema_bundle_frontendbundle_recepcionmaterialtype_boleta_recepcion').val(id);
     $('#sistema_bundle_frontendbundle_recepcionmaterialtype_accion').val('');
     $('#sistema_bundle_frontendbundle_recepcionmaterialtype_cantidad').val('');
     $('#sistema_bundle_frontendbundle_recepcionmaterialtype_fecha_ingreso').val('');
     $('#boleta_impresion_id').val(id);
+    $('#boletaRecepcion_estado_div').removeClass('hide');
+    $('#boletaRecepcion_estado').html('Estado Boleta: '+boletaEstado);
     $("#dlgDatosPopUp").dialog("close");
     $("#lstSiniestro").GridUnload();
     $('#errorMsg').addClass('hide');
@@ -171,19 +250,40 @@ function elegirBoletaRecepcion(id, targetUrl)
     
 }
 
+function elegirIncidencia(id, targetUrl, incidenciaEstado, observacion,
+    maquinaria, tipoIncidencia, fechaIncidencia)
+{
+    $('#sistema_bundle_frontendbundle_incidenciatype_nro_incidencia').val(id);
+    $('#sistema_bundle_frontendbundle_incidenciatype_accion').val('editar');
+    $('#sistema_bundle_frontendbundle_incidenciatype_maquinaria').val(maquinaria);
+    $('#sistema_bundle_frontendbundle_incidenciatype_observacion').val(observacion);
+    $('#sistema_bundle_frontendbundle_incidenciatype_tipo_incidencia').val(tipoIncidencia);
+    $('#sistema_bundle_frontendbundle_incidenciatype_fecha_incidencia').val(fechaIncidencia);
+    $('#sistema_bundle_frontendbundle_incidenciatype_estado').val(incidenciaEstado);
+    
+    
+    $("#dlgDatosPopUp").dialog("close");
+    
+    $('#errorMsg').addClass('hide');
+    
+    
+}
+
+
+
 function buscarGrilla2(){
-	$("#lstSiniestro").GridUnload();
-	crearGrilla();
-		
-		var datosConsultasSiniestro = [
-				{cod:"1",desc:"Radiador",estado:"UN",dat4:"1"},
-				{cod:"2",desc:"Juego de bujias Nro 7",estado:"KIT",dat4:"1"}
-		];
-		
-		for(var i=0;i <= datosConsultasSiniestro.length; i++)
-			jQuery("#lstSiniestro").jqGrid('addRowData',i+1,datosConsultasSiniestro[i]);
-		
-		jQuery("#lstSiniestro").jqGrid('navGrid','#pagerlstSiniestro',{edit:false,add:false,del:false,search:false,refresh:false});
+    $("#lstSiniestro").GridUnload();
+    crearGrilla();
+
+            var datosConsultasSiniestro = [
+                            {cod:"1",desc:"Radiador",estado:"UN",dat4:"1"},
+                            {cod:"2",desc:"Juego de bujias Nro 7",estado:"KIT",dat4:"1"}
+            ];
+
+            for(var i=0;i <= datosConsultasSiniestro.length; i++)
+                    jQuery("#lstSiniestro").jqGrid('addRowData',i+1,datosConsultasSiniestro[i]);
+
+            jQuery("#lstSiniestro").jqGrid('navGrid','#pagerlstSiniestro',{edit:false,add:false,del:false,search:false,refresh:false});
 }
 
 		

@@ -1,0 +1,41 @@
+<div class="error red">
+    {{ form_errors(form) }}
+    {% if incidencias | length == 0 %} 
+        La Incidencia no fue encontrada.
+    {% endif %}
+</div>
+
+{% if incidencias | length > 0 %} 
+<table id="myTable" border="0" class="ui-widget">
+<thead class="ui-widget-header">
+    <tr>
+        <th>Num Incidencia</th>
+        <th>Fecha Incidencia</th>
+        <th>Nro Maquinaria</th>
+        <th>Acci&oacute;n</th>
+    </tr>
+</thead>
+<tbody class="ui-widget-content">
+    
+    {% for incidencia in incidencias %}
+    <tr>
+        <td >{{ incidencia.id }}</td>
+        <td >{{ incidencia.fechaIncidencia | date('d/m/Y') }}</td>
+        <td >{{ incidencia.maquinaria }}</td>
+        <td ><button id="choose-{{ incidencia.id }}" 
+                     class="ui-button ui-widget ui-corner-all ui-state-default ui-button-text-only"
+                     onclick="elegirIncidencia('{{ incidencia.id }}',
+                                 '{{ url('incidencia_listar', { 'incidenciaId': incidencia.id})}}',
+                             '{{ incidencia.estado.nombre }}',
+                             '{{ incidencia.observacion }}',
+                             '{{ incidencia.maquinaria }}',
+                             '{{ incidencia.tipoIncidencia.nombre }}',
+                             '{{ incidencia.fechaIncidencia | date('Y-m-d') }}'
+                         )"
+                     value="Elegir">Elegir</button></td>
+    </tr>
+    {% endfor %}
+    
+</tbody>
+</table>
+{% endif %}

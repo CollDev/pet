@@ -22,4 +22,37 @@ class RecepcionMaterialRepository extends EntityRepository
         return $this->findBy(['boleta_recepcion' => $boletaRecepcionId],
                 ['id' => 'DESC']);
     }
+    
+    public function calcularPesoNetoTotal($boletaRecepcion)
+    {
+        $recepcionesMateriales = $this->findBy(['boleta_recepcion' 
+            => $boletaRecepcion->getId()]);
+        $pesoNeto = 0;
+        foreach($recepcionesMateriales as $recepcionMaterial) {
+            $pesoNeto += $recepcionMaterial->getCantidad();
+        }
+        return $pesoNeto;
+    }
+    
+    public function analizarIndicadores($fechas)
+    {
+        $fechaInicio = $fechas['fecha_inicio'];
+        $fechaFin = $fechas['fecha_fin'];
+        
+        $em = $this->getEntityManager();
+        
+        $dqlQuery = "SELECT m.nombre, SUM(rm.cantidad) AS total
+            FROM FrontendBundle:RecepcionMaterial rm
+            JOIN rm.material m 
+            JOIN rm.boleta_recepcion br
+            WHERE br.fecha_salida > ?1 AND br.fecha_salida < ?2
+            GROUP BY rm.material, m.nombre";
+        $query = $em->createQuery($dqlQuery);
+        
+        $query->setParameter('1', $fechaInicio)
+                ->setParameter('2', $fechaFin)
+            ;
+        
+        return $query->getResult();
+    }
 }

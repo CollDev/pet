@@ -23,6 +23,26 @@ class BoletaRecepcionManager extends BaseManager
         $this->class = $fqnClass;
     }
     
+    public function completarBoleta($boletaRecepcionId)
+    {
+        $boletaRecepcion = $this->repository->find($boletaRecepcionId);
+        
+        if(!is_null($boletaRecepcion)) {
+            $recepcionManterialRepository = $this->objectManager
+                ->getRepository('FrontendBundle:RecepcionMaterial');
+        
+            $pesoNeto = $recepcionManterialRepository
+                ->calcularPesoNetoTotal($boletaRecepcion);
+           
+           $estado = $this->objectManager
+                   ->getRepository('FrontendBundle:Estado')->find(3);
+           $boletaRecepcion->setNeto($pesoNeto);
+           $boletaRecepcion->setFechaSalida(new \DateTime());
+           $boletaRecepcion->setEstado($estado);
+           $this->guardar($boletaRecepcion);
+        }
+    }
+    
 }
 
 ?>

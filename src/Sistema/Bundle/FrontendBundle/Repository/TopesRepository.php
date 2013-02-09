@@ -12,4 +12,21 @@ use Doctrine\ORM\EntityRepository;
  */
 class TopesRepository extends EntityRepository
 {
+    public function getUltimoTope()
+    {
+        return $this->findOneBy([], ['id' => 'DESC']);
+    }
+    
+    public function getQueryTopesDesdeUltimoTopeInicial()
+    {
+        $topeInicial = $this->findOneBy(['previo' => 0], ['id' => 'DESC']);
+        
+        $queryBuilder = $this->createQueryBuilder('qb');
+        $queryBuilder->select('t')
+            ->from('FrontendBundle:Topes', 't')
+            ->where('t.id >= :idInicial')
+            ->setParameter('idInicial', $topeInicial->getId());
+        $query = $queryBuilder->getQuery();
+        return $query;
+    }
 }

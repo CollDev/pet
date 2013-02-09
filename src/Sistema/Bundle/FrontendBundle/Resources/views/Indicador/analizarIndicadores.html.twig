@@ -1,0 +1,66 @@
+{% extends 'FrontendBundle::frontend.html.twig' %}
+{% block body %}
+
+<table border="0" cellpadding="0" cellspacing="0" align="center" width="90%"  height="100%">
+        <tr width="100%" align="left">
+            <td>
+                <div id="divMenu" class="ui-widget-header" style="height:30px">
+                    {% include 'FrontendBundle::menu.html.twig' %}
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td width="100%" valign="top" class="ui-widget-content2 ln_formatos" colspan="2">
+                {% include 'FrontendBundle:Indicador:formularioAnalisisIndicadores.html.twig'
+                     with {'form': form, 'mensaje': mensaje, 'indicadores': indicadores } %}
+            </td>
+        </tr>
+	<tr>
+            <td width="100%">
+                <div id="pie_pagina" style="font-size:9px; height:12px" class="ui-widget-header">
+                    {% include 'FrontendBundle::footer.html.twig' %}
+		</div>
+           </td>
+       </tr>
+</table>
+
+    
+{% endblock %}
+{% block custom_javascripts %}
+    {% include 'FrontendBundle::jsMenu.html.twig' %}
+{% endblock %}
+{% block custom2_javascripts %}
+<script>
+    (function ($) {
+   	$( "#divFormCompanias" ).accordion({autoHeight:false});
+		$("button", ".divBtns").button();
+         
+                $(document).on('click', '#limpiar', { url : '{{ url('indicador_analizar') }}'}, limpiarFechas );
+                
+                //$('#sistema_bundle_frontendbundle_incidenciatype_nro_incidencia').val('');
+         
+         
+
+}(jQuery));
+
+ 
+ google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Material', 'Porcentaje']
+          {% for indicador in indicadores %}
+            , [ '{{indicador.nombre}}', {{indicador.total}}]
+          {% endfor %}
+        ]);
+
+        var options = {
+          title: 'Análisis de Indicadores',
+          is3D: true          
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('lstCompaniasDiv'));
+        chart.draw(data, options);
+      }
+</script>
+{% endblock %}

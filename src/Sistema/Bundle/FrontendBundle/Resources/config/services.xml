@@ -7,6 +7,7 @@
     <parameters>
         <parameter key="frontend.type.boleta_recepcion_selector.class">Sistema\Bundle\FrontendBundle\Form\Type\BoletaRecepcionSelectorType</parameter>
         <parameter key="aviso_mantenimiento.class">Sistema\Bundle\FrontendBundle\Service\Aviso\Mantenimiento</parameter>
+        <parameter key="aviso_tope.class">Sistema\Bundle\FrontendBundle\Service\Aviso\Tope</parameter>
         <parameter key="aviso_factory.class">Sistema\Bundle\FrontendBundle\Service\Aviso\AvisoFactory</parameter>
     </parameters>
     
@@ -18,6 +19,11 @@
         
         <service id="aviso_mantenimiento.service" class="%aviso_mantenimiento.class%">
             <argument type="service" id="unidad.manager" />
+            <argument type="service" id="aviso_factory.service" />
+        </service>
+        
+        <service id="aviso_tope.service" class="%aviso_tope.class%">
+            <argument type="service" id="tope.manager" />
             <argument type="service" id="aviso_factory.service" />
         </service>
         

@@ -38,7 +38,9 @@
 						<ul>
 							<li><a href="{{ url('incidencia_registrar')}}" >Registrar Incidencias</a></li>
 							<li><a href="#">Resolucion de Incidencias</a></li>
-							<li><a href="{{ url('indicador_analizar')}}" >Analizar Indicadores</a></li>
+                                                        {% if perfil == 'Supervisor' %}
+                                                            <li><a href="{{ url('indicador_analizar')}}" >Analizar Indicadores</a></li>
+                                                        {% endif %}
 							
 						</ul>
 					</li>

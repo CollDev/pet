@@ -24,7 +24,9 @@
 </table>
 
   
-	
+    <div id="dlgDatos" title="Mensaje">
+        <span class="boleta_resultados"></span>
+    </div>
     <div id="dlgDatosPopUp" title="Buscar Boleta de Recepcion">
         {% render url('boleta_recepcion_buscar') %}
     </div>
@@ -56,6 +58,14 @@
                 $('#boleta_impresion_id').val('');
 
 		$("#dlgDatosPopUp").dialog({
+			autoOpen:false,
+			resizable: false,
+			height:250,
+			width:400,
+			modal:true
+		});
+            
+            $("#dlgDatos").dialog({
 			autoOpen:false,
 			resizable: false,
 			height:250,

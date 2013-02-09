@@ -67,6 +67,12 @@ class BoletaRecepcion
      * @ORM\Column(name="neto", type="decimal", precision=10, scale=2)
      */
     private $neto;
+    
+    /**
+     * 
+     * @ORM\ManyToOne(targetEntity="Sistema\Bundle\FrontendBundle\Entity\Estado")
+     */
+    private $estado;
 
     /**
      * Set id
@@ -252,8 +258,28 @@ class BoletaRecepcion
         return $this->neto;
     }
     
+    /**
+     * Set estado
+     *
+     * @param Sistema\Bundle\FrontendBundle\Entity\Estado $estado
+     * @return BoletaRecepcion
+     */
+    public function setEstado($estado) {
+        
+        $this->estado = $estado;
+        
+        return $this;
+    }
+    
+    /**
+     * @return  Sistema\Bundle\FrontendBundle\Entity\Estado
+     */
+    public function getEstado() {
+        return $this->estado;
+    }
+
     public function __toString()
     {
         return 'BR-'.$this->getId();
-    }
+    }    
 }
