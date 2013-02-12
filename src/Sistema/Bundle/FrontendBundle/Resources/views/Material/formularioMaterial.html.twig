@@ -12,6 +12,11 @@
                                                  style="font-size:11px; padding: 4px 4px 4px 4px; height:20px; width:240px">
                                               
                                              </div>
+                                                {% if mensaje != '' %}
+                                                <div class="ui-state-default ui-corner-all">
+                                                    {{mensaje}}
+                                                </div>
+                                                {% endif %}
                                             <div class="ui-widget-content">
                                                 <table border="0" cellpadding="2" cellspacing="2" >
                                                     <tr>
