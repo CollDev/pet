@@ -1,38 +1,18 @@
-{% extends 'FrontendBundle::frontend.html.twig' %}
+{% extends '::layout.html.twig' %}
 {% block body %}
 
 <table border="0" cellpadding="0" cellspacing="0" align="center" width="90%"  height="100%">
-        <tr width="100%" align="left">
-            <td>
-                <div id="divMenu" class="ui-widget-header" style="height:30px">
-                    {% include 'FrontendBundle::menu.html.twig' %}
-                </div>
-            </td>
-        </tr>
+        
         <tr>
             <td width="100%" valign="top" class="ui-widget-content2 ln_formatos" colspan="2">
                 {% include 'FrontendBundle:Material:formularioMaterial.html.twig' with {'form': form} %}
             </td>
         </tr>
-	<tr>
-            <td width="100%">
-                <div id="pie_pagina" style="font-size:9px; height:12px" class="ui-widget-header">
-                    {% include 'FrontendBundle::footer.html.twig' %}
-		</div>
-           </td>
-       </tr>
 </table>
-
-  
-    <div id="dlgDatos" title="Mensaje">
-        <span class="boleta_resultados"></span>
-    </div>
-    <div id="dlgDatosPopUp" title="Buscar Boleta de Recepcion">
-        {% render url('boleta_recepcion_buscar') %}
-    </div>
+    
 {% endblock %}
 {% block custom_javascripts %}
-    {% include 'FrontendBundle::jsMenu.html.twig' %}
+    
 {% endblock %}
 {% block custom2_javascripts %}
 <script>
@@ -42,7 +22,7 @@
                 $("#nro-boleta").button();
                 
                 $(document).on('click', '#nro-boleta', { url : '{{ url("boleta_recepcion_ajax_listar") }}'}, buscarPedido );
-                $(document).on('click', '#limpiar', { url : '{{ url('material_listar') }}'}, limpiar );
+                //$(document).on('click', '#limpiar', { url : '{{ url('material_listar') }}'}, limpiar );
                 $(document).on('click', '#eliminar', { url : '{{ url('material_eliminar') }}', currentUrl : '{{ url('material_listar') }}'}, eliminar );
                 
                 
@@ -52,9 +32,9 @@
                     crearGrilla('{{ url('material_listar')}}');
                 {% endif %}
                     
-                $('#sistema_bundle_frontendbundle_recepcionmaterialtype_accion').val('');
-                $('#sistema_bundle_frontendbundle_recepcionmaterialtype_cantidad').val('');
-                $('#sistema_bundle_frontendbundle_recepcionmaterialtype_fecha_ingreso').val('');
+                //$('#sistema_bundle_frontendbundle_recepcionmaterialtype_accion').val('');
+                //$('#sistema_bundle_frontendbundle_recepcionmaterialtype_cantidad').val('');
+                //$('#sistema_bundle_frontendbundle_recepcionmaterialtype_fecha_ingreso').val('');
                 $('#boleta_impresion_id').val('');
 
 		$("#dlgDatosPopUp").dialog({
@@ -72,6 +52,15 @@
 			width:400,
 			modal:true
 		});
-}(jQuery));    
+}(jQuery)); 
+function refreshParent() {
+    boleta = document.getElementById('sistema_bundle_frontendbundle_recepcionmaterialtype_boleta_recepcion')
+    window.opener.location.href = "{{ url('material_recepcionar')}}" + '?id='+ boleta.value;
+
+  if (window.opener.progressWindow) {
+    window.opener.progressWindow.close();
+  }
+  window.close();
+}   
 </script>
 {% endblock %}

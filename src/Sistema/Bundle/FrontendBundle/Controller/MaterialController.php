@@ -28,6 +28,29 @@ use Sistema\Bundle\FrontendBundle\Form\RecepcionMaterialType;
  */
 class MaterialController extends Controller
 {
+    
+    /**
+     * @Route("/recepcionar", name="material_recepcionar")
+     * @Template()
+     */
+    public function recepcionAction()
+    {
+        $request = $this->getRequest();
+        $boletaRecepcionId = $request->query->get('id',0);
+        $formBuilder = $this->createFormBuilder();
+        if($boletaRecepcionId != 0) {
+            $formBuilder->add('boleta_recepcion','text', [ 'data' => $boletaRecepcionId,  'attr' => ['readonly' => true ] ]);
+        }
+        else {
+            $formBuilder->add('boleta_recepcion','text', [ 'data' => '', 'attr' => ['readonly' => true ] ]);
+        }
+                    
+        $form = $formBuilder->getForm();
+        //var_dump($form->createView());exit;
+        return ['form' => $form->createView()];
+        
+        
+    }
     /**
      * @Route("/registrar", name="material_registrar")
      * @Method({"GET", "POST"})
@@ -37,11 +60,27 @@ class MaterialController extends Controller
     public function registrarAction()
     {
         $request = $this->getRequest();
+        $boletaRecepcionId = $request->query->get('id',0);
+        $accion = $request->query->get('accion',null);
+        $recepcionMaterialId = $request->query->get('recepcionMaterial',0);
         $recepcionMaterialManager = $this->get('recepcion_material.manager');
-        $recepcionMaterial = $recepcionMaterialManager->crearEntidad();
-        $form = $this->createForm(new RecepcionMaterialType(), $recepcionMaterial);
+        $boletaRecepcion = $recepcionMaterialManager->getBoletaRecepcionByPk($boletaRecepcionId);
         
+        if($recepcionMaterialId != 0) {
+            
+            $recepcionMaterial = $recepcionMaterialManager->findByPk($recepcionMaterialId);
+        }
+        else {
+            $recepcionMaterial = $recepcionMaterialManager->crearEntidad();
+        }
         
+        if(!is_null($boletaRecepcion)) {
+            $recepcionMaterial->setBoletaRecepcion($boletaRecepcion);
+        }
+        
+        $form = $this->createForm(new RecepcionMaterialType($accion, $recepcionMaterialId), $recepcionMaterial);
+        
+        $mensaje = "";
         if ($request->isMethod('POST')) {
 
             $form->bind($request);
@@ -50,21 +89,26 @@ class MaterialController extends Controller
                 $accion = $form->get('accion')->getData();
                 $recepcionMaterial = $form->getData();
                 
-                if(empty($accion)) {
-                    $recepcionMaterialManager->guardar($recepcionMaterial);
+                if($recepcionMaterialManager->esMaterialUnico($recepcionMaterial)) {
+                    
+                    if(empty($accion)) {
+                        $recepcionMaterialManager->guardar($recepcionMaterial);
+                    }
+                    else {
+                        $recepcionMaterialId = $form->get('recepcion_material')->getData();
+                        $recepcionMaterialManager->editar($recepcionMaterialId, $recepcionMaterial);
+                    }
                 }
                 else {
-                    $recepcionMaterialId = $form->get('recepcion_material')->getData();
-                    $recepcionMaterialManager->editar($recepcionMaterialId, $recepcionMaterial);
+                    $mensaje = "Ya existe ese tipo de material";
                 }
-                
                 //return $this->render('FrontendBundle:Material:formularioMaterial.html.twig', ['form' => $form->createView()] );
                 //$this->redirect($url);
             }                
         }
 
         
-        return ['form' => $form->createView()];
+        return ['form' => $form->createView(), 'mensaje' => $mensaje];
     }
     
     /**

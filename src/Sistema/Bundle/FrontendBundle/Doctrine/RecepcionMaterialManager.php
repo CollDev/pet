@@ -66,6 +66,27 @@ class RecepcionMaterialManager extends BaseManager
         $indicadoresNormalizados = array_map($normalizar, $indicadores);
         return $indicadoresNormalizados;
     }
+    
+    public function getBoletaRecepcionByPk($id)
+    {
+        $boletaRecepcionRepository = $this->objectManager->getRepository('FrontendBundle:BoletaRecepcion');
+        return $boletaRecepcionRepository->find($id);
+    }
+    
+    public function esMaterialUnico($miRecepcionMaterial)
+    {
+        $boletaRecepcion = $miRecepcionMaterial->getBoletaRecepcion();
+        $materialCandidato = $miRecepcionMaterial->getMaterial();
+        $recepcionesMaterial = $this->repository->getRecepcionMaterialesPorBoletaRecepcionId($boletaRecepcion->getId());
+        foreach($recepcionesMaterial as $recepcionMaterial) {
+            $material = $recepcionMaterial->getMaterial();
+            if ($material->getNombre() == $materialCandidato->getNombre()) 
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 }
 
 ?>

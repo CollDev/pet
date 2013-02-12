@@ -8,7 +8,8 @@
                                 <table border="0" cellpadding="2" cellspacing="2" style="height:100px" >
                                     <tr>
                                         <td>
-                                            <div id="errorMsg" class="ui-state-default ui-corner-all error hide" style="font-size:11px; padding: 4px 4px 4px 4px; height:20px; width:240px">
+                                            <div id="errorMsg" class="ui-state-default ui-corner-all error hide" 
+                                                 style="font-size:11px; padding: 4px 4px 4px 4px; height:20px; width:240px">
                                               
                                              </div>
                                             <div class="ui-widget-content">
@@ -16,10 +17,7 @@
                                                     <tr>
                                                         <td>{{ form_label(form.boleta_recepcion) }} </td>
                                                         <td>{{ form_widget(form.boleta_recepcion) }}
-                                                            <a id="nro-boleta" href="#"  >
-                                                                <img border="0" width="15" src="{{ asset('bundles/frontend/images/toolbar_find.png' ) }}" />  </a>
-                                                                <br />
-                                                                    
+                                                           
                                                         </td>
                                                         <td>{{ form_label(form.material)}}</td>
                                                         <td>{{ form_widget(form.material) }}
@@ -68,8 +66,6 @@
                                                             <a href="#" onclick="obtenerPeso('{{path('balanza_peso')}}', '{{ form.cantidad.vars.id }}' );" >
                                                                 <img border="0" src="{{ asset('bundles/frontend/images/scale-32x32.png' ) }}" />
                                                             </a>
-                                                            
-
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -93,7 +89,7 @@
                                                             <td align="center" >
                                                                 <button id="grabar" name="grabar" type="submit" >Grabar</button>
                                                                 <button type="buttom" id="eliminar" >Eliminar</button>
-                                                                <button type="button" id="limpiar"  >Limpiar</button>
+                                                                <button type="button" id="limpiar" onclick="refreshParent()">Cerrar</button>
                                                             </td>
                                                         </tr>
                                                     </table>
@@ -102,49 +98,9 @@
                                         </td>
                                     </tr>
 
-                                    <tr>
-                                        <td align="center">
-                                            <div id="lstCompaniasDiv">
-                                                <table id="lstSiniestro"></table>
-                                                <div id="pagerlstSiniestro"></div>
-                                            </div>
-
-                                        </td>
-                                    </tr>
-
                                 </table>
                                 </form>     
-                                <form id="imprimir" method="post" >
-                                    <input type="hidden" id="boleta_impresion_id" name="boleta_impresion_id" />
-                                    
-                                    <table border="0" cellpadding="2" cellspacing="2" width="60%" >
-                                        <tr>
-                                            <td align="center">
-                                                <div id="boletaRecepcion_resultado" >
-                                                    
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td align="center">
-                                                <div id="boletaRecepcion_estado_div" class="hide">
-                                                    <span id="boletaRecepcion_estado"></span>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr><td align="center">
-                                    <div class="ui-widget-content">
-                                        <div class="divBtns">
-                                            <button onclick="completar('{{ path('boleta_recepcion_completar')}}'); return false;" >Cerrar Boleta</button>
-                                            <button onclick="imprimir('{{ path('material_imprimir') }}' ); return false;" >Imprimir Boleta Recepción</button>
-                                        </div>
-                                   </div>
-                                    <div class="impresion hide">
-                                    </div>
-                                        </td>
-                                        </tr>
-                                   </table>
-                                </form>
+                                
                             </div>
                         </div>				
 </div>

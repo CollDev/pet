@@ -1,0 +1,132 @@
+<div id="divPanelSistema" class="ui-widget-content" align="left">
+			  <div id="divFormCompanias">
+                            <h3>
+                                <a href="#">Recepci&oacute;n Material</a>
+                            </h3>
+                            <div>
+                                <form id="registrar" action="#" method="post" {{ form_enctype(form) }} >
+                                <table border="0" cellpadding="2" cellspacing="2" style="height:100px" >
+                                    <tr>
+                                        <td>
+                                            <div id="errorMsg" class="ui-state-default ui-corner-all error hide" style="font-size:11px; padding: 4px 4px 4px 4px; height:20px; width:240px">
+                                              
+                                             </div>
+                                            <div class="ui-widget-content">
+                                                <table border="0" cellpadding="2" cellspacing="2" >
+                                                    <tr>
+                                                        <td>{{ form_label(form.boleta_recepcion) }} </td>
+                                                        <td>{{ form_widget(form.boleta_recepcion) }}
+                                                            <a id="nro-boleta" href="#"  >
+                                                                <img border="0" width="15" src="{{ asset('bundles/frontend/images/toolbar_find.png' ) }}" />  </a>
+                                                                <br />
+                                                                    
+                                                        </td>
+                                                        <td></td>
+                                                        <td>
+                                                        </td>
+                                                    </tr>
+                                                        <tr>
+                                                        <td colspan="2">
+                                                            <span class="red">
+                                                                {{form_errors(form.boleta_recepcion)}}
+                                                            </span>
+                                                        </td>
+                                                        <td colspan="2">
+                                                            <span class="red">
+                                                            
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                  
+                                                </table>
+
+                                                {{ form_rest(form) }}
+                                             </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <div class="ui-widget-content">
+                                                <div class="divBtns">
+                                                    <table width="100%" >
+                                                        <tr>
+                                                            <td align="center" >
+                                                                <button id="registrar" name="registrar" type="button" onclick="popitup('{{ path('material_registrar')}}',1)">Registrar</button>
+                                                                
+                                                                <button type="button" id="limpiar"  >Limpiar</button>
+                                                                
+                                                                <script language="javascript" type="text/javascript">
+                                                                   
+                                                                    function popitup(url, accion) {
+                                                                        if(accion == 1) { //registrar
+                                                                            boleta = document.getElementById('form_boleta_recepcion')
+                                                                            url = url + '?id='+ boleta.value;
+                                                                        }
+                                                                        else if(accion == 2) {//modificar
+                                                                            boleta = document.getElementById('form_boleta_recepcion')
+                                                                            url = url + '?id='+ boleta.value+'&accion=editar';
+                                                                        }
+                                                                        
+                                                                     newwindow=window.open(url,'name','toolbar=1,scrollbars=1,location=1,\n\
+                                                                    statusbar=0,menubar=1,resizable=1,width=600,height=400');
+                                                                     if (window.focus) {newwindow.focus()}
+                                                                     return false;
+                                                                    }
+                                                                    
+                                                                 
+                                                                </script>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td align="center">
+                                            <div id="lstCompaniasDiv">
+                                                <table id="lstSiniestro"></table>
+                                                <div id="pagerlstSiniestro"></div>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+
+                                </table>
+                                </form>     
+                                <form id="imprimir" method="post" >
+                                    <input type="hidden" id="boleta_impresion_id" name="boleta_impresion_id" />
+                                    
+                                    <table border="0" cellpadding="2" cellspacing="2" width="60%" >
+                                        <tr>
+                                            <td align="center">
+                                                <div id="boletaRecepcion_resultado" >
+                                                    
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center">
+                                                <div id="boletaRecepcion_estado_div" class="hide">
+                                                    <span id="boletaRecepcion_estado"></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr><td align="center">
+                                    <div class="ui-widget-content">
+                                        <div class="divBtns">
+                                            <button onclick="completar('{{ path('boleta_recepcion_completar')}}'); return false;" >Cerrar Boleta</button>
+                                            <button onclick="imprimir('{{ path('material_imprimir') }}' ); return false;" >Imprimir Boleta Recepción</button>
+                                        </div>
+                                   </div>
+                                    <div class="impresion hide">
+                                    </div>
+                                        </td>
+                                        </tr>
+                                   </table>
+                                </form>
+                            </div>
+                        </div>				
+</div>

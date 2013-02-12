@@ -9,6 +9,14 @@ use Sistema\Bundle\FrontendBundle\Repository\UnidadMedidaRepository;
 
 class RecepcionMaterialType extends AbstractType
 {
+    private $accion;
+    private $recepcionMaterial;
+            
+    public function __construct($accion = null, $recepcionMaterial = null) 
+    {
+        $this->accion = $accion;
+        $this->recepcionMaterial = $recepcionMaterial;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -23,10 +31,21 @@ class RecepcionMaterialType extends AbstractType
                 'required' => true ] 
                 )
             ->add('fecha_ingreso', 'date', ['widget' => 'single_text', 'required' => true  ])
-            ->add('cantidad', 'text', ['attr' => ['class'=> 'inputText required', 'readonly' => true, 'required' => true ] ])
-            ->add('accion', 'hidden', ['mapped' => false, 'data' => ''])
-            ->add('recepcion_material', 'hidden', ['mapped' => false, 'data' => ''])
-        ;
+            ->add('cantidad', 'text', ['attr' => ['class'=> 'inputText required', 'readonly' => true, 'required' => true ] ]);
+                
+         if(!is_null($this->accion)) {
+             $builder->add('accion', 'hidden', ['mapped' => false, 'data' => $this->accion]);
+         }
+         else {
+             $builder->add('accion', 'hidden', ['mapped' => false, 'data' => '']);
+         }
+         if($this->recepcionMaterial == 0 ) {
+             $builder->add('recepcion_material', 'hidden', ['mapped' => false, 'data' => '']);
+         }
+         else {
+             $builder->add('recepcion_material', 'hidden', ['mapped' => false, 'data' => $this->recepcionMaterial]);
+         }
+        
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
