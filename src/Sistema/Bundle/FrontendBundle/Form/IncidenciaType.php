@@ -15,7 +15,7 @@ class IncidenciaType extends AbstractType
                 ['attr' => ['class'=> 'inputText', 'readonly' => true ],
                 'required' => false, 'mapped' => false ])
             ->add('maquinaria', null, ['label' => 'Nro Maquinaria'])
-            ->add('fecha_incidencia', 'date', ['widget' => 'single_text', 'required' => true  ])                                    
+            ->add('fecha_incidencia', 'date', ['widget' => 'single_text', 'required' => true  ])
             ->add('observacion', 'textarea')
             ->add('tipo_incidencia', null, ['required' => true ])
             ->add('estado', null, ['required' => true ] )

@@ -179,4 +179,9 @@ class RecepcionMaterial
     {
         return $this->cantidad;
     }
+    
+    public function __construct()
+    {
+        $this->fecha_ingreso = new \DateTime();
+    }
 }

@@ -208,4 +208,9 @@ class Incidencia
     {
         return $this->unidad;
     }
+    
+    public function __construct()
+    {
+        $this->fecha_incidencia = new \DateTime();
+    }
 }
