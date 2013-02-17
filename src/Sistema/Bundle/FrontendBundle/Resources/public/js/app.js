@@ -262,6 +262,21 @@ function buscarCliente(event)
         });
 }
 
+function verificarStock(event)
+{
+    
+    $('.resultados').html('');
+    var materialId = $('#sistema_bundle_frontendbundle_pedidotype_material option:selected').val();
+    var url = event.data.url + "?id="+ materialId;
+
+    $.post(url, function (data) {
+        $('.resultados2').html(data); 
+    });
+            
+    $("#dlgDatos" ).dialog( "open" );
+    return false;
+}
+
 function elegirCliente(id)
 {
     $('#sistema_bundle_frontendbundle_pedidotype_cliente').val(id);
@@ -270,7 +285,6 @@ function elegirCliente(id)
     $("#dlgDatosPopUp").dialog("close");
     $('#errorMsg').addClass('hide');
 }
-
 
 
 

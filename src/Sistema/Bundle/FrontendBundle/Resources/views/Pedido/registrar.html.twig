@@ -26,6 +26,11 @@
     <div id="dlgDatosPopUp" title="Buscar Cliente">
         {% render url('cliente_buscar') %}
     </div>
+    
+    <div id="dlgDatos" title="Verificar Stock">
+        <div class="resultados2"></div>
+    </div>
+
 {% endblock %}
 {% block custom_javascripts %}
     {% include 'FrontendBundle::jsMenu.html.twig' %}
@@ -40,13 +45,13 @@
                 
                 $(document).on('click', '#nro-cliente', { url : '{{ url("cliente_ajax_listar") }}'}, buscarCliente );
                 
-                $(document).on('click', '#nro-incidencia', { url : '{{ url("incidencia_ajax_listar") }}'}, buscarIncidencia );
+                $(document).on('click', '#nro-cantidad', { url : '{{ url("stock_verificar") }}'}, verificarStock );
                 $(document).on('click', '#limpiar', { url : '{{ url('incidencia_registrar') }}'}, limpiarIncidencia );
                 $(document).on('click', '#eliminar', { url : '{{ url('incidencia_eliminar') }}', currentUrl : '{{ url('incidencia_registrar') }}'}, eliminarIncidencia );
                 var now = new Date();
                 var day = ("0" + now.getDate()).slice(-2);
                 var month = ("0" + (now.getMonth() + 1)).slice(-2);
-                var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+                var today = now.getFullYear()+"-"+(month)+"-"+(day);
                 $('#sistema_bundle_frontendbundle_pedidotype_cliente').val('');
                 $('#sistema_bundle_frontendbundle_pedidotype_material').val('');
                 $('#sistema_bundle_frontendbundle_pedidotype_cantidad').val('');
@@ -54,6 +59,13 @@
                 $('#sistema_bundle_frontendbundle_pedidotype_fecha_programacion').val(today);
                 
 		$("#dlgDatosPopUp").dialog({
+			autoOpen:false,
+			resizable: false,
+			height:250,
+			width:400,
+			modal:true
+		});
+                $("#dlgDatos").dialog({
 			autoOpen:false,
 			resizable: false,
 			height:250,

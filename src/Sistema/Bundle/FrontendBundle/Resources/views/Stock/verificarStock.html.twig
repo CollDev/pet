@@ -1,0 +1,30 @@
+<div class="error red">
+    {% if materiales | length == 0 %} 
+        El material no fue encontrado.
+    {% endif %}
+</div>
+
+{% if materiales | length > 0 %} 
+<table id="myTable" border="0" class="ui-widget">
+<thead class="ui-widget-header">
+    <tr>
+        <th>C&oacute;digo Material</th>
+        <th>Nombre</th>
+        <th>Stock</th>
+        
+    </tr>
+</thead>
+<tbody class="ui-widget-content">
+    
+    {% for material in materiales %}
+    <tr>
+        <td >{{ material.id }}</td>
+        <td >{{ material.nombre }}</td>
+        <td >{{ material.stock }}</td>
+        
+    </tr>
+    {% endfor %}
+    
+</tbody>
+</table>
+{% endif %}

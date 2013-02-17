@@ -36,6 +36,10 @@
         <parameter key="cliente_repository.class">Sistema\Bundle\FrontendBundle\Repository\ClienteRepository</parameter>
         <parameter key="cliente_entity.class">Sistema\Bundle\FrontendBundle\Entity\Cliente</parameter>
         
+        <parameter key="material_manager.class">Sistema\Bundle\FrontendBundle\Doctrine\MaterialManager</parameter>
+        <parameter key="material_repository.class">Sistema\Bundle\FrontendBundle\Repository\MaterialRepository</parameter>
+        <parameter key="material_entity.class">Sistema\Bundle\FrontendBundle\Entity\Material</parameter>
+        
         
         
     </parameters>
@@ -105,6 +109,12 @@
                  factory-service="doctrine.orm.default_entity_manager"
                  factory-method="getRepository">
             <argument>%cliente_entity.class%</argument>
+        </service>
+        
+         <service id="material.repository" class="%material_repository.class%"
+                 factory-service="doctrine.orm.default_entity_manager"
+                 factory-method="getRepository">
+            <argument>%material_entity.class%</argument>
         </service>
         
         <service id="sistema.entity_manager" class="Doctrine\ORM\EntityManager" public="false"
