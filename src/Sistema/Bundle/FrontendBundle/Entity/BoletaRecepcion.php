@@ -274,10 +274,17 @@ class BoletaRecepcion
     /**
      * @return  Sistema\Bundle\FrontendBundle\Entity\Estado
      */
-    public function getEstado() {
+    public function getEstado()
+    {
         return $this->estado;
     }
-
+    
+    public function __construct()
+    {
+        $this->fecha_ingreso = new \DateTime();
+        
+    }
+    
     public function __toString()
     {
         return 'BR-'.$this->getId();

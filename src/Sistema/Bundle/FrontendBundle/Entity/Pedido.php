@@ -119,4 +119,14 @@ class Pedido
     {
         return $this->estado;
     }
+    
+    public function __construct()
+    {
+        $this->fecha_programacion = new \DateTime();
+    }
+    
+    public function __toString()
+    {
+        return $this->id;
+    }
 }

@@ -248,6 +248,30 @@ function buscarIncidencia(event){
         });
 }
 
+function buscarCliente(event) 
+{
+    $("#dlgDatosPopUp" ).dialog( "open" );
+    $('#form_id').val('');
+    $('.resultados').html('');
+    $("#buscar-cliente")
+        .click(function() {
+            $.post(event.data.url, $('#popup').serialize(), function (data) {
+               $('.resultados').html(data); 
+            });
+            return false;
+        });
+}
+
+function elegirCliente(id)
+{
+    $('#sistema_bundle_frontendbundle_pedidotype_cliente').val(id);
+    $('#sistema_bundle_frontendbundle_pedidotype_cantidad').val('');
+    $('#sistema_bundle_frontendbundle_pedidotype_importe').val('');
+    $("#dlgDatosPopUp").dialog("close");
+    $('#errorMsg').addClass('hide');
+}
+
+
 
 
 function elegirBoletaRecepcion(id, targetUrl, boletaEstado)

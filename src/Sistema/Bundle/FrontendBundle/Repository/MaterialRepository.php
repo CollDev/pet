@@ -12,4 +12,12 @@ use Doctrine\ORM\EntityRepository;
  */
 class MaterialRepository extends EntityRepository
 {
+    public function getMateriales()
+    {
+        $em = $this->getEntityManager();
+        $queryBuilder = $em->createQueryBuilder();
+        $queryBuilder->select('m')
+                ->from('FrontendBundle:Material', 'm');
+        return $queryBuilder;
+    }
 }

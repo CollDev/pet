@@ -25,9 +25,19 @@ class DefaultController extends Controller
     {
         $usuario= $this->get('security.context')->getToken()->getUser();
         $isPerfilSupervisor = ($usuario->getPerfil() == 1) ;
+        $this->updateDatabase();
         return ['isPerfilSupervisor' => $isPerfilSupervisor];
     }
-
+    
+    private function updateDatabase()
+    {
+        $estadoManager = $this->get('estado.manager');
+        if($estadoManager->noExistenEstados()) {
+            $estadoManager->crearEstados();
+        }
+            
+    }
+    
     public function loginAction()
     {
         $peticion = $this->getRequest();

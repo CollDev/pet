@@ -1,0 +1,34 @@
+<div class="error red">
+    {{ form_errors(form) }}
+    {% if clientes | length == 0 %} 
+        El Cliente no fue encontrado.
+    {% endif %}
+</div>
+
+{% if clientes | length > 0 %} 
+<table id="myTable" border="0" class="ui-widget">
+<thead class="ui-widget-header">
+    <tr>
+        <th>Codigo Cliente</th>
+        <th>Raz&oacute;n Social</th>
+        <th>RUC</th>
+        <th>Acci&oacute;n</th>
+    </tr>
+</thead>
+<tbody class="ui-widget-content">
+    
+    {% for cliente in clientes %}
+    <tr>
+        <td >{{ cliente.id }}</td>
+        <td >{{ cliente.razonSocial }}</td>
+        <td >{{ cliente.ruc  }}</td>
+        <td ><button id="choose-{{ cliente.id }}" 
+                     class="ui-button ui-widget ui-corner-all ui-state-default ui-button-text-only"
+                     onclick="elegirCliente('{{ cliente.id }}')"
+                     value="Elegir">Elegir</button></td>
+    </tr>
+    {% endfor %}
+    
+</tbody>
+</table>
+{% endif %}

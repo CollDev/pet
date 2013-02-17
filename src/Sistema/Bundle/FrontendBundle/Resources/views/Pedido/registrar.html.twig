@@ -11,7 +11,7 @@
         </tr>
         <tr>
             <td width="100%" valign="top" class="ui-widget-content2 ln_formatos" colspan="2">
-                {% include 'FrontendBundle:Incidencia:formularioIncidencia.html.twig' with {'form': form, 'mensaje': mensaje} %}
+                {% include 'FrontendBundle:Pedido:formularioPedido.html.twig' with {'form': form, 'mensaje': mensaje} %}
             </td>
         </tr>
 	<tr>
@@ -23,8 +23,8 @@
        </tr>
 </table>
 
-    <div id="dlgDatosPopUp" title="Buscar Incidencia">
-        {% render url('incidencia_buscar') %}
+    <div id="dlgDatosPopUp" title="Buscar Cliente">
+        {% render url('cliente_buscar') %}
     </div>
 {% endblock %}
 {% block custom_javascripts %}
@@ -35,21 +35,15 @@
     (function ($) {
    	$( "#divFormCompanias" ).accordion({autoHeight:false});
 		$("button", ".divBtns").button();
-                $("#nro-incidencia").button();
+                $("#nro-cliente").button();
+                $("#nro-cantidad").button();
+                
+                $(document).on('click', '#nro-cliente', { url : '{{ url("cliente_ajax_listar") }}'}, buscarCliente );
                 
                 $(document).on('click', '#nro-incidencia', { url : '{{ url("incidencia_ajax_listar") }}'}, buscarIncidencia );
                 $(document).on('click', '#limpiar', { url : '{{ url('incidencia_registrar') }}'}, limpiarIncidencia );
                 $(document).on('click', '#eliminar', { url : '{{ url('incidencia_eliminar') }}', currentUrl : '{{ url('incidencia_registrar') }}'}, eliminarIncidencia );
-                
-                    
-                $('#sistema_bundle_frontendbundle_incidenciatype_accion').val('');
-                $('#sistema_bundle_frontendbundle_incidenciatype_observacion').val('');
-                $('#sistema_bundle_frontendbundle_incidenciatype_maquinaria').val('');
-                $('#sistema_bundle_frontendbundle_incidenciatype_incidencia').val('');
-                
-                $('#sistema_bundle_frontendbundle_incidenciatype_nro_incidencia').val('');
-                $('#sistema_bundle_frontendbundle_incidenciatype_tipo_incidencia').val('');
-                $('#sistema_bundle_frontendbundle_incidenciatype_estado').val('');
+               
 
 		$("#dlgDatosPopUp").dialog({
 			autoOpen:false,

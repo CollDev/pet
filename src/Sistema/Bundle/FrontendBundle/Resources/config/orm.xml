@@ -24,6 +24,20 @@
         <parameter key="incidencia_repository.class">Sistema\Bundle\FrontendBundle\Repository\IncidenciaRepository</parameter>
         <parameter key="incidencia_entity.class">Sistema\Bundle\FrontendBundle\Entity\Incidencia</parameter>
         
+        <parameter key="estado_manager.class">Sistema\Bundle\FrontendBundle\Doctrine\EstadoManager</parameter>
+        <parameter key="estado_repository.class">Sistema\Bundle\FrontendBundle\Repository\EstadoRepository</parameter>
+        <parameter key="estado_entity.class">Sistema\Bundle\FrontendBundle\Entity\Estado</parameter>
+        
+        <parameter key="pedido_manager.class">Sistema\Bundle\FrontendBundle\Doctrine\PedidoManager</parameter>
+        <parameter key="pedido_repository.class">Sistema\Bundle\FrontendBundle\Repository\PedidoRepository</parameter>
+        <parameter key="pedido_entity.class">Sistema\Bundle\FrontendBundle\Entity\Pedido</parameter>
+        
+        <parameter key="cliente_manager.class">Sistema\Bundle\FrontendBundle\Doctrine\ClienteManager</parameter>
+        <parameter key="cliente_repository.class">Sistema\Bundle\FrontendBundle\Repository\ClienteRepository</parameter>
+        <parameter key="cliente_entity.class">Sistema\Bundle\FrontendBundle\Entity\Cliente</parameter>
+        
+        
+        
     </parameters>
 
     <services>
@@ -52,6 +66,16 @@
             <argument>%incidencia_entity.class%</argument>
         </service>
         
+        <service id="estado.manager" class="%estado_manager.class%">
+            <argument type="service" id="sistema.entity_manager" />
+            <argument>%estado_entity.class%</argument>
+        </service>
+        
+        <service id="pedido.manager" class="%pedido_manager.class%">
+            <argument type="service" id="sistema.entity_manager" />
+            <argument>%pedido_entity.class%</argument>
+        </service>
+        
 
         <service id="boleta_recepcion.repository" class="%boleta_recepcion_repository.class%"
                  factory-service="doctrine.orm.default_entity_manager"
@@ -77,6 +101,11 @@
             <argument>%incidencia_entity.class%</argument>
         </service>
         
+        <service id="cliente.repository" class="%cliente_repository.class%"
+                 factory-service="doctrine.orm.default_entity_manager"
+                 factory-method="getRepository">
+            <argument>%cliente_entity.class%</argument>
+        </service>
         
         <service id="sistema.entity_manager" class="Doctrine\ORM\EntityManager" public="false"
             factory-service="doctrine"

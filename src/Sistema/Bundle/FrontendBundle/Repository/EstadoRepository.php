@@ -12,4 +12,15 @@ use Doctrine\ORM\EntityRepository;
  */
 class EstadoRepository extends EntityRepository
 {
+    public function getEstadoPorNombre($nombre)
+    {
+        $em = $this->getEntityManager();
+        $queryBuilder = $em->createQueryBuilder();
+        $queryBuilder->select('e')
+                ->from('FrontendBundle:Estado', 'e')
+                ->add('where', $queryBuilder->expr()->eq('e.nombre', ':nombre'))
+                ->setParameter('nombre', $nombre);
+        return $queryBuilder;
+        
+    }
 }

@@ -1,0 +1,29 @@
+<form id="popup">
+        <table border="0" cellpadding="2" cellspacing="2">
+            <tr>
+                <td>{{ form_label(form.id)}}</td>
+                <td> {{ form_widget(form.id)}}</td>
+                <td> {{ form_errors(form.id)}}</td>
+            </tr>
+         
+            <tr>
+                <td align="center" >&nbsp; {{ form_rest(form)}}</td>
+            </tr>
+            <tr>
+                <td width="100%" colspan="2" >
+                    <div class="ui-widget-content">
+                        <div class="divBtns">
+                            <table width="100%">
+                                <tr>
+                                    <td align="left">
+                                        <button id="buscar-cliente">Buscar</button>&nbsp;
+                                    </td>
+				</tr>
+                            </table>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        </form>    
+            <div class="resultados"></div>  

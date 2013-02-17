@@ -150,4 +150,9 @@ class Cliente
     {
         return $this->estado;
     }
+    
+    public function __toString()
+    {
+        return strval($this->id);
+    }
 }
