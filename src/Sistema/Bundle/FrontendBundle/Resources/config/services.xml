@@ -6,6 +6,7 @@
 
     <parameters>
         <parameter key="frontend.type.boleta_recepcion_selector.class">Sistema\Bundle\FrontendBundle\Form\Type\BoletaRecepcionSelectorType</parameter>
+        <parameter key="frontend.type.cliente_selector.class">Sistema\Bundle\FrontendBundle\Form\Type\ClienteSelectorType</parameter>
         <parameter key="aviso_mantenimiento.class">Sistema\Bundle\FrontendBundle\Service\Aviso\Mantenimiento</parameter>
         <parameter key="aviso_tope.class">Sistema\Bundle\FrontendBundle\Service\Aviso\Tope</parameter>
         <parameter key="aviso_factory.class">Sistema\Bundle\FrontendBundle\Service\Aviso\AvisoFactory</parameter>
@@ -15,6 +16,11 @@
         <service id="frontend.type.boleta_recepcion_selector" class="%frontend.type.boleta_recepcion_selector.class%">
             <argument type="service" id="doctrine.orm.entity_manager"/>
             <tag name="form.type" alias="boleta_recepcion_selector" />
+        </service>
+        
+        <service id="frontend.type.cliente_selector" class="%frontend.type.cliente_selector.class%">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <tag name="form.type" alias="cliente_selector" />
         </service>
         
         <service id="aviso_mantenimiento.service" class="%aviso_mantenimiento.class%">

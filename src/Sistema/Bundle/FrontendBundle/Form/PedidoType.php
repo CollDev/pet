@@ -16,7 +16,7 @@ class PedidoType extends AbstractType
         $builder
             ->add('fecha_programacion', 'date', ['label' => 'Fecha', 
                 'widget' => 'single_text', 'required' => true])
-            ->add('cliente', null, ['attr' => ['readonly' => true]])
+            ->add('cliente', 'cliente_selector', ['attr' => ['readonly' => true]])
             ->add('estado', 'entity', [ 'class' => 'FrontendBundle:Estado',
                 'property' => 'nombre',
                 'query_builder' => function(EstadoRepository $estadoRepository) {

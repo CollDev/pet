@@ -41,11 +41,15 @@
                 $(document).on('click', '#limpiar', { url : '{{ url('incidencia_registrar') }}'}, limpiarIncidencia );
                 $(document).on('click', '#eliminar', { url : '{{ url('incidencia_eliminar') }}', currentUrl : '{{ url('incidencia_registrar') }}'}, eliminarIncidencia );
                 
-                    
+                var now = new Date();
+                var day = ("0" + now.getDate()).slice(-2);
+                var month = ("0" + (now.getMonth() + 1)).slice(-2);
+                var today = now.getFullYear()+"-"+(month)+"-"+(day) ;    
                 $('#sistema_bundle_frontendbundle_incidenciatype_accion').val('');
                 $('#sistema_bundle_frontendbundle_incidenciatype_observacion').val('');
                 $('#sistema_bundle_frontendbundle_incidenciatype_maquinaria').val('');
                 $('#sistema_bundle_frontendbundle_incidenciatype_incidencia').val('');
+                $('#sistema_bundle_frontendbundle_incidenciatype_fecha_incidencia').val(today);
                 
                 $('#sistema_bundle_frontendbundle_incidenciatype_nro_incidencia').val('');
                 $('#sistema_bundle_frontendbundle_incidenciatype_tipo_incidencia').val('');
