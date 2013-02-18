@@ -32,7 +32,7 @@ class SalidaController extends Controller
                 $pedidoActualizado = $pedidoManager->actualizarFactura($form);
                 if(!is_null($pedidoActualizado)) {
                     $mensaje ="Registro Nro.".$pedidoActualizado->getId()." ingresado exitosamente"
-                        ."con factura: ". $pedidoActualizado->getFactura();
+                        ." con factura: ". $pedidoActualizado->getFactura();
                 }
                 else {
                     $mensaje ="El Registro no se pudo actualizar correctamente";

@@ -39,10 +39,12 @@ class PedidoManager extends BaseManager
     {
         $nroPedido = $form->get('nro_pedido')->getData();
         $factura = $form->get('factura')->getData();
-        
+        $estadoRepository = $this->objectManager->getRepository('FrontendBundle:Estado');
+        $estadoAtendido = $estadoRepository->findOneBy(['nombre' => 'Atendido']);
         $pedido = $this->repository->find($nroPedido);
         if(!is_null($pedido)) {
             $pedido->setFactura($factura);
+            $pedido->setEstado($estadoAtendido);
             $this->guardar($pedido);
             return $pedido;
         }
