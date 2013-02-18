@@ -84,6 +84,10 @@
             <argument>%pedido_entity.class%</argument>
         </service>
         
+        <service id="cliente.manager" class="%cliente_manager.class%">
+            <argument type="service" id="sistema.entity_manager" />
+            <argument>%cliente_entity.class%</argument>
+        </service>
 
         <service id="boleta_recepcion.repository" class="%boleta_recepcion_repository.class%"
                  factory-service="doctrine.orm.default_entity_manager"

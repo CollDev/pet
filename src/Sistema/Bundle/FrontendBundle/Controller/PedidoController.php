@@ -4,6 +4,7 @@ namespace Sistema\Bundle\FrontendBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Response;
 
 use Sistema\Bundle\FrontendBundle\Form\PedidoType;
 use Sistema\Bundle\FrontendBundle\Entity\Pedido;
@@ -92,7 +93,7 @@ class PedidoController extends Controller
     }
     
     /**
-     * @Route("/preconfirmar", name="pedido_preconfirmare")
+     * @Route("/preconfirmar", name="pedido_preconfirmar")
      * @Template()
      */
     public function preConfirmarPedidosAction()
@@ -107,12 +108,13 @@ class PedidoController extends Controller
                     ->getForm();
         
         if($request->isMethod('POST')) {
-         
+            $form->bind($request);
             if($form->isValid()) {
                 $esValido = $clienteManager->validarClave($form);
                 if($esValido) {
-                    //$url = $this->generateUrl('pedido_confirmar');
-                   //$this->redirect($url);
+                    $cliente = $form->get('cliente')->getData();
+                    $url = $this->generateUrl('pedido_confirmar', ['clienteId' => $cliente]);
+                    return $this->redirect($url);
                 }
                 else {
                     $mensaje = "Clave incorrecta, intente nuevamente";
@@ -123,6 +125,64 @@ class PedidoController extends Controller
         return ['form' => $form->createView(), 'mensaje' => $mensaje];
     }
     
+    /**
+     * @Route("/confirmar", name="pedido_confirmar")
+     * @Template()
+     */
+    public function confirmarAction()
+    {
+        $request = $this->getRequest();
+        $clienteId = $request->query->get('clienteId', 0);
+        
+        $pedidoManager = $this->get('pedido.manager');
+        $mensaje = '';
+        
+        $form = $this->createFormBuilder()
+                    ->add('cliente','text', ['attr' => ['class'=> 'inputText', 
+                        'readonly' => true], 
+                        'data' => $clienteId ])
+                    ->add('fecha_inicio', 'date', ['widget' => 'single_text'])
+                    ->add('fecha_fin', 'date', ['widget' => 'single_text'])
+                    ->getForm();
+        $pedidos = [];
+        if($request->isMethod('POST')) {
+            $form->bind($request);
+            if($form->isValid()) {
+                $pedidos = $pedidoManager->buscarPedidosPorFecha($form);
+                
+            }
+        }
+        else {
+            if($clienteId == 0) {
+                $url = $this->generateUrl('pedido_preconfirmar');
+                return $this->redirect($url);
+            }
+        }
+        
+        return ['form' => $form->createView(), 'pedidos' => $pedidos, 'mensaje' => $mensaje];
+        
+    }
+    
+    /**
+     * @Route("/confirmarFecha", name="pedido_confirmar_fecha")
+     */
+    public function confirmarFecha()
+    {
+        $request = $this->getRequest();
+        $pedidoManager = $this->get('pedido.manager');
+        $pedidoId = $request->query->get('id', 0);
+        
+        $estado = "";
+        if($pedidoId != 0) {
+            $pedido = $pedidoManager->confirmarPedido($pedidoId);
+            if(!is_null($pedido)) {
+                $estado = $pedido->getEstado()->getNombre();
+            }
+        }
+        return new Response($estado);
+    }
+    
 }
 
 ?>
+ 

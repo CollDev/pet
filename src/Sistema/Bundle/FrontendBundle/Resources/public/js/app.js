@@ -350,6 +350,24 @@ function elegirPedido(id, pedidoEstado, fechaProgramacion, material, cantidad)
     $('#errorMsg').addClass('hide');
 }
 
+function confirmarPedido(url, id)
+{
+    
+    var url = url + "?id="+ id;
+
+    $.post(url, function (data) {
+        if(data !== '') {
+            alert('Pedido Nro. '+id+' confirmado');
+            $('#estado-'+id).html(data); 
+        }
+        else {
+            alert('El pedido no se pudo confirmar');
+        }
+        
+        
+    });
+    return false;
+}
 
 
 function buscarGrilla2(){

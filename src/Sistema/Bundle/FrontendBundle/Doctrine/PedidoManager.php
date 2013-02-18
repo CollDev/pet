@@ -49,6 +49,34 @@ class PedidoManager extends BaseManager
         return null;
     }
     
+    public function buscarPedidosPorFecha($form)
+    {
+        $fechaInicio = $form->get('fecha_inicio')->getData();
+        $fechaFin = $form->get('fecha_fin')->getData();
+        $clienteId = $form->get('cliente')->getData();
+        $pedidosConDetalle = [];
+        $pedidos = $this->repository->buscarPedidosPorFecha($clienteId,
+                $fechaInicio, $fechaFin);
+        $pedidoDetalleRepository = $this->objectManager
+                ->getRepository('FrontendBundle:PedidoDetalle');
+        
+        $pedidosConDetalle = $pedidoDetalleRepository->buscarPedidos($pedidos);
+        
+        return $pedidosConDetalle;
+                
+    }
+    
+    public function confirmarPedido($pedidoId)
+    {
+        $pedido = $this->repository->find($pedidoId);
+        $estadoRepository = $this->objectManager->getRepository('FrontendBundle:Estado');
+        $estadoConfirmado = $estadoRepository->findOneBy(['nombre' => 'Confirmado']);
+        if(!is_null($pedido)) {
+            $pedido->setEstado($estadoConfirmado);
+            $this->guardar($pedido);
+        }
+        return $pedido;
+    }
     
 }
 

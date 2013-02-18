@@ -1,10 +1,10 @@
 <div id="divPanelSistema" class="ui-widget-content" align="left">
 			  <div id="divFormCompanias">
                             <h3>
-                                <a href="#">Registrar Incidencia</a>
+                                <a href="#">Confirmar Pedidos</a>
                             </h3>
                             <div>
-                                <form id="registrar" action="{{ path('pedido_preconfirmar') }}" method="post" {{ form_enctype(form) }} >
+                                <form id="registrar" action="{{ path('pedido_confirmar') }}" method="post" {{ form_enctype(form) }} >
                                 <table border="0" cellpadding="2" cellspacing="2" style="height:100px" >
                                     <tr>
                                         <td>
@@ -20,8 +20,8 @@
                                                         <td>{{ form_widget(form.cliente) }}
                                                             
                                                         </td>
-                                                        <td>{{ form_label(form.clave)}}</td>
-                                                        <td>{{ form_widget(form.clave)}}</td>
+                                                        <td></td>
+                                                        <td></td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="2">
@@ -31,7 +31,27 @@
                                                         </td>
                                                         <td colspan="2">
                                                             <span class="red">
-                                                                {{form_errors(form.clave)}}
+                                                            
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                    
+                                                    <tr>
+                                                        <td>{{ form_label(form.fecha_inicio) }} </td>
+                                                        <td>{{ form_widget(form.fecha_inicio) }}</td>
+                                                        
+                                                        <td>{{ form_label(form.fecha_fin) }} </td>
+                                                        <td>{{ form_widget(form.fecha_fin) }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <span class="red">
+                                                                {{form_errors(form.fecha_inicio)}}
+                                                            </span>
+                                                        </td>
+                                                        <td colspan="2">
+                                                            <span class="red">
+                                                                {{form_errors(form.fecha_fin)}}
                                                             </span>
                                                         </td>
                                                     </tr>
@@ -53,7 +73,7 @@
                                                     <table width="100%" >
                                                         <tr>
                                                             <td align="center" >
-                                                                <button id="grabar" name="grabar" type="submit" >Verificar Clave</button>
+                                                                <button id="grabar" name="grabar" type="submit" >Buscar Peiddos</button>
                                                             </td>
                                                         </tr>
                                                     </table>
@@ -70,3 +90,32 @@
 </div>
 
 
+{% if pedidos | length > 0 %}
+    <div class="ui-widget-content" align="left" style="padding-left:40px;">
+        <table border="0" cellpadding="2" cellspacing="2" >
+            <tr>
+                <td>Nro Pedido</td>
+                <td>Fecha</td>
+                <td>Material</td>
+                <td>Cantidad</td>
+                <td>Estado</td>
+                <td>Acciones</td>
+            </tr>
+            
+            {% for pedido in pedidos %}
+            <tr>
+                <td>{{ pedido.id}}</td>
+                <td>{{ pedido.fechaProgramacion | date('d/m/Y')}}</td>
+                <td>{{ pedido.material.nombre }}</td>
+                <td>{{ pedido.cantidad}}</td>
+                <td><span id="estado-{{pedido.id}}">{{ pedido.estado.nombre}}</span></td>
+                <td><button id="choose-{{ pedido.id }}" 
+                     class="ui-button ui-widget ui-corner-all ui-state-default ui-button-text-only"
+                     onclick="confirmarPedido('{{ url('pedido_confirmar_fecha')}}','{{ pedido.id }}');"
+                     value="Elegir">Confirmar</button></td>
+            </tr>
+            {% endfor %}
+            
+        </table>
+    </div>
+{% endif %}
