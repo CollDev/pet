@@ -39,6 +39,13 @@ class Pedido
      * @ORM\ManyToOne(targetEntity="Sistema\Bundle\FrontendBundle\Entity\Estado")
      */
     private $estado;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="factura", type="string", length=50, nullable=true)
+     */
+    private $factura;
 
 
     /**
@@ -120,6 +127,28 @@ class Pedido
         return $this->estado;
     }
     
+    /**
+     * Set factura
+     * 
+     * @param string $factura
+     * @return Pedido
+     */
+    public function setFactura($factura) {
+        $this->factura = $factura;
+        return $this;
+    }
+    
+    /**
+     * 
+     * Get Factura
+     * 
+     * @return string
+     */
+    public function getFactura() {
+        return $this->factura;
+    }
+
+        
     public function __construct()
     {
         $this->fecha_programacion = new \DateTime();

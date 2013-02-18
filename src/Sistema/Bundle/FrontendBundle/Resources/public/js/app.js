@@ -234,6 +234,20 @@ function buscarPedido(event){
         });
 }
 
+function buscarMiPedido(event){
+        
+    $( "#dlgDatosPopUp" ).dialog( "open" );
+    $('#form_id').val('');
+    $('.resultados').html('');
+    $("#buscar-pedido")
+        .click(function() {
+            $.post(event.data.url, $('#popup').serialize(), function (data) {
+                $('.resultados').html(data); 
+            });
+            return false;
+        });
+}
+
 function buscarIncidencia(event){
         
     $( "#dlgDatosPopUp" ).dialog( "open" );
@@ -322,6 +336,18 @@ function elegirIncidencia(id, targetUrl, incidenciaEstado, observacion,
     $('#errorMsg').addClass('hide');
     
     
+}
+
+function elegirPedido(id, pedidoEstado, fechaProgramacion, material, cantidad)
+{
+    $('#form_nro_pedido').val(id);
+    $('#pedido_estado').text(pedidoEstado);
+    $('#pedido_fecha_programacion').text(fechaProgramacion);
+    $('#pedido_material').text(material);
+    $('#pedido_cantidad').text(cantidad);
+    $("#dlgDatosPopUp").dialog("close");
+    
+    $('#errorMsg').addClass('hide');
 }
 
 

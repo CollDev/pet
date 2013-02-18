@@ -32,6 +32,10 @@
         <parameter key="pedido_repository.class">Sistema\Bundle\FrontendBundle\Repository\PedidoRepository</parameter>
         <parameter key="pedido_entity.class">Sistema\Bundle\FrontendBundle\Entity\Pedido</parameter>
         
+        <parameter key="pedido_detalle_manager.class">Sistema\Bundle\FrontendBundle\Doctrine\PedidoDetalleManager</parameter>
+        <parameter key="pedido_detalle_repository.class">Sistema\Bundle\FrontendBundle\Repository\PedidoDetalleRepository</parameter>
+        <parameter key="pedido_detalle_entity.class">Sistema\Bundle\FrontendBundle\Entity\PedidoDetalle</parameter>
+        
         <parameter key="cliente_manager.class">Sistema\Bundle\FrontendBundle\Doctrine\ClienteManager</parameter>
         <parameter key="cliente_repository.class">Sistema\Bundle\FrontendBundle\Repository\ClienteRepository</parameter>
         <parameter key="cliente_entity.class">Sistema\Bundle\FrontendBundle\Entity\Cliente</parameter>
@@ -103,6 +107,18 @@
                  factory-service="doctrine.orm.default_entity_manager"
                  factory-method="getRepository">
             <argument>%incidencia_entity.class%</argument>
+        </service>
+        
+        <service id="pedido.repository" class="%pedido_repository.class%"
+                 factory-service="doctrine.orm.default_entity_manager"
+                 factory-method="getRepository">
+            <argument>%pedido_entity.class%</argument>
+        </service>
+        
+        <service id="pedido_detalle.repository" class="%pedido_detalle_repository.class%"
+                 factory-service="doctrine.orm.default_entity_manager"
+                 factory-method="getRepository">
+            <argument>%pedido_detalle_entity.class%</argument>
         </service>
         
         <service id="cliente.repository" class="%cliente_repository.class%"

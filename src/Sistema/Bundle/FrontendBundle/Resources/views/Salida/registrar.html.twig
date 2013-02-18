@@ -1,0 +1,61 @@
+{% extends 'FrontendBundle::frontend.html.twig' %}
+{% block body %}
+
+<table border="0" cellpadding="0" cellspacing="0" align="center" width="90%"  height="100%">
+        <tr width="100%" align="left">
+            <td>
+                <div id="divMenu" class="ui-widget-header" style="height:30px">
+                    {% render url('menu_listar') %}
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td width="100%" valign="top" class="ui-widget-content2 ln_formatos" colspan="2">
+                {% include 'FrontendBundle:Salida:formularioSalida.html.twig' with {'form': form, 'mensaje': mensaje} %}
+            </td>
+        </tr>
+	<tr>
+            <td width="100%">
+                <div id="pie_pagina" style="font-size:9px; height:12px" class="ui-widget-header">
+                    {% include 'FrontendBundle::footer.html.twig' %}
+		</div>
+           </td>
+       </tr>
+</table>
+
+    <div id="dlgDatosPopUp" title="Buscar Pedido">
+        {% render url('pedido_buscar') %}
+    </div>
+
+{% endblock %}
+{% block custom_javascripts %}
+    {% include 'FrontendBundle::jsMenu.html.twig' %}
+{% endblock %}
+{% block custom2_javascripts %}
+<script>
+    (function ($) {
+   	$( "#divFormCompanias" ).accordion({autoHeight:false});
+		$("button", ".divBtns").button();
+                $("#nro-pedido").button();
+                
+                
+                $(document).on('click', '#nro-pedido', { url : '{{ url("pedido_ajax_listar") }}'}, buscarMiPedido );
+                
+                var now = new Date();
+                var day = ("0" + now.getDate()).slice(-2);
+                var month = ("0" + (now.getMonth() + 1)).slice(-2);
+                var today = now.getFullYear()+"-"+(month)+"-"+(day);
+                
+                $('#form_nro_pedido').val('');
+                $('#form_factura').val('');
+		$("#dlgDatosPopUp").dialog({
+			autoOpen:false,
+			resizable: false,
+			height:250,
+			width:400,
+			modal:true
+		});
+                
+}(jQuery));    
+</script>
+{% endblock %}

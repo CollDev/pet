@@ -12,4 +12,20 @@ use Doctrine\ORM\EntityRepository;
  */
 class PedidoRepository extends EntityRepository
 {
+    public function buscarPedidos($criteria)
+    {
+        $qb = $this->createQueryBuilder("p");
+        
+        foreach ($criteria as $field => $value) {
+            if (!$this->getClassMetadata()->hasField($field)) {
+                continue;
+            }
+            if(!empty($value)) {
+                
+                    $qb ->andWhere($qb->expr()->eq('p.'.$field, ':p_'.$field))
+                    ->setParameter('p_'.$field, $value);
+            }
+        }
+        return $qb->getQuery()->getResult();
+    }
 }

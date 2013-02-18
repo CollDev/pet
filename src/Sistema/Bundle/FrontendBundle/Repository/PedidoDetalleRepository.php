@@ -12,4 +12,18 @@ use Doctrine\ORM\EntityRepository;
  */
 class PedidoDetalleRepository extends EntityRepository
 {
+    public function buscarPedidos($pedidos)
+    {
+        $pedidosConDetalle = [];
+        foreach($pedidos as $pedido) {
+            $pedidoDetalle = $this->findOneBy(['pedido' => $pedido]);
+            $pedidosConDetalle[] = ['id' => $pedido->getId(),
+                'fechaProgramacion' => $pedido->getFechaProgramacion(),
+                'estado' => $pedido->getEstado(),
+                'material' => $pedidoDetalle->getMaterial(),
+                'cantidad' => $pedidoDetalle->getCantidad()];
+        }
+        return $pedidosConDetalle;
+        
+    }
 }

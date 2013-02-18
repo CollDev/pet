@@ -1,0 +1,100 @@
+<div id="divPanelSistema" class="ui-widget-content" align="left">
+			  <div id="divFormCompanias">
+                            <h3>
+                                <a href="#">Registrar Salida</a>
+                            </h3>
+                            <div>
+                                <form id="registrar" action="{{ path('salida_registrar') }}" method="post" {{ form_enctype(form) }} >
+                                <table border="0" cellpadding="2" cellspacing="2" style="height:100px" >
+                                    <tr>
+                                        <td>
+                                            {% if mensaje != '' %}
+                                            <div id="errorMsg" class="ui-state-default ui-corner-all error " style="font-size:11px; padding: 4px 4px 4px 4px; height:20px; width:340px">
+                                                {{mensaje}}
+                                            </div>
+                                            {% endif %}
+                                            <div class="ui-widget-content">
+                                                <table border="0" cellpadding="2" cellspacing="2" >
+                                                    <tr>
+                                                        <td>{{ form_label(form.nro_pedido) }} </td>
+                                                        <td>{{ form_widget(form.nro_pedido) }}
+                                                            <a id="nro-pedido" href="#"  >
+                                                                <img border="0" width="15" src="{{ asset('bundles/frontend/images/toolbar_find.png' ) }}" />  </a>
+                                                                <br />
+                                                        </td>
+                                                        <td>Material:</td>
+                                                        <td><span id="pedido_material"></span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <span class="red">
+                                                                {{form_errors(form.nro_pedido)}}
+                                                            </span>
+                                                        </td>
+                                                        <td colspan="2">
+                                                            
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Fecha:</td>
+                                                        <td><span id="pedido_fecha_programacion"></span></td>
+                                                        
+                                                        <td>Cantidad:</td>
+                                                        <td><span id="pedido_cantidad"></span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2"></td>
+                                                        <td colspan="2"></td>
+                                                    </tr>
+                                                    
+                                                    <tr>
+                                                        <td>Estado:</td>
+                                                        <td><span id="pedido_estado"></span></td>
+                                                        
+                                                        <td>{{ form_label(form.factura)}}</td>
+                                                        <td>{{ form_widget(form.factura)}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2"></td>
+                                                        
+                                                        <td colspan="2">
+                                                            <span class="red">
+                                                                {{form_errors(form.factura)}}
+                                                            </span>
+                                                        </td>
+                                                        
+                                                    </tr>
+                                                    
+                                                    
+                                                    
+                                                </table>
+
+                                                {{ form_rest(form) }}
+                                             </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <div class="ui-widget-content">
+                                                <div class="divBtns">
+                                                    <table width="100%" >
+                                                        <tr>
+                                                            <td align="center" >
+                                                                <button id="grabar" name="grabar" type="submit" >Registrar Salida</button>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                 
+                                </table>
+                                </form>     
+                                
+                            </div>
+                        </div>				
+</div>
+
+

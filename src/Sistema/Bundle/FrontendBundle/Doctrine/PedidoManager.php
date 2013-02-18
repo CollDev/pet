@@ -35,6 +35,19 @@ class PedidoManager extends BaseManager
         
     }
     
+    public function actualizarFactura($form)
+    {
+        $nroPedido = $form->get('nro_pedido')->getData();
+        $factura = $form->get('factura')->getData();
+        
+        $pedido = $this->repository->find($nroPedido);
+        if(!is_null($pedido)) {
+            $pedido->setFactura($factura);
+            $this->guardar($pedido);
+            return $pedido;
+        }
+        return null;
+    }
     
     
 }

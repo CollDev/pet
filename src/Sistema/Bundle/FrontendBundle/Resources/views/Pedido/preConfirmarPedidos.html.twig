@@ -1,0 +1,53 @@
+{% extends 'FrontendBundle::frontend.html.twig' %}
+{% block body %}
+
+<table border="0" cellpadding="0" cellspacing="0" align="center" width="90%"  height="100%">
+        <tr width="100%" align="left">
+            <td>
+                <div id="divMenu" class="ui-widget-header" style="height:30px">
+                    {% render url('menu_listar') %}
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td width="100%" valign="top" class="ui-widget-content2 ln_formatos" colspan="2">
+                {% include 'FrontendBundle:Pedido:formularioVerificarPedido.html.twig' with {'form': form, 'mensaje': mensaje} %}
+            </td>
+        </tr>
+	<tr>
+            <td width="100%">
+                <div id="pie_pagina" style="font-size:9px; height:12px" class="ui-widget-header">
+                    {% include 'FrontendBundle::footer.html.twig' %}
+		</div>
+           </td>
+       </tr>
+</table>
+
+
+{% endblock %}
+{% block custom_javascripts %}
+    {% include 'FrontendBundle::jsMenu.html.twig' %}
+{% endblock %}
+{% block custom2_javascripts %}
+<script>
+    (function ($) {
+   	$( "#divFormCompanias" ).accordion({autoHeight:false});
+		$("button", ".divBtns").button();
+                var now = new Date();
+                var day = ("0" + now.getDate()).slice(-2);
+                var month = ("0" + (now.getMonth() + 1)).slice(-2);
+                var today = now.getFullYear()+"-"+(month)+"-"+(day);
+                /*
+                 * $('#sistema_bundle_frontendbundle_pedidotype_cliente').val('');
+                $('#sistema_bundle_frontendbundle_pedidotype_material').val('');
+                $('#sistema_bundle_frontendbundle_pedidotype_cantidad').val('');
+                $('#sistema_bundle_frontendbundle_pedidotype_importe').val('');
+                $('#sistema_bundle_frontendbundle_pedidotype_fecha_programacion').val(today);
+                 * 
+                 */
+                
+	
+
+}(jQuery));    
+</script>
+{% endblock %}
