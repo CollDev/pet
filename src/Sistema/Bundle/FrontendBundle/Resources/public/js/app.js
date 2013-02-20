@@ -156,8 +156,8 @@ function crearGrilla(targetUrl){
                 var recepcionMaterialId = $.trim(rowData['cod']);
                 var boletaRecepcionId = $.trim(rowData['boleta_recepcion']);
                 
-                clave = prompt('Ingresa su Clave', 'Clave');
-                if (clave == "1234") {
+                clave = prompt('Ingresa su Clave', '');
+                if (clave === "****") {
                     var editUrl = $.trim($('#editUrl').text());
                 
                 var url = editUrl + '?id='+ boletaRecepcionId+'&accion=editar&recepcionMaterial='+recepcionMaterialId;
