@@ -1,0 +1,41 @@
+<div class="error red">
+    {{ form_errors(form) }}
+    {% if pedidos | length == 0 %} 
+        El pedido no fue encontrado.
+    {% endif %}
+</div>
+
+{% if pedidos | length > 0 %} 
+<table id="myTable" border="0" class="ui-widget">
+<thead class="ui-widget-header">
+    <tr>
+        <th>Cod. Pedido</th>
+        <th>Fecha Pedido</th>
+        <th>Estado</th>
+        <th>Acci&oacute;n</th>
+    </tr>
+</thead>
+<tbody class="ui-widget-content">
+    
+    {% for pedido in pedidos %}
+    <tr>
+        <td >{{ pedido.id }}</td>
+        <td >{{ pedido.fechaProgramacion | date('d/m/Y') }}</td>
+        <td >{{ pedido.estado.nombre }}</td>
+        <td ><button id="choose-{{ pedido.id }}" 
+                     class="ui-button ui-widget ui-corner-all ui-state-default ui-button-text-only"
+                     onclick="elegirPorPedido('{{ pedido.id }}',
+                             '{{ pedido.estado.id }}',
+                             '{{ pedido.fechaProgramacion | date('Y-m-d') }}',
+                             '{{ pedido.material.id }}',
+                             '{{ pedido.cantidad}}',
+                             '{{ pedido.cliente.id }}',
+                             '{{ pedido.importe}}'
+                         );"
+                     value="Elegir">Elegir</button></td>
+    </tr>
+    {% endfor %}
+    
+</tbody>
+</table>
+{% endif %}

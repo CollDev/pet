@@ -16,23 +16,71 @@ class PedidoManager extends BaseManager
     
     public function guardarConDetalle($form)
     {
-        $nuevoPedido = $this->crearEntidad();
+        
+        
         $pedido = $form->getData();
-        $nuevoPedido->setFechaProgramacion($pedido->getFechaProgramacion());
-        $nuevoPedido->setEstado($pedido->getEstado());
-        $nuevoPedido->setCliente($pedido->getCliente());
         
-        $pedidoDetalle = new PedidoDetalle();
-        $pedidoDetalle->setCantidad($form->get('cantidad')->getData());
-        $pedidoDetalle->setImporte($form->get('importe')->getData());
-        $pedidoDetalle->setMaterial($form->get('material')->getData());
+        $nroPedido = $form->get('nro_pedido')->getData();
+        if(is_null($nroPedido)) {
+            $nuevoPedido = $this->crearEntidad();
+            $nuevoPedido->setFechaProgramacion($pedido->getFechaProgramacion());
+            $nuevoPedido->setEstado($pedido->getEstado());
+            $nuevoPedido->setCliente($pedido->getCliente());
         
-        $pedidoDetalle->setPedido($nuevoPedido);
+            $pedidoDetalle = new PedidoDetalle();
+            $pedidoDetalle->setCantidad($form->get('cantidad')->getData());
+            $pedidoDetalle->setImporte($form->get('importe')->getData());
+            $pedidoDetalle->setMaterial($form->get('material')->getData());
         
-        $this->objectManager->persist($nuevoPedido);
-        $this->objectManager->persist($pedidoDetalle);
-        $this->objectManager->flush();
+            $pedidoDetalle->setPedido($nuevoPedido);
         
+            $this->objectManager->persist($nuevoPedido);
+            $this->objectManager->persist($pedidoDetalle);
+            $this->objectManager->flush();    
+            
+        }
+        else {
+            $pedidoExistente = $this->repository->find($nroPedido);
+            $pedidoExistente->setFechaProgramacion($pedido->getFechaProgramacion());
+            $pedidoExistente->setEstado($pedido->getEstado());
+            $pedidoExistente->setCliente($pedido->getCliente());
+            
+            $pedidoDetalleExistente = $this->objectManager
+                    ->getRepository('FrontendBundle:PedidoDetalle')
+                    ->findOneBy(['pedido' => $pedidoExistente->getId() ]);
+            $pedidoDetalleExistente->setCantidad($form->get('cantidad')->getData());
+            $pedidoDetalleExistente->setImporte($form->get('importe')->getData());
+            $pedidoDetalleExistente->setMaterial($form->get('material')->getData());
+            
+            $this->objectManager->persist($pedidoExistente);
+            $this->objectManager->persist($pedidoDetalleExistente);
+            $this->objectManager->flush();   
+        }
+        
+        
+        
+    }
+    
+    public function eliminarPedido($form)
+    {
+        $nroPedido = $form->get('nro_pedido')->getData();
+        $mensaje = "";
+        if(!is_null($nroPedido)) {
+            $pedidoExistente = $this->repository->find($nroPedido);
+            $pedidoDetalleExistente = $this->objectManager
+                    ->getRepository('FrontendBundle:PedidoDetalle')
+                    ->findOneBy(['pedido' => $pedidoExistente->getId() ]);
+            $this->objectManager->remove($pedidoExistente);
+            $this->objectManager->remove($pedidoDetalleExistente);
+            $this->objectManager->flush();   
+            
+            $mensaje = "Registro Eliminado";
+        }
+        else {
+           $mensaje = "No se pudo eliminar el Registro";
+        }
+        
+        return $mensaje;
     }
     
     public function actualizarFactura($form)

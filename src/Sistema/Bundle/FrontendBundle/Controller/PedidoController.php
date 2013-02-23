@@ -93,6 +93,57 @@ class PedidoController extends Controller
     }
     
     /**
+     * @Route("/ajaxListarPor", name="pedido_ajax_listar_por")
+     * @Template()
+     */
+    public function ajaxListarPorPedidosAction()
+    {
+        $request = $this->getRequest();
+        $pedidoRepository = $this->get('pedido.repository');
+        $pedidoDetalleRepository = $this->get('pedido_detalle.repository');
+        $pedido = new Pedido();
+        $searchForm = $this->createFormBuilder()
+                ->add('id','text')
+                ->getForm();
+        $pedidos = [];
+        if($request->getMethod()== 'POST') {
+            $searchForm->bind($request);
+            
+            if( $searchForm->isValid()) {
+                $pedidos = $pedidoRepository
+                    ->buscarPedidos($searchForm->getData());
+                $pedidosConDetalle = $pedidoDetalleRepository
+                        ->buscarPedidos($pedidos);
+            }
+        }
+        return [ 'form' => $searchForm->createView(), 
+             'pedidos' =>  $pedidosConDetalle ];
+    }
+    
+    /**
+     * @Route("/eliminar", name="pedido_eliminar")
+     * 
+     */
+    public function eliminiarAction()
+    {
+        $request = $this->getRequest();
+        $pedidoManager = $this->get('pedido.manager');
+        $mensaje ="";
+        $pedido = $pedidoManager->crearEntidad();
+        $form = $this->createForm(new PedidoType(), $pedido);
+        
+        if ($request->isMethod('POST')) {
+
+            $form->bind($request);
+            
+            if ($form->isValid()) {
+                $mensaje = $pedidoManager->eliminarPedido($form);
+            }
+        }
+        return new Response($mensaje);
+    }
+    
+    /**
      * @Route("/preconfirmar", name="pedido_preconfirmar")
      * @Template()
      */

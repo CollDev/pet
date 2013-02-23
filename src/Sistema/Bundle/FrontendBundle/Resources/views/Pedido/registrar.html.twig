@@ -26,7 +26,11 @@
     <div id="dlgDatosPopUp" title="Buscar Cliente">
         {% render url('cliente_buscar') %}
     </div>
-    
+
+    <div id="dlgDatosPedido" title="Buscar Pedido">
+        {% render url('pedido_buscar') %}
+    </div>
+
     <div id="dlgDatos" title="Verificar Stock">
         <div class="resultados2"></div>
     </div>
@@ -42,16 +46,21 @@
 		$("button", ".divBtns").button();
                 $("#nro-cliente").button();
                 $("#nro-cantidad").button();
+                $("#nro-pedido").button();
                 
                 $(document).on('click', '#nro-cliente', { url : '{{ url("cliente_ajax_listar") }}'}, buscarCliente );
+                $(document).on('click', '#nro-pedido', { url : '{{ url("pedido_ajax_listar_por") }}'}, buscarPorPedido );
                 
                 $(document).on('click', '#nro-cantidad', { url : '{{ url("stock_verificar") }}'}, verificarStock );
-                $(document).on('click', '#limpiar', { url : '{{ url('incidencia_registrar') }}'}, limpiarIncidencia );
-                $(document).on('click', '#eliminar', { url : '{{ url('incidencia_eliminar') }}', currentUrl : '{{ url('incidencia_registrar') }}'}, eliminarIncidencia );
+                $(document).on('click', '#limpiar', { url : '{{ url('pedido_registrar') }}'}, limpiarPedido );
+                $(document).on('click', '#eliminar', { url : '{{ url('pedido_eliminar') }}', currentUrl : '{{ url('pedido_registrar') }}'}, eliminarPedido );
                 var now = new Date();
                 var day = ("0" + now.getDate()).slice(-2);
                 var month = ("0" + (now.getMonth() + 1)).slice(-2);
                 var today = now.getFullYear()+"-"+(month)+"-"+(day);
+                
+                $('#sistema_bundle_frontendbundle_pedidotype_nro_pedido').val('');
+                $('#sistema_bundle_frontendbundle_pedidotype_estado').val('');
                 $('#sistema_bundle_frontendbundle_pedidotype_cliente').val('');
                 $('#sistema_bundle_frontendbundle_pedidotype_material').val('');
                 $('#sistema_bundle_frontendbundle_pedidotype_cantidad').val('');
@@ -66,6 +75,14 @@
 			modal:true
 		});
                 $("#dlgDatos").dialog({
+			autoOpen:false,
+			resizable: false,
+			height:250,
+			width:400,
+			modal:true
+		});
+                
+                $("#dlgDatosPedido").dialog({
 			autoOpen:false,
 			resizable: false,
 			height:250,

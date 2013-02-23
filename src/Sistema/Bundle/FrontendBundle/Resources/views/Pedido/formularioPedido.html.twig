@@ -1,7 +1,7 @@
 <div id="divPanelSistema" class="ui-widget-content" align="left">
 			  <div id="divFormCompanias">
                             <h3>
-                                <a href="#">Registrar Incidencia</a>
+                                <a href="#">Registrar Pedido</a>
                             </h3>
                             <div>
                                 <form id="registrar" action="{{ path('pedido_registrar') }}" method="post" {{ form_enctype(form) }} >
@@ -18,6 +18,9 @@
                                                     <tr>
                                                         <td>{{ form_label(form.nro_pedido) }} </td>
                                                         <td>{{ form_widget(form.nro_pedido) }}
+                                                            <a id="nro-pedido" href="#" title="Buscar Pedido"  >
+                                                                <img border="0" width="15" src="{{ asset('bundles/frontend/images/toolbar_find.png' ) }}" />  </a>
+                                                                <br />
                                                             
                                                         </td>
                                                         <td>{{ form_label(form.cliente)}}</td>
@@ -125,7 +128,10 @@
                                                         <tr>
                                                             <td align="center" >
                                                                 <button id="grabar" name="grabar" type="submit" >Grabar</button>
+                                                                <button id="eliminar" name="grabar" type="button" >Eliminar</button>
+                                                                <button id="limpiar" name="grabar" type="button" >Limpiar</button>
                                                             </td>
+                                                            
                                                         </tr>
                                                     </table>
                                                 </div>

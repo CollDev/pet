@@ -21,7 +21,9 @@ class PedidoDetalleRepository extends EntityRepository
                 'fechaProgramacion' => $pedido->getFechaProgramacion(),
                 'estado' => $pedido->getEstado(),
                 'material' => $pedidoDetalle->getMaterial(),
-                'cantidad' => $pedidoDetalle->getCantidad()];
+                'cantidad' => $pedidoDetalle->getCantidad(),
+                'cliente' => $pedido->getCliente(),
+                'importe' => $pedidoDetalle->getImporte()];
         }
         return $pedidosConDetalle;
         

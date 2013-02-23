@@ -23,4 +23,17 @@ class EstadoRepository extends EntityRepository
         return $queryBuilder;
         
     }
+    
+    public function getEstadosPedido()
+    {
+        $nombres = ['Pendiente', 'Confirmado','Atendido'];
+        $em = $this->getEntityManager();
+        $queryBuilder = $em->createQueryBuilder();
+        $queryBuilder->select('e')
+                ->from('FrontendBundle:Estado', 'e')
+                ->add('where', $queryBuilder->expr()->in('e.nombre', ':nombres'))
+                ->setParameter('nombres', $nombres);
+        return $queryBuilder;
+        
+    }
 }

@@ -20,7 +20,7 @@ class PedidoType extends AbstractType
             ->add('estado', 'entity', [ 'class' => 'FrontendBundle:Estado',
                 'property' => 'nombre',
                 'query_builder' => function(EstadoRepository $estadoRepository) {
-                    return $estadoRepository->getEstadoPorNombre('Pendiente');
+                    return $estadoRepository->getEstadosPedido();
                 },
                 'attr' => [ 'readonly' => true ],
                 'required' => true ] 
