@@ -31,7 +31,7 @@ class Material
     /**
      * @var integer
      *
-     * @ORM\Column(name="stock", type="integer")
+     * @ORM\Column(name="stock", type="decimal", precision=10, scale=2 )
      */
     private $stock;
 

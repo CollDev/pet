@@ -89,19 +89,21 @@ class MaterialController extends Controller
                 $accion = $form->get('accion')->getData();
                 $recepcionMaterial = $form->getData();
                 
-                if($recepcionMaterialManager->esMaterialUnico($recepcionMaterial)) {
+                
                     
                     if(empty($accion)) {
-                        $recepcionMaterialManager->guardar($recepcionMaterial);
+                        if($recepcionMaterialManager->esMaterialUnico($recepcionMaterial)) {
+                           $recepcionMaterialManager->guardarMaterial($recepcionMaterial);
+                        }
+                        else {
+                            $mensaje = "Ya existe ese tipo de material";
+                        }
                     }
                     else {
                         $recepcionMaterialId = $form->get('recepcion_material')->getData();
                         $recepcionMaterialManager->editar($recepcionMaterialId, $recepcionMaterial);
                     }
-                }
-                else {
-                    $mensaje = "Ya existe ese tipo de material";
-                }
+                
                 //return $this->render('FrontendBundle:Material:formularioMaterial.html.twig', ['form' => $form->createView()] );
                 //$this->redirect($url);
             }                

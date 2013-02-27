@@ -23,9 +23,19 @@ class RecepcionMaterialManager extends BaseManager
         $this->class = $fqnClass;
     }
     
+    public function guardarMaterial($recepcionMaterial)
+    {
+        $this->guardar($recepcionMaterial);
+        $material = $recepcionMaterial->getMaterial();
+        $this->aumentarStock($material->getId(),
+                $recepcionMaterial->getCantidad());
+    }
+            
+    
     public function editar($recepcionMaterialId, $recepcionMaterial)
     {
         $recepcionMaterialExistente = $this->repository->find($recepcionMaterialId);
+        $cantidadExistente = $recepcionMaterialExistente->getCantidad();
         if(isset($recepcionMaterialExistente)) {
         $recepcionMaterialExistente->setBoletaRecepcion($recepcionMaterial->getBoletaRecepcion());
         $recepcionMaterialExistente->setMaterial($recepcionMaterial->getMaterial());
@@ -34,6 +44,16 @@ class RecepcionMaterialManager extends BaseManager
         $recepcionMaterialExistente->setFechaIngreso($recepcionMaterial->getFechaIngreso());
         
         $this->guardar($recepcionMaterialExistente);
+        $cantidad = $recepcionMaterial->getCantidad();
+        if($cantidad >= $cantidadExistente) {
+            $this->aumentarStock($recepcionMaterialExistente->getMaterial()->getId(), 
+                $cantidad - $cantidadExistente);
+        }
+        else {
+            $this->disminuirStock($recepcionMaterialExistente->getMaterial()->getId(), 
+                $cantidadExistente - $cantidad );
+        }
+        
         }
     }
     
@@ -41,7 +61,10 @@ class RecepcionMaterialManager extends BaseManager
     {
         $recepcionMaterialExistente = $this->repository->find($recepcionMaterialId);
         $this->eliminar($recepcionMaterialExistente);
+        $this->disminuirStock($recepcionMaterialExistente->getMaterial()->getId(),
+                $recepcionMaterialExistente->getCantidad());
     }
+    
     
     public function analizarIndicadores($fechas)
     {
@@ -49,6 +72,25 @@ class RecepcionMaterialManager extends BaseManager
       
       $indicadoresNormalizados = $this->normalizarIndicadores($indicadores);
       return $indicadoresNormalizados;
+    }
+    
+    public function aumentarStock($materialId, $cantidad)
+    {
+        $materialRepository = $this->objectManager->getRepository('FrontendBundle:Material');
+        $material = $materialRepository->find($materialId);
+        $stock = $material->getStock();
+        $material->setStock($stock + $cantidad);
+        
+        $this->guardar($material);
+    }
+    
+    public function disminuirStock($materialId, $cantidad)
+    {
+        $materialRepository = $this->objectManager->getRepository('FrontendBundle:Material');
+        $material = $materialRepository->find($materialId);
+        $stock = $material->getStock();
+        $material->setStock($stock - $cantidad);
+        $this->guardar($material);
     }
     
     private function normalizarIndicadores($indicadores)

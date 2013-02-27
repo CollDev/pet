@@ -97,6 +97,14 @@ class PedidoManager extends BaseManager
             $pedido->setFactura($factura);
             $pedido->setEstado($estadoAtendido);
             $this->guardar($pedido);
+            
+            $pedidoDetalleRepository = $this->objectManager
+                    ->getRepository('FrontendBundle:PedidoDetalle');
+            
+            $pedidoDetalle = $pedidoDetalleRepository->findOneBy(['pedido' => $pedido->getId()]);
+            $material = $pedidoDetalle->getMaterial();
+            $cantidad = $pedidoDetalle->getCantidad();
+            $this->disminuirStock($material->getId(), $cantidad);
             return $pedido;
         }
         return null;
@@ -131,6 +139,25 @@ class PedidoManager extends BaseManager
         return $pedido;
     }
     
+    
+    public function aumentarStock($materialId, $cantidad)
+    {
+        $materialRepository = $this->objectManager->getRepository('FrontendBundle:Material');
+        $material = $materialRepository->find($materialId);
+        $stock = $material->getStock();
+        $material->setStock($stock + $cantidad);
+        
+        $this->guardar($material);
+    }
+    
+    public function disminuirStock($materialId, $cantidad)
+    {
+        $materialRepository = $this->objectManager->getRepository('FrontendBundle:Material');
+        $material = $materialRepository->find($materialId);
+        $stock = $material->getStock();
+        $material->setStock($stock - $cantidad);
+        $this->guardar($material);
+    }
 }
 
 ?>
