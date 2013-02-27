@@ -31,7 +31,8 @@ class PedidoController extends Controller
             $form->bind($request);
             
             if ($form->isValid()) {
-                $pedidoManager->guardarConDetalle($form);
+                $pedido = $pedidoManager->guardarConDetalle($form);
+                $mensaje = "Registro Nro.".$pedido->getId()." procesado exitosamente";
             }
         }
         

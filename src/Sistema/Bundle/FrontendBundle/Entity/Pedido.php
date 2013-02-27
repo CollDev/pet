@@ -3,6 +3,7 @@
 namespace Sistema\Bundle\FrontendBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Pedido
@@ -148,7 +149,6 @@ class Pedido
         return $this->factura;
     }
 
-        
     public function __construct()
     {
         $this->fecha_programacion = new \DateTime();

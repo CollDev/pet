@@ -38,6 +38,7 @@ class PedidoManager extends BaseManager
             $this->objectManager->persist($pedidoDetalle);
             $this->objectManager->flush();    
             
+            $pedidoProcesado = $nuevoPedido;
         }
         else {
             $pedidoExistente = $this->repository->find($nroPedido);
@@ -55,9 +56,11 @@ class PedidoManager extends BaseManager
             $this->objectManager->persist($pedidoExistente);
             $this->objectManager->persist($pedidoDetalleExistente);
             $this->objectManager->flush();   
+            
+            $pedidoProcesado = $pedidoExistente;
         }
         
-        
+       return $pedidoProcesado; 
         
     }
     
