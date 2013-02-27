@@ -21,14 +21,14 @@
     <tr>
         <td >{{ incidencia.id }}</td>
         <td >{{ incidencia.fechaIncidencia | date('d/m/Y') }}</td>
-        <td >{{ incidencia.maquinaria }}</td>
+        <td >{{ incidencia.unidad }}</td>
         <td ><button id="choose-{{ incidencia.id }}" 
                      class="ui-button ui-widget ui-corner-all ui-state-default ui-button-text-only"
                      onclick="elegirIncidencia('{{ incidencia.id }}',
                                  '{{ url('incidencia_listar', { 'incidenciaId': incidencia.id})}}',
                              '{{ incidencia.estado.nombre }}',
                              '{{ incidencia.observacion }}',
-                             '{{ incidencia.maquinaria }}',
+                             '{{ incidencia.unidad }}',
                              '{{ incidencia.tipoIncidencia.nombre }}',
                              '{{ incidencia.fechaIncidencia | date('Y-m-d') }}'
                          )"

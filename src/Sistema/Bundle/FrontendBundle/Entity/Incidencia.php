@@ -31,7 +31,7 @@ class Incidencia
     /**
      * @var string
      *
-     * @ORM\Column(name="maquinaria", type="string", length=200)
+     * @ORM\Column(name="maquinaria", type="string", length=200, nullable=true)
      */
     private $maquinaria;
 

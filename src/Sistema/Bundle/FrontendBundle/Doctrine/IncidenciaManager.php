@@ -30,7 +30,7 @@ class IncidenciaManager extends BaseManager
             $incidenciaExistente->setEstado($incidencia->getEstado());
             $incidenciaExistente->setFechaIncidencia($incidencia->getFechaIncidencia());
             $incidenciaExistente->setObservacion($incidencia->getObservacion());
-            $incidenciaExistente->setMAquinaria($incidencia->getMaquinaria());
+            $incidenciaExistente->setUnidad($incidencia->getUnidad());
         
         $this->guardar($incidenciaExistente);
         }
