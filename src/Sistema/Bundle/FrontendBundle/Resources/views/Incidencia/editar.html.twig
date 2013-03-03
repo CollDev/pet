@@ -4,13 +4,13 @@
 <table border="0" cellpadding="0" cellspacing="0" align="center" width="90%"  height="100%">
     <tr>
         <td width="100%" valign="top" class="ui-widget-content2 ln_formatos" colspan="2">
-                {% include 'FrontendBundle:Incidencia:formularioIncidencia.html.twig' with {'form': form, 'mensaje': mensaje} %}
+                {% include 'FrontendBundle:Incidencia:formularioEditar.html.twig' with {'form': form, 'mensaje': mensaje} %}
         </td>
     </tr>
 </table>
 
-    <div id="dlgDatosPopUp" title="Buscar Incidencia">
-        {% render url('incidencia_buscar') %}
+    <div id="dlgDatosPopUp" title="Resolver Incidencia">
+        {% render url('incidencia_resolver') %}
     </div>
 {% endblock %}
 {% block custom_javascripts %}
@@ -25,7 +25,13 @@
                 
                 $(document).on('click', '#nro-incidencia', { url : '{{ url("incidencia_ajax_listar") }}'}, buscarIncidencia );
                 $(document).on('click', '#limpiar', { url : '{{ url('incidencia_registrar') }}'}, limpiarIncidencia );
-                $(document).on('click', '#eliminar', { url : '{{ url('incidencia_eliminar') }}', currentUrl : '{{ url('incidencia_registrar') }}'}, eliminarIncidencia );
+                $(document).on('click', '#eliminar', { url : '{{ url('incidencia_eliminar') }}', 
+                    currentUrl : '{{ url('incidencia_listar') }}'
+                        + '?fecha_inicio='+ '{{ data.fechaInicio}}'
+                        + '&fecha_fin='+ '{{ data.fechaFin}}'
+                }, eliminarIncidencia );
+                $(document).on('click', '#resolver', { url : '{{ url('incidencia_resolver') }}'}, resolverIncidencia );
+                $(document).on('click', '#resolver-incidencia', { url : '{{ url('incidencia_procesar_resolucion') }}'}, procesarResolucion );
                 
                 var now = new Date();
                 var day = ("0" + now.getDate()).slice(-2);
@@ -37,7 +43,10 @@
                 //$('#sistema_bundle_frontendbundle_incidenciatype_incidencia').val('');
                 $('#sistema_bundle_frontendbundle_incidenciatype_fecha_incidencia').val(today);
                 
-                //$('#sistema_bundle_frontendbundle_incidenciatype_nro_incidencia').val('');
+                {% if form.vars.value.id | length > 0 %}
+                    $('#sistema_bundle_frontendbundle_incidenciatype_nro_incidencia').val('{{form.vars.value.id}}');
+                    $('#sistema_bundle_frontendbundle_incidenciatype_accion').val('{{data.accion}}');
+                {% endif %}
                 //$('#sistema_bundle_frontendbundle_incidenciatype_tipo_incidencia').val('');
                 //$('#sistema_bundle_frontendbundle_incidenciatype_estado').val('');
 

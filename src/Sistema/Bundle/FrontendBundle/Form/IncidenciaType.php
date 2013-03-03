@@ -12,7 +12,7 @@ class IncidenciaType extends AbstractType
     {
         $builder
             ->add('nro_incidencia', 'text' , 
-                ['attr' => ['class'=> 'inputText', 'readonly' => true ],
+                ['attr' => ['class'=> 'inputText', 'readonly' => true, 'placeholder' => 'Autogenerado' ],
                 'required' => false, 'mapped' => false ])
             ->add('unidad', null, ['label' => 'Nro Maquinaria', 'required' => true])
             ->add('fecha_incidencia', 'date', ['widget' => 'single_text', 'required' => true  ])

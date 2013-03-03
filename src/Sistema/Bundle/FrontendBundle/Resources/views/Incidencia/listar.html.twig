@@ -1,0 +1,58 @@
+{% extends 'FrontendBundle::frontend.html.twig' %}
+{% block body %}
+
+<table border="0" cellpadding="0" cellspacing="0" align="center" width="90%"  height="100%">
+        <tr width="100%" align="left">
+            <td>
+                <div id="divMenu" class="ui-widget-header" style="height:30px">
+                    {% render url('menu_listar') %}
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td width="100%" valign="top" class="ui-widget-content2 ln_formatos" colspan="2">
+                {% include 'FrontendBundle:Incidencia:formularioBuscar.html.twig' with {'form': form} %}
+            </td>
+        </tr>
+        <tr>
+            <td width="100%">
+                <div id="pie_pagina" style="font-size:9px; height:12px" class="ui-widget-header">
+                    {% include 'FrontendBundle::footer.html.twig' %}
+		</div>
+           </td>
+       </tr>
+</table>
+<div>
+    <span id="editUrl" class="hide">{{url('incidencia_editar')}}</span>
+</div>    
+{% endblock %}
+{% block custom_javascripts %}
+    
+{% endblock %}
+{% block custom2_javascripts %}
+<script>
+    (function ($) {
+   	$( "#divFormCompanias" ).accordion({autoHeight:false});
+		$("button", ".divBtns").button();
+                
+                $(document).on('click', '#limpiar', { url : '{{ url('incidencia_listar') }}'}, limpiarIncidencia );
+                $(document).on('click', '#eliminar', { url : '{{ url('material_eliminar') }}', currentUrl : '{{ url('material_listar') }}'}, eliminar );
+                
+                
+                
+                crearGrillaIncidencia('{{ url('incidencia_listar_grilla', {'fecha_inicio': form.fecha_inicio.vars.value, 
+                    'fecha_fin': form.fecha_fin.vars.value})}}');
+                
+                
+}(jQuery)); 
+function refreshParent() {
+    boleta = document.getElementById('sistema_bundle_frontendbundle_recepcionmaterialtype_boleta_recepcion')
+    window.opener.location.href = "{{ url('material_recepcionar')}}" + '?id='+ boleta.value;
+
+  if (window.opener.progressWindow) {
+    window.opener.progressWindow.close();
+  }
+  window.close();
+}   
+</script>
+{% endblock %}

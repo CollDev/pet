@@ -14,6 +14,16 @@ use Sistema\Bundle\FrontendBundle\Entity\Pedido;
  */
 class PedidoController extends Controller
 {
+    
+    /**
+     * @Route("/listar", name="pedido_listar")
+     * @Template()
+     */
+    public function listarAction()
+    {
+        
+    }
+    
     /**
      * @Route("/registrar", name="pedido_registrar")
      * @Template()

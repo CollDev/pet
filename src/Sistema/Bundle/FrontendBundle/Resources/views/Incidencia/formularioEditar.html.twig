@@ -4,7 +4,7 @@
                                 <a href="#">Registrar Incidencia</a>
                             </h3>
                             <div>
-                                <form id="registrar" action="{{ path('incidencia_registrar') }}" method="post" {{ form_enctype(form) }} >
+                                <form id="registrar" action="{{ path('incidencia_editar', {'fecha_inicio': data.fechaInicio, 'fecha_fin': data.fechaFin}) }}" method="post" {{ form_enctype(form) }} >
                                 <table border="0" cellpadding="2" cellspacing="2" style="height:100px" >
                                     <tr>
                                         <td>
@@ -99,9 +99,10 @@
                                                     <table width="100%" >
                                                         <tr>
                                                             <td align="center" >
+                                                                <button type="button" id="resolver"  >Resolver</button>
                                                                 <button id="grabar" name="grabar" type="submit" >Grabar</button>
-                                                                <button type="button" id="limpiar"  >Limpiar</button>
-                                                                <button type="button" id="limpiar" onclick="refreshParent();">Cerrar</button>
+                                                                <button type="button" id="eliminar"  >Eliminar</button>
+                                                                <button type="button" id="cerrar" onclick="refreshParent();">Cerrar</button>
 
                                                             </td>
                                                         </tr>

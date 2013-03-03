@@ -35,6 +35,41 @@ class IncidenciaManager extends BaseManager
         $this->guardar($incidenciaExistente);
         }
     }
+    
+    public function eliminarById($id) 
+    {
+        $incidencia = $this->repository->find($id);
+        if(!is_null($incidencia)) {
+            $this->eliminar($incidencia);
+        }
+    }
+    
+    public function buscarIncidenciasPorFecha($fechaInicio, $fechaFin)
+    {
+        return $this->repository->buscarIncidenciasPorFecha($fechaInicio, $fechaFin);
+    }
+    
+    public function resolverIncidencia($form) 
+    {
+        $id = $form->get('id')->getData();
+        $incidencia = $this->findByPk($id);
+        
+        if(!is_null($incidencia)) {
+            $fechaResolucion = $form->get('fecha_resolucion')->getData();
+            $solucion = $form->get('solucion')->getData();
+            $estado = $form->get('estado')->getData();
+            
+            $incidencia->setFechaResolucion($fechaResolucion);
+            $incidencia->setSolucion($solucion);
+            $incidencia->setEstado($estado);
+            $this->guardar($incidencia);
+            return true;
+        }
+        else {
+            return false;
+        }
+        
+    }
 }
 
 ?>

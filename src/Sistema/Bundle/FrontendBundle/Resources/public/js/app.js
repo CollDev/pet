@@ -73,7 +73,7 @@ function eliminarIncidencia(event) {
     url = event.data.url;
     currentUrl = event.data.currentUrl;
     $('#sistema_bundle_frontendbundle_incidenciatype_accion').val('eliminar');
-    incidenciaId = $('#sistema_bundle_frontendbundle_incidenciatype_incidencia').val();
+    incidenciaId = $('#sistema_bundle_frontendbundle_incidenciatype_nro_incidencia').val();
     
     var xhqr = $.post(url,$('#registrar').serialize(),  function(data) {
         
@@ -83,13 +83,24 @@ function eliminarIncidencia(event) {
         $('#sistema_bundle_frontendbundle_incidenciatype_recepcion_maquinaria').val('');
         
         $('#errorMsg').removeClass('hide');
-        $('#errorMsg').html('El registro'+ incidencialId +'fue eliminado');
+        $('#errorMsg').html('El registro'+ incidenciaId +'fue eliminado');
+        
+        refreshParent(currentUrl);
         
     });
    }
     
     return false;
 }
+
+function refreshParent(parentUrl) {
+    window.opener.location.href = parentUrl;
+
+  if (window.opener.progressWindow) {
+    window.opener.progressWindow.close();
+  }
+  window.close();
+}   
 
 function eliminarPedido(event)
 {
@@ -210,6 +221,46 @@ function crearGrilla(targetUrl){
     });
 }
 
+function crearGrillaIncidencia(targetUrl)
+{
+ jQuery("#lstSiniestro").jqGrid({
+            url: targetUrl,
+            datatype: 'xml',
+            mtype: 'GET',
+            colNames:['Cod. Incidencia', 'Fecha Incidencia', 'Tipo Incidencia', 'Maquinaria', 'Estado'],
+            colModel:[
+                {name:'cod',index:'id', width:100},
+                {name:'fecha_incidencia',index:'fecha_incidencia', width:100},
+                {name:'tipo_incidencia',index:'tipo_incidencia', width:100},
+		{name:'unidad',index:'unidad', width:100},
+		{name:'estado',index:'estado', width:100}
+            ],
+            rowNum:20,
+            rowList:[20,40,60,80,100],
+            pager:'#pagerlstSiniestro',
+            viewrecords: true,
+            //shrinkToFit:false,
+            height:260,
+            width:720,
+            caption:"Resultados encontrados",
+            ondblClickRow:function(rowId){
+                
+                var rowData = jQuery(this).getRowData(rowId); 
+                var incidenciaId = $.trim(rowData['cod']);
+                var fechaInicio = $.trim($('#form_fecha_inicio').val());
+                var fechaFin = $.trim($('#form_fecha_fin').val());
+                var editUrl = $.trim($('#editUrl').text());
+                
+                var url = editUrl + '?id='+ incidenciaId+'&accion=editar'
+                    +'&fecha_inicio='+fechaInicio+'&fecha_fin='+fechaFin;
+                newwindow=window.open(url,'name','toolbar=1,scrollbars=1,location=1,\n\
+                    statusbar=0,menubar=1,resizable=1,width=600,height=400');
+                if (window.focus) { newwindow.focus();}
+                    return false;
+            }
+    });   
+}
+
 function limpiar(event){
     $('#registrar input:text').val('');
     $('#registrar input:hidden[name*="recepcion_material"]').val('');
@@ -226,10 +277,20 @@ function limpiar(event){
 function limpiarIncidencia(event) {
     $('#registrar input:text').val('');
     $('#registrar textarea').val('');
+    $('#registrar select').val('');
     $('#registrar input:hidden[name*="accion"]').val('');
-    
+    limpiarFechas(event);
+    iniciarFechasToday();
     $('#errorMsg').addClass('hide');
     return false;
+}
+
+function getToday() {
+    var now = new Date();
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+    
+    return now.getFullYear()+"-"+(month)+"-"+(day);
 }
 
 function limpiarPedido(event) {
@@ -250,6 +311,13 @@ function limpiarFechas(event) {
     $('#form_fecha_fin').val('');
     $('#errorMsg').addClass('hide');
     return false;
+}
+
+function iniciarFechasToday()
+{
+    var today = getToday();
+    $('#form_fecha_inicio').val(today);
+    $('#form_fecha_fin').val(today);
 }
 
 function buscarPedido(event){
@@ -295,7 +363,7 @@ function buscarMiPedido(event){
 
 function buscarIncidencia(event){
         
-    $( "#dlgDatosPopUp" ).dialog( "open" );
+    $("#dlgDatosPopUp" ).dialog( "open" );
     $('#form_id').val('');
     $('.resultados').html('');
     $("#buscar-incidencia")
@@ -307,12 +375,20 @@ function buscarIncidencia(event){
         });
 }
 
+function resolverIncidencia(event) {
+    $("#dlgDatosPopUp" ).dialog( "open" );
+    var incidenciaId = $('#sistema_bundle_frontendbundle_incidenciatype_nro_incidencia').val();
+    $('#form_id').val(incidenciaId);
+    $('.resultados').removeClass('hide').addClass('hide');
+    $('.resultados').html('');
+}
+
 function buscarCliente(event) 
 {
     $("#dlgDatosPopUp" ).dialog( "open" );
     $('#form_id').val('');
     $('.resultados').html('');
-    $("#buscar-cliente")
+    $("#buscar-incindecia")
         .click(function() {
             $.post(event.data.url, $('#popup').serialize(), function (data) {
                $('.resultados').html(data); 
@@ -409,6 +485,17 @@ function elegirPorPedido(id, pedidoEstado, fechaProgramacion, material, cantidad
     $("#dlgDatosPedido").dialog("close");
     
     $('#errorMsg').addClass('hide');
+    
+}
+
+function procesarResolucion(event)
+{
+    
+   $.post(event.data.url, $('#popup').serialize(), function (data) {
+    $('.resultados').removeClass('hide');   
+    $('.resultados').html(data); 
+  });
+  return false;
     
 }
 
