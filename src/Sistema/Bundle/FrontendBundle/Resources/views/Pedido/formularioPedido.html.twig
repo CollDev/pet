@@ -4,7 +4,8 @@
                                 <a href="#">Registrar Pedido</a>
                             </h3>
                             <div>
-                                <form id="registrar" action="{{ path('pedido_registrar') }}" method="post" {{ form_enctype(form) }} >
+                                <form id="registrar" action="{{ path('pedido_registrar', {'fecha_inicio': data.fechaInicio, 'fecha_fin': data.fechaFin}) }}" 
+                                      method="post" {{ form_enctype(form) }} >
                                 <table border="0" cellpadding="2" cellspacing="2" style="height:100px" >
                                     <tr>
                                         <td>
@@ -18,16 +19,14 @@
                                                     <tr>
                                                         <td>{{ form_label(form.nro_pedido) }} </td>
                                                         <td>{{ form_widget(form.nro_pedido) }}
-                                                            <a id="nro-pedido" href="#" title="Buscar Pedido"  >
-                                                                <img border="0" width="15" src="{{ asset('bundles/frontend/images/toolbar_find.png' ) }}" />  </a>
-                                                                <br />
+                                                            
                                                             
                                                         </td>
                                                         <td>{{ form_label(form.cliente)}}</td>
                                                         <td>{{ form_widget(form.cliente)}}
                                                             <a id="nro-cliente" href="#" title="Buscar Cliente"  >
                                                                 <img border="0" width="15" src="{{ asset('bundles/frontend/images/toolbar_find.png' ) }}" />  </a>
-                                                                <br />
+                                                            
                                                                     
                                                         </td>
                                                     </tr>
@@ -91,9 +90,8 @@
                                                         </td>
                                                         <td>
                                                             {{ form_widget(form.cantidad) }}
-                                                                <a id="nro-cantidad" href="#" title="Verificar Stock"  >
-                                                                <img border="0" width="15" src="{{ asset('bundles/frontend/images/toolbar_find.png' ) }}" />  </a>
-                                                                <br />
+                                                            <a id="nro-cantidad" href="#" title="Verificar Stock"  ><img border="0" width="15" src="{{ asset('bundles/frontend/images/toolbar_find.png' ) }}" />  </a>
+                                                                
                                                         </td>
                                                         <td>{{form_label(form.importe) }}</td>
                                                         <td>
@@ -128,8 +126,8 @@
                                                         <tr>
                                                             <td align="center" >
                                                                 <button id="grabar" name="grabar" type="submit" >Grabar</button>
-                                                                <button id="eliminar" name="grabar" type="button" >Eliminar</button>
-                                                                <button id="limpiar" name="grabar" type="button" >Limpiar</button>
+                                                                <button id="limpiar" name="limpiar" type="button" >Limpiar</button>
+                                                                <button id="cerrar" name="cerrar" type="button" onclick="refreshParent();" >Cerrar</button>
                                                             </td>
                                                             
                                                         </tr>

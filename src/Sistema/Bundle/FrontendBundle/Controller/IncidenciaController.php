@@ -170,8 +170,9 @@ class IncidenciaController extends Controller
     public function listarGrillaAction()
     {
         $request = $this->getRequest();
-        $fechaInicio = $request->query->get('fecha_inicio', new \DateTime(),'' );
-        $fechaFin = $request->query->get('fecha_fin', new \DateTime(),'' );
+        $fechaInicio = $request->query->get('fecha_inicio', new \DateTime() );
+        
+        $fechaFin = $request->query->get('fecha_fin', new \DateTime() );
         $incidenciaManager = $this->get('incidencia.manager');
         $incidencias = [];
          if($request->getMethod()== 'GET') {
@@ -180,6 +181,28 @@ class IncidenciaController extends Controller
         }
         
         return ['incidencias' => $incidencias ];
+        
+    }
+    
+    /**
+     * @Route("/listarGrilla2", defaults={"_format"="xml"}, name="pedido_listar_grilla")
+     * @Method({"GET"})
+     * @Template()
+     */
+    public function listarGrilla2Action()
+    {
+        $request = $this->getRequest();
+        $fechaInicio = $request->query->get('fecha_inicio', new \DateTime(),'' );
+        $fechaFin = $request->query->get('fecha_fin', new \DateTime(),'' );
+        $clienteId = $request->query->get('cliente_id', '' );
+        $pedidoManager = $this->get('pedido.manager');
+        $pedidos = [];
+         if($request->getMethod()== 'GET') {
+            $pedidos = $pedidoManager
+                ->buscarPedidosPorFechaCliente($clienteId, $fechaInicio, $fechaFin);
+        }
+        
+        return ['pedidos' => $pedidos ];
         
     }
     

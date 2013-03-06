@@ -64,6 +64,14 @@ class PedidoManager extends BaseManager
         
     }
     
+    public function getPedidoDetalleByPk($pedidoId)
+    {
+      $pedidoDetalleExistente = $this->objectManager
+                    ->getRepository('FrontendBundle:PedidoDetalle')
+                    ->findOneBy(['pedido' => $pedidoId ]);  
+      return $pedidoDetalleExistente;
+    }
+    
     public function eliminarPedido($form)
     {
         $nroPedido = $form->get('nro_pedido')->getData();
@@ -125,6 +133,11 @@ class PedidoManager extends BaseManager
         
         return $pedidosConDetalle;
                 
+    }
+    
+    public function buscarPedidosPorFechaCliente( $clienteId, $fechaInicio, $fechaFin)
+    {
+        return $this->repository->buscarPedidosPorFecha( $clienteId, $fechaInicio, $fechaFin);
     }
     
     public function confirmarPedido($pedidoId)

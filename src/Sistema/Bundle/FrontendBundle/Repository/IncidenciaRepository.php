@@ -45,11 +45,11 @@ class IncidenciaRepository extends EntityRepository
     {
        $qb = $this->createQueryBuilder("b");
         $fechaIncidencia = 'fecha_incidencia';
-        $qb ->andWhere($qb->expr()->gte('b.'.$fechaIncidencia, ':b_'.'fecha_inicio'))
+        $qb ->where($qb->expr()->gte('b.'.$fechaIncidencia, ':b_'.'fecha_inicio'))
                     ->setParameter('b_'.'fecha_inicio', $fechaInicio);
         $qb ->andWhere($qb->expr()->lte('b.'.$fechaIncidencia, ':b_'.'fecha_fin'))
                     ->setParameter('b_'.'fecha_fin', $fechaFin);
-       
+        
        return $qb->getQuery()->getResult(); 
     }
 }

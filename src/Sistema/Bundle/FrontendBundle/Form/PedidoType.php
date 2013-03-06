@@ -39,7 +39,8 @@ class PedidoType extends AbstractType
                 'required' => true,
                 'mapped' => false]
                 )
-            ->add('cantidad', 'integer', ['mapped' => false, 'constraints' => [
+            ->add('cantidad', 'integer', ['mapped' => false, 
+                'constraints' => [
                 new Assert\NotBlank(),
                 new Assert\Type(['type' => 'int', 'message' => 'El valor debe ser un entero']),
                 new Assert\Min(['limit' => 1, 'message' => 'El valor debe ser mayor que 0'])

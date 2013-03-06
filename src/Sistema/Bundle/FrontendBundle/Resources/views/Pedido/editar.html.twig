@@ -4,7 +4,7 @@
 <table border="0" cellpadding="0" cellspacing="0" align="center" width="90%"  height="100%">
         <tr>
             <td width="100%" valign="top" class="ui-widget-content2 ln_formatos" colspan="2">
-                {% include 'FrontendBundle:Pedido:formularioPedido.html.twig' with {'form': form, 'mensaje': mensaje} %}
+                {% include 'FrontendBundle:Pedido:formularioEditar.html.twig' with {'form': form, 'mensaje': mensaje} %}
             </td>
         </tr>
 </table>
@@ -45,6 +45,14 @@
                 var month = ("0" + (now.getMonth() + 1)).slice(-2);
                 var today = now.getFullYear()+"-"+(month)+"-"+(day);
                 
+                {% if form.vars.value.id | length > 0 %}
+                    $('#sistema_bundle_frontendbundle_pedidotype_nro_pedido').val('{{form.vars.value.id}}');
+                    $('#sistema_bundle_frontendbundle_pedidotype_material').val('{{data.material}}');
+                    $('#sistema_bundle_frontendbundle_pedidotype_cantidad').val('{{data.cantidad}}');
+                    $('#sistema_bundle_frontendbundle_pedidotype_importe').val('{{data.importe}}');
+                    
+                    $('#sistema_bundle_frontendbundle_pedidotype_accion').val('{{data.accion}}');
+                {% endif %}
                 //$('#sistema_bundle_frontendbundle_pedidotype_nro_pedido').val('');
                 //$('#sistema_bundle_frontendbundle_pedidotype_estado').val('');
                 //$('#sistema_bundle_frontendbundle_pedidotype_cliente').val('');

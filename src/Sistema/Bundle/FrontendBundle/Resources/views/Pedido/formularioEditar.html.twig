@@ -1,10 +1,10 @@
 <div id="divPanelSistema" class="ui-widget-content" align="left">
 			  <div id="divFormCompanias">
                             <h3>
-                                <a href="#">Registrar Incidencia</a>
+                                <a href="#">Registrar Pedido</a>
                             </h3>
                             <div>
-                                <form id="registrar" action="{{ path('incidencia_registrar', { 'fecha_inicio': data.fechaInicio, 'fecha_fin': data.fechaFin}) }}" 
+                                <form id="registrar" action="{{ path('pedido_editar', {'fecha_inicio': data.fechaInicio, 'fecha_fin': data.fechaFin}) }}" 
                                       method="post" {{ form_enctype(form) }} >
                                 <table border="0" cellpadding="2" cellspacing="2" style="height:100px" >
                                     <tr>
@@ -17,29 +17,28 @@
                                             <div class="ui-widget-content">
                                                 <table border="0" cellpadding="2" cellspacing="2" >
                                                     <tr>
-                                                        <td>{{ form_label(form.nro_incidencia) }} </td>
-                                                        <td>{{ form_widget(form.nro_incidencia) }}
-                                                            <!--
-                                                            <a id="nro-incidencia" href="#"  >
-                                                               
-                                                               <img border="0" width="15" src="{{ asset('bundles/frontend/images/toolbar_find.png' ) }}" />  </a>
-                                                                <br />
-                                                               -->     
+                                                        <td>{{ form_label(form.nro_pedido) }} </td>
+                                                        <td>{{ form_widget(form.nro_pedido) }}
+                                                            
+                                                            
                                                         </td>
-                                                        <td>{{ form_label(form.fecha_incidencia)}}</td>
-                                                        <td>{{ form_widget(form.fecha_incidencia)}}
-
+                                                        <td>{{ form_label(form.cliente)}}</td>
+                                                        <td>{{ form_widget(form.cliente)}}
+                                                            <a id="nro-cliente" href="#" title="Buscar Cliente"  >
+                                                                <img border="0" width="15" src="{{ asset('bundles/frontend/images/toolbar_find.png' ) }}" />  </a>
+                                                            
+                                                                    
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="2">
                                                             <span class="red">
-                                                                {{form_errors(form.nro_incidencia)}}
+                                                                {{form_errors(form.nro_pedido)}}
                                                             </span>
                                                         </td>
                                                         <td colspan="2">
                                                             <span class="red">
-                                                                {{form_errors(form.fecha_incidencia)}}
+                                                                {{form_errors(form.cliente)}}
                                                             </span>
                                                         </td>
                                                     </tr>
@@ -48,9 +47,9 @@
                                                         <td>
                                                             {{ form_widget(form.estado) }}
                                                         </td>
-                                                        <td>{{form_label(form.unidad) }}</td>
+                                                        <td>{{form_label(form.fecha_programacion) }}</td>
                                                         <td>
-                                                            {{ form_widget(form.unidad) }}
+                                                            {{ form_widget(form.fecha_programacion) }}
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -61,31 +60,57 @@
                                                         </td>
                                                         <td colspan="2">
                                                             <span class="red">
-                                                                {{form_errors(form.unidad)}}
+                                                                {{form_errors(form.fecha_programacion)}}
                                                             </span>
                                                         </td>
                                                     </tr>
 
                                                     <tr>
-                                                        <td>{{ form_label(form.tipo_incidencia) }}</td>
+                                                        <td>{{ form_label(form.material) }}</td>
                                                         <td>
-                                                            {{ form_widget(form.tipo_incidencia) }}
+                                                            {{ form_widget(form.material) }}
                                                         </td>
-                                                        <td>{{ form_label(form.observacion) }}</td>
+                                                        <td></td>
                                                         <td>
-                                                            {{ form_widget(form.observacion) }}
+                                                            
                                                         </td>
                                                         
                                                     </tr>
                                                     <tr>
                                                         <td colspan="2">
-                                                            <span class="red">{{ form_errors(form.tipo_incidencia) }}</span>
+                                                            <span class="red">{{ form_errors(form.material) }}</span>
                                                         </td>
                                                         <td colspan="2">
-                                                            <span class="red">{{ form_errors(form.observacion) }}</span>
+                                                            <span class="red"></span>
                                                         </td>
                                                         
                                                     </tr>
+                                                    <tr>
+                                                        <td>{{ form_label(form.cantidad) }}
+                                                        </td>
+                                                        <td>
+                                                            {{ form_widget(form.cantidad) }}
+                                                            <a id="nro-cantidad" href="#" title="Verificar Stock"  ><img border="0" width="15" src="{{ asset('bundles/frontend/images/toolbar_find.png' ) }}" />  </a>
+                                                                
+                                                        </td>
+                                                        <td>{{form_label(form.importe) }}</td>
+                                                        <td>
+                                                            {{ form_widget(form.importe) }}
+                                                        </td>
+                                                        
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <span class="red">{{ form_errors(form.cantidad) }}</span>
+                                                        </td>
+                                                        <td colspan="2">
+                                                            <span class="red">{{ form_errors(form.importe) }}</span>
+                                                        </td>
+                                                        
+                                                    </tr>
+                                                    
+                                                    
+                                                    
                                                 </table>
 
                                                 {{ form_rest(form) }}
@@ -101,10 +126,10 @@
                                                         <tr>
                                                             <td align="center" >
                                                                 <button id="grabar" name="grabar" type="submit" >Grabar</button>
-                                                                <button type="button" id="limpiar"  >Limpiar</button>
-                                                                <button type="button" id="cerrar" onclick="refreshParent();">Cerrar</button>
-
+                                                                <button id="eliminar" name="eliminar" type="button" >Eliminar</button>
+                                                                <button id="cerrar" name="cerrar" type="button" onclick="refreshParent();" >Cerrar</button>
                                                             </td>
+                                                            
                                                         </tr>
                                                     </table>
                                                 </div>

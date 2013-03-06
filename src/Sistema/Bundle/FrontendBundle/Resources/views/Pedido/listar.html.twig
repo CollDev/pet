@@ -1,0 +1,56 @@
+{% extends 'FrontendBundle::frontend.html.twig' %}
+{% block body %}
+
+<table border="0" cellpadding="0" cellspacing="0" align="center" width="90%"  height="100%">
+        <tr width="100%" align="left">
+            <td>
+                <div id="divMenu" class="ui-widget-header" style="height:30px">
+                    {% render url('menu_listar') %}
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td width="100%" valign="top" class="ui-widget-content2 ln_formatos" colspan="2">
+                {% include 'FrontendBundle:Pedido:formularioListar.html.twig' with {'form': form} %}
+            </td>
+        </tr>
+        <tr>
+            <td width="100%">
+                <div id="pie_pagina" style="font-size:9px; height:12px" class="ui-widget-header">
+                    {% include 'FrontendBundle::footer.html.twig' %}
+		</div>
+           </td>
+       </tr>
+</table>
+<div>
+    <span id="editUrl" class="hide">{{url('pedido_editar')}}</span>
+</div>
+<div id="dlgDatosPopUp" title="Buscar Cliente">
+        {% render url('cliente_buscar') %}
+</div>
+{% endblock %}
+{% block custom_javascripts %}
+    
+{% endblock %}
+{% block custom2_javascripts %}
+<script>
+    (function ($) {
+   	$( "#divFormCompanias" ).accordion({autoHeight:false});
+        $("button", ".divBtns").button();
+        $('#nro-cliente').button();
+        $(document).on('click', '#nro-cliente', { url : '{{ url("cliente_ajax_listar") }}'}, buscarCliente );        
+        $(document).on('click', '#limpiar', { url : '{{ url('pedido_listar') }}'}, limpiarIncidencia );
+        $(document).on('click', '#eliminar', { url : '{{ url('pedido_eliminar') }}', currentUrl : '{{ url('pedido_listar') }}'}, eliminar );
+                
+        crearGrillaPedido('{{ url('pedido_listar_grilla', {'fecha_inicio': form.fecha_inicio.vars.value, 'fecha_fin': form.fecha_fin.vars.value, 'cliente_id': form.cliente_id.vars.value})}}');
+        $("#dlgDatosPopUp").dialog({
+			autoOpen:false,
+			resizable: false,
+			height:250,
+			width:400,
+			modal:true
+		});        
+}(jQuery)); 
+
+</script>
+{% endblock %}

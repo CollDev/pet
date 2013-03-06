@@ -4,6 +4,7 @@ namespace Sistema\Bundle\FrontendBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 
 use Sistema\Bundle\FrontendBundle\Form\PedidoType;
@@ -21,9 +22,26 @@ class PedidoController extends Controller
      */
     public function listarAction()
     {
+        $request = $this->getRequest();
+        $fechaInicio = $request->query->get('fecha_inicio', ''  );
+        $fechaFin = $request->query->get('fecha_fin', '' );
         
+        $searchForm = $this->createFormBuilder()
+                ->add('cliente_id', 'text', ['required' => false])
+                ->add('fecha_inicio','date', ['widget' => 'single_text', 'required'=> true, 'data' => new \DateTime($fechaInicio)  ])
+                ->add('fecha_fin','date', ['widget' => 'single_text', 'required'=> true, 'data' => new \DateTime($fechaFin) ])
+                ->getForm();
+        
+        if($request->getMethod()== 'POST') {
+            $searchForm->bind($request);
+            
+            if( $searchForm->isValid()) {
+               
+            }
+        }
+        return [ 'form' => $searchForm->createView() ];
     }
-    
+
     /**
      * @Route("/registrar", name="pedido_registrar")
      * @Template()
@@ -32,6 +50,9 @@ class PedidoController extends Controller
     {
         $request = $this->getRequest();
         $pedidoManager = $this->get('pedido.manager');
+        $fechaInicio = $request->query->get('fecha_inicio', '');
+        $fechaFin = $request->query->get('fecha_fin', '');
+        $data = ['fechaInicio' => $fechaInicio, 'fechaFin' => $fechaFin];
         $mensaje = '';
         $pedido = $pedidoManager->crearEntidad();
         $form = $this->createForm(new PedidoType(), $pedido);
@@ -46,7 +67,52 @@ class PedidoController extends Controller
             }
         }
         
-        return ['form' => $form->createView(), 'mensaje' => $mensaje];
+        return ['form' => $form->createView(), 'mensaje' => $mensaje, 'data' => $data];
+    
+    }
+    
+    /**
+     * @Route("/editar", name="pedido_editar")
+     * @Template()
+     */
+    public function editarAction()
+    {
+        $request = $this->getRequest();
+        $pedidoManager = $this->get('pedido.manager');
+        $fechaInicio = $request->query->get('fecha_inicio', '');
+        $fechaFin = $request->query->get('fecha_fin', '');
+        $accion = 'editar';
+        $data = ['fechaInicio' => $fechaInicio, 'fechaFin' => $fechaFin, 'accion' => $accion];
+        $mensaje = '';
+        
+        $pedidoId = $request->query->get('id', '');
+        
+        if($pedidoId != '') {
+            $pedido = $pedidoManager->findByPk($pedidoId);
+            $pedidoDetalle = $pedidoManager->getPedidoDetalleByPk($pedidoId);
+            $data['id'] = $pedidoId;
+            $data['material'] = $pedidoDetalle->getMaterial()->getId();
+            $data['cantidad'] = $pedidoDetalle->getCantidad();
+            $data['importe'] = $pedidoDetalle->getImporte();
+        }
+        else {
+            $pedido = $pedidoManager->crearEntidad();
+        }
+        
+        $form = $this->createForm(new PedidoType(), $pedido);
+        
+        
+        if ($request->isMethod('POST')) {
+
+            $form->bind($request);
+            
+            if ($form->isValid()) {
+                $pedido = $pedidoManager->guardarConDetalle($form);
+                $mensaje = "Registro Nro.".$pedido->getId()." procesado exitosamente";
+            }
+        }
+        
+        return ['form' => $form->createView(), 'mensaje' => $mensaje, 'data' => $data];
     
     }
     

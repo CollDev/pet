@@ -1,0 +1,15 @@
+<?xml version ="1.0" encoding="utf-8"?>
+<rows>
+  <page>1</page>
+  <total>1</total>
+  <records>1</records>
+  {% for pedido in pedidos %}
+    <row id = '{{pedido.id}}'>
+      <cell> {{ pedido.id }} </cell>
+      <cell> {{ pedido.fechaProgramacion | date('Y-m-d')  }} </cell>
+      <cell> {{ pedido.cliente.razonSocial }} </cell>
+      <cell> {{ pedido.estado.nombre }} </cell>
+    </row>
+    {% endfor %}
+</rows>
+

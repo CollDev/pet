@@ -261,6 +261,45 @@ function crearGrillaIncidencia(targetUrl)
     });   
 }
 
+function crearGrillaPedido(targetUrl)
+{
+ jQuery("#lstSiniestro").jqGrid({
+            url: targetUrl,
+            datatype: 'xml',
+            mtype: 'GET',
+            colNames:['Cod. Pedido', 'Fecha Programacion', 'Cliente', 'Estado'],
+            colModel:[
+                {name:'cod',index:'id', width:100},
+                {name:'fecha_programacion',index:'fecha_programacion', width:100},
+                {name:'cliente',index:'cliente', width:100},
+		{name:'estado',index:'estado', width:100}
+            ],
+            rowNum:20,
+            rowList:[40,60,80,100],
+            pager:'#pagerlstSiniestro',
+            viewrecords: true,
+            //shrinkToFit:false,
+            height:260,
+            width:720,
+            caption:"Resultados encontrados",
+            ondblClickRow:function(rowId){
+                
+                var rowData = jQuery(this).getRowData(rowId); 
+                var pedidoId = $.trim(rowData['cod']);
+                var fechaInicio = $.trim($('#form_fecha_inicio').val());
+                var fechaFin = $.trim($('#form_fecha_fin').val());
+                var editUrl = $.trim($('#editUrl').text());
+                
+                var url = editUrl + '?id='+ pedidoId+'&accion=editar'
+                    +'&fecha_inicio='+fechaInicio+'&fecha_fin='+fechaFin;
+                newwindow=window.open(url,'name','toolbar=1,scrollbars=1,location=1,\n\
+                    statusbar=0,menubar=1,resizable=1,width=700,height=400');
+                if (window.focus) { newwindow.focus();}
+                    return false;
+            }
+    });   
+}
+
 function limpiar(event){
     $('#registrar input:text').val('');
     $('#registrar input:hidden[name*="recepcion_material"]').val('');
@@ -388,7 +427,7 @@ function buscarCliente(event)
     $("#dlgDatosPopUp" ).dialog( "open" );
     $('#form_id').val('');
     $('.resultados').html('');
-    $("#buscar-incindecia")
+    $("#buscar-cliente")
         .click(function() {
             $.post(event.data.url, $('#popup').serialize(), function (data) {
                $('.resultados').html(data); 
@@ -414,7 +453,13 @@ function verificarStock(event)
 
 function elegirCliente(id)
 {
-    $('#sistema_bundle_frontendbundle_pedidotype_cliente').val(id);
+    if($('#sistema_bundle_frontendbundle_pedidotype_cliente').length === 0 ) {
+        $('#form_cliente_id').val(id);
+    }
+    else {
+        $('#sistema_bundle_frontendbundle_pedidotype_cliente').val(id);
+    }
+    
     $('#sistema_bundle_frontendbundle_pedidotype_cantidad').val('');
     $('#sistema_bundle_frontendbundle_pedidotype_importe').val('');
     $("#dlgDatosPopUp").dialog("close");
