@@ -36,7 +36,7 @@
                 
                 $(document).on('click', '#nro-cliente', { url : '{{ url("cliente_ajax_listar") }}'}, buscarCliente );
                 //$(document).on('click', '#nro-pedido', { url : '{{ url("pedido_ajax_listar_por") }}'}, buscarPorPedido );
-                
+                $(document).on('focusout','#sistema_bundle_frontendbundle_pedidotype_cantidad', { url : '{{ url("pedido_calcular_importe")}}'}, calcularImporte);
                 $(document).on('click', '#nro-cantidad', { url : '{{ url("stock_verificar") }}'}, verificarStock );
                 $(document).on('click', '#limpiar', { url : '{{ url('pedido_registrar') }}'}, limpiarPedido );
                 $(document).on('click', '#eliminar', { url : '{{ url('pedido_eliminar') }}', currentUrl : '{{ url('pedido_registrar') }}'}, eliminarPedido );

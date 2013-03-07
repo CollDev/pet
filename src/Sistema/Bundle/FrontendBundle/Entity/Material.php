@@ -34,7 +34,13 @@ class Material
      * @ORM\Column(name="stock", type="decimal", precision=10, scale=2 )
      */
     private $stock;
-
+    
+    /**
+     * @var float
+     * 
+     * @ORM\Column(name="tarifa", type="decimal", precision=10, scale=2, nullable=true)
+     */
+    private $tarifa;
 
     /**
      * Get id
@@ -92,8 +98,31 @@ class Material
         return $this->stock;
     }
     
+    /**
+     * 
+     * @return float $tarifa
+     */
+    public function getTarifa() {
+        return $this->tarifa;
+    }
+    
+    /**
+     * 
+     * @param float $tarifa
+     * @return $tarifa
+     */
+    public function setTarifa($tarifa) {
+        $this->tarifa = $tarifa;
+        
+        return $this;
+    }
+
+        
+    
     public function __toString()
     {
         return $this->nombre;
     }
+    
+    
 }

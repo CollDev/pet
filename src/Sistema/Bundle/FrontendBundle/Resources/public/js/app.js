@@ -579,3 +579,14 @@ function buscarGrilla2(){
             jQuery("#lstSiniestro").jqGrid('navGrid','#pagerlstSiniestro',{edit:false,add:false,del:false,search:false,refresh:false});
 }
 
+function calcularImporte(event) {
+    var url = event.data.url;
+    materialId = $('#sistema_bundle_frontendbundle_pedidotype_material').val();
+    cantidad = $('#sistema_bundle_frontendbundle_pedidotype_cantidad').val();
+    url += '?materialId=' + materialId + '&cantidad=' + cantidad;
+    $.post(url, function (data) {
+        $('#sistema_bundle_frontendbundle_pedidotype_importe').val(data); 
+    });
+    
+}
+

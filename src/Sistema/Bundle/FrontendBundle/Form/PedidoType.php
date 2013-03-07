@@ -46,7 +46,7 @@ class PedidoType extends AbstractType
                 new Assert\Min(['limit' => 1, 'message' => 'El valor debe ser mayor que 0'])
                 ] 
                 ])
-            ->add('importe', 'text', ['mapped' => false])
+            ->add('importe', 'text', ['mapped' => false, 'attr' => ['readonly' => true]])
             ->add('nro_pedido','text', ['mapped' => false, 
                 'attr' => ['readonly' => true, 
                     'placeholder' => 'Autogenerado'], 'label' => 'Nro. Pedido' ])

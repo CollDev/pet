@@ -220,6 +220,30 @@ class PedidoController extends Controller
         return new Response($mensaje);
     }
     
+    
+    /**
+     * @Route("/calcularImporte", name="pedido_calcular_importe")
+     */
+    public function calcularImporteAction()
+    {
+        $request = $this->getRequest();
+        
+        $cantidad = $request->query->get('cantidad', 0);
+        $materialId = $request->query->get('materialId', 0);
+        
+        $materialRepository = $this->get('material.repository');
+        $material = $materialRepository->find($materialId);
+        
+        if(!is_null($material)) {
+            $importe = $material->getTarifa() * $cantidad;
+        }
+        else {
+            $importe = 0;
+        }
+            
+        return new Response($importe);
+    }
+    
     /**
      * @Route("/preconfirmar", name="pedido_preconfirmar")
      * @Template()
