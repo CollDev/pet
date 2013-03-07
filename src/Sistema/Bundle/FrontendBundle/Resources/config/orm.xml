@@ -44,6 +44,10 @@
         <parameter key="material_repository.class">Sistema\Bundle\FrontendBundle\Repository\MaterialRepository</parameter>
         <parameter key="material_entity.class">Sistema\Bundle\FrontendBundle\Entity\Material</parameter>
         
+        <parameter key="indicador_manager.class">Sistema\Bundle\FrontendBundle\Doctrine\IndicadorManager</parameter>
+        <parameter key="indicador_repository.class">Sistema\Bundle\FrontendBundle\Repository\IndicadorRepository</parameter>
+        <parameter key="indicador_entity.class">Sistema\Bundle\FrontendBundle\Entity\Indicador</parameter>
+        
         
         
     </parameters>
@@ -87,6 +91,11 @@
         <service id="cliente.manager" class="%cliente_manager.class%">
             <argument type="service" id="sistema.entity_manager" />
             <argument>%cliente_entity.class%</argument>
+        </service>
+        
+        <service id="indicador.manager" class="%indicador_manager.class%">
+            <argument type="service" id="sistema.entity_manager" />
+            <argument>%indicador_entity.class%</argument>
         </service>
 
         <service id="boleta_recepcion.repository" class="%boleta_recepcion_repository.class%"

@@ -69,6 +69,35 @@ class IndicadorController extends Controller
         return ($valorIntervalo != '-') ;
     }
     
+    /**
+     * @Route("/procesar", name="indicador_procesar")
+     * @Template()
+     */
+    public function procesarIndicadoresAction()
+    {
+        $request = $this->getRequest();
+        $indicadorManager = $this->get('indicador.manager');
+        
+        $form = $this->createFormBuilder()
+                ->getForm()
+                ;
+        
+        $mensaje = "";
+        $indicadores = [];
+        if ($request->isMethod('POST')) {
+
+            $form->bind($request);
+            
+            if ($form->isValid()) {
+                $indicadores = $indicadorManager->procesarIndicadores();
+            }                
+        }
+        
+        return ['form' => $form->createView(), 'mensaje' => $mensaje, 
+            'indicadores' => $indicadores];
+        
+        
+    }
 }
 
 ?>

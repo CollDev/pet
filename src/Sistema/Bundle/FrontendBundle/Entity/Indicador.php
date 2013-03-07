@@ -34,8 +34,36 @@ class Indicador
      * @ORM\Column(name="estandar", type="string", length=200)
      */
     private $estandar;
+    
+    /**
+     * @var float
+     * 
+     * @ORM\Column(name="inferior", type="decimal", precision=10, scale=2, nullable=true )
+     */
+    private $inferior;
 
-
+    /**
+     * @var float
+     * 
+     * @ORM\Column(name="superior", type="decimal", precision=10, scale=2, nullable=true )
+     */
+    private $superior;
+            
+    /**
+     * @var float
+     * 
+     * @ORM\Column(name="valor", type="decimal", precision=10, scale=2, nullable=true)
+     */
+    private $valor;
+    
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="observacion", type="string", length=200, nullable=true)
+     */
+    private $observacion;
+    
+    
     /**
      * Get id
      *
@@ -91,4 +119,91 @@ class Indicador
     {
         return $this->estandar;
     }
+    
+    /**
+     * Get inferior
+     *
+     * @return float
+     */
+    public function getInferior() {
+        return $this->inferior;
+    }
+    
+    /**
+     * Set inferior
+     *
+     * @param float $inferior
+     * @return Indicador
+     */
+    public function setInferior($inferior) {
+        $this->inferior = $inferior;
+        
+        return $this;
+    }
+    
+    /**
+     * Get superior
+     *
+     * @return float
+     */
+    public function getSuperior() {
+        return $this->superior;
+    }
+
+    /**
+     * Set superior
+     *
+     * @param float $superior
+     * @return Indicador
+     */
+    public function setSuperior($superior) {
+        $this->superior = $superior;
+        
+        return $this;
+    }
+     
+    /**
+     * Get valor
+     *
+     * @return float
+     */   
+    public function getValor() {
+        return $this->valor;
+    }
+    
+    /**
+     * Set valor
+     *
+     * @param float $valor
+     * @return Indicador
+     */
+    public function setValor($valor) {
+        $this->valor = $valor;
+    }
+    
+    /**
+     * Set observacion
+     *
+     * @param string $observacion
+     * @return Indicador
+     */
+    public function setObservacion($observacion)
+    {
+        $this->observacion = $observacion;
+    
+        return $this;
+    }
+
+    /**
+     * Get observacion
+     *
+     * @return string 
+     */
+    public function getObservacion()
+    {
+        return $this->observacion;
+    }
+
+
+
 }

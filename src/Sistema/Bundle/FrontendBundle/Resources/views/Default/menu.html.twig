@@ -4,54 +4,46 @@
             <a tabindex="0" href="#divOpcinesSeguros" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="menuSeguros"><span class="ui-icon ui-icon-triangle-1-s"></span>Menu</a>
             <div id="divOpcinesSeguros" class="hidden">
                 <ul>
-					<li><a href="#">Recepcion</a>
-						<ul>
-						</li>
-                     <li><a href="#">Verificacion de Ingresos</a></li>
-							<li><a href="{{ url('material_recepcionar')}}" >Registrar ingreso de Material</a></li>
-							<li><a href="#">Liquidacion de Servicios</a></li>
-							<li><a href="#">Aceptacion de Liquidacion</a></li>
-				</ul>
-					</li>
+                    <li><a href="#">Recepcion</a>
+                        <ul>
+                            <li><a href="#">Verificacion de Ingresos</a></li>
+                            <li><a href="{{ url('material_recepcionar')}}" >Registrar ingreso de Material</a></li>
+                            <li><a href="#">Liquidacion de Servicios</a></li>
+                            <li><a href="#">Aceptacion de Liquidacion</a></li>
+			</ul>
+                    </li>
 
-					<li><a href="#">Disposicion Final</a>
-						<ul>
-							<li><a href="#" onclick="muestraPagina('divPanelSistema', 'paginas/petramas/ingreso.html')">Programacion de Horas</a></li>
-							<li><a href="#" onclick="muestraPagina('divPanelSistema', 'paginas/petramas/ordenes.html')" >Reasignacion de Plataforma</a></li>
+		<li><a href="#">Disposicion Final</a>
+                    <ul>
+                        <li><a href="#" onclick="muestraPagina('divPanelSistema', 'paginas/petramas/ingreso.html')">Programacion de Horas</a></li>
+			<li><a href="#" onclick="muestraPagina('divPanelSistema', 'paginas/petramas/ordenes.html')" >Reasignacion de Plataforma</a></li>
+                    </ul>
+		</li>
 
-						</ul>
-					</li>
-
-					<li><a href="#">Venta de Materiales</a>
-						<ul>
-							<li><a href="{{ url('pedido_listar')}}" >Pedidos</a></li>
-							<li><a href="{{ url('pedido_preconfirmar')}}" >Aceptaci&oacute;n de Pedidos</a></li>
-                                                        <li><a href="{{ url('salida_registrar')}}" >Registrar Salidas</a></li>
-							<li><a href="#" onclick="muestraPagina('divPanelSistema', 'paginas/petramas/ordenes.html')" >Stocks de Materiales</a></li>
-							<li><a href="#" onclick="muestraPagina('divPanelSistema', 'paginas/petramas/ordenes.html')" >Proyeccion de Materiales</a></li>
-							<li><a href="#" onclick="muestraPagina('divPanelSistema', 'paginas/petramas/backLog.html')">Liquidacion de Materiales</a></li>
-						</ul>
-					</li>
+                    <li><a href="#">Venta de Materiales</a>
+                        <ul>
+                            <li><a href="{{ url('pedido_listar')}}" >Pedidos</a></li>
+                            <li><a href="{{ url('pedido_preconfirmar')}}" >Aceptaci&oacute;n de Pedidos</a></li>
+                            <li><a href="{{ url('salida_registrar')}}" >Registrar Salidas</a></li>
+                            <li><a href="#" onclick="muestraPagina('divPanelSistema', 'paginas/petramas/ordenes.html')" >Stocks de Materiales</a></li>
+                            <li><a href="#" onclick="muestraPagina('divPanelSistema', 'paginas/petramas/ordenes.html')" >Proyeccion de Materiales</a></li>
+                            <li><a href="#" onclick="muestraPagina('divPanelSistema', 'paginas/petramas/backLog.html')">Liquidacion de Materiales</a></li>
+                        </ul>
+                    </li>
 
 
-
-					<li><a href="#">Monitoreo de Servicios</a>
-						<ul>
-							<li><a href="{{ url('incidencia_listar')}}" >Incidencias</a></li>
-							<li><a href="#">Resolucion de Incidencias</a></li>
-                                                        {% if perfil == 'Supervisor' %}
-                                                            <li><a href="{{ url('indicador_analizar')}}" >Analizar Indicadores</a></li>
-                                                        {% endif %}
-							
-						</ul>
-					</li>
-
-                             <td align="center" >
-										</td>
-
-
-				</ul>
-			</div>
-		</td>
+                    <li><a href="#">Monitoreo de Servicios</a>
+                        <ul>
+                            <li><a href="{{ url('incidencia_listar')}}" >Incidencias</a></li>
+                            <li><a href="#">Resolucion de Incidencias</a></li>
+                            {% if perfil == 'Supervisor' %}
+                                <li><a href="{{ url('indicador_procesar')}}" >Indicadores</a></li>
+                            {% endif %}
+			
+                        </ul>
+                    </li>                
+                </ul>
+            </div>
+	</td>
 	</tr>
 </table>

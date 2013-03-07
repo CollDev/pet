@@ -51,4 +51,16 @@ body {
     display: none;
     visibility: hidden;
 }
+
+.rojo {
+    background-color: red;
+}
+.verde {
+    background-color: green;
+}
+.amarillo {
+    background-color: yellow;
+}
+
+
 /* Estilo para el sistema Fin*/

@@ -29,4 +29,10 @@ class TopesRepository extends EntityRepository
         $query = $queryBuilder->getQuery();
         return $query;
     }
+    
+    public function getUltimoTopeAcumulado()
+    {
+        $tope = $this->findOneBy([], ['fecha_registro' => 'DESC']);
+        return $tope;
+    }
 }

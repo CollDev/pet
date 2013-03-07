@@ -1,0 +1,49 @@
+<div id="divPanelSistema" class="ui-widget-content" align="left">
+			  <div id="divFormCompanias">
+                            <h3>
+                                <a href="#">An&aacute;lisis de Indicadores</a>
+                            </h3>
+                            <div>
+                                <form id="registrar" action="{{ path('indicador_procesar') }}" method="post" {{ form_enctype(form) }} >
+                                            {% if mensaje != '' %}
+                                            <div id="errorMsg" class="ui-state-default ui-corner-all error" style="font-size:11px; padding: 4px 4px 4px 4px; height:20px; width:240px">
+                                              {{ mensaje}}
+                                             </div>
+                                                {% endif %}
+                                            <div class="ui-widget-content">
+                                                {{ form_rest(form) }}
+                                             </div>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <div class="ui-widget-content">
+                                                <div class="divBtns">
+                                                    <table width="100%" >
+                                                        <tr>
+                                                            <td align="center" >
+                                                                <button id="procesar" name="procesar" type="submit" >Procesar Indicadores</button>
+                                                                <button type="button" ><a id="cerrar" href="{{ url('inicio')}}"  > Cerrar  </a></button>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td align="center">
+                                            <div id="lstCompaniasDiv">
+                                                
+                                                
+                                            </div>
+
+                                        </td>
+                                    </tr>
+
+                                </table>
+                                </form>     
+                               
+                            </div>
+                        </div>				
+</div>
