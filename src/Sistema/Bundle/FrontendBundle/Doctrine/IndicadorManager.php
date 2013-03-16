@@ -55,7 +55,8 @@ class IndicadorManager extends BaseManager
             
             
             
-            $indicadoresReporte[] = ['nombre' => $nombre, 'estado' => $estado,
+            $indicadoresReporte[] = ['nombre' => $nombre, 'inferior' => $indicador->getInferior(),
+                'superior'=> $indicador->getSuperior(), 'estado' => $estado,
                 'observacion' => $observacion];
         }
 

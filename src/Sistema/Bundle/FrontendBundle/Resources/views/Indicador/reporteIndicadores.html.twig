@@ -6,6 +6,8 @@
     <thead class="ui-widget-header">
     <tr class="">
         <td> Indicadores </td>
+        <td> M&iacute;nimo</td>
+        <td> M&aacute;ximo</td>
         <td> Estado </td>
         <td> Observaciones</td>
     </tr>
@@ -15,7 +17,9 @@
     
     <tr class="">
         <td>{{ indicador.nombre }}</td>
-        <td class="{{ indicador.estado }}">{{ indicador.estado }}</td>
+        <td>{{ indicador.inferior }}</td>
+        <td>{{ indicador.superior }}</td>
+        <td style="text-align:center;"> <img src="{{asset('bundles/frontend/images/'~ indicador.estado ~ '.jpg') }}" border="0" width="24" height="24"/></td>
         <td>{{ indicador.observacion}}</td>
     </tr>
     
