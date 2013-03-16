@@ -125,8 +125,10 @@
                                                     <table width="100%" >
                                                         <tr>
                                                             <td align="center" >
+                                                                {% if (data.mostrar) %}
                                                                 <button id="grabar" name="grabar" type="submit" >Grabar</button>
                                                                 <button id="eliminar" name="eliminar" type="button" >Eliminar</button>
+                                                                {% endif %}
                                                                 <button id="cerrar" name="cerrar" type="button" onclick="refreshParent();" >Cerrar</button>
                                                             </td>
                                                             

@@ -76,6 +76,7 @@ class IncidenciaController extends Controller
         
         if($incidenciaId != '') {
             $incidencia = $incidenciaManager->findByPk($incidenciaId);
+            $data['mostrar'] = ($incidencia->getEstado()->getNombre() != 'Completado')?true:false;
         }
         else {
             $incidencia = $incidenciaManager->crearEntidad();

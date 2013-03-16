@@ -94,6 +94,7 @@ class PedidoController extends Controller
             $data['material'] = $pedidoDetalle->getMaterial()->getId();
             $data['cantidad'] = $pedidoDetalle->getCantidad();
             $data['importe'] = $pedidoDetalle->getImporte();
+            $data['mostrar'] = ($pedido->getEstado()->getNombre() != 'Atendido')? true : false;
         }
         else {
             $pedido = $pedidoManager->crearEntidad();
