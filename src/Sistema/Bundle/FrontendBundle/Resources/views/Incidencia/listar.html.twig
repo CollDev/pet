@@ -39,9 +39,12 @@
                 $(document).on('click', '#eliminar', { url : '{{ url('material_eliminar') }}', currentUrl : '{{ url('material_listar') }}'}, eliminar );
                 
                 
+                var url = '{{ url('incidencia_listar_grilla', {'fecha_inicio': form.fecha_inicio.vars.value, 
+                    'fecha_fin': form.fecha_fin.vars.value, 'responsable': form.responsable.vars.value })}}';
+                //var url = url.replace('amp;', '');
+                var url =  '{{ url('incidencia_listar_grilla')}}?fecha_inicio={{ form.fecha_inicio.vars.value  }}&fecha_fin={{form.fecha_fin.vars.value}}&responsable={{form.responsable.vars.value}}';
                 
-                crearGrillaIncidencia('{{ url('incidencia_listar_grilla', {'fecha_inicio': form.fecha_inicio.vars.value, 
-                    'fecha_fin': form.fecha_fin.vars.value})}}');
+                crearGrillaIncidencia(url);
                 
                 
 }(jQuery)); 

@@ -30,6 +30,7 @@ class IncidenciaManager extends BaseManager
             $incidenciaExistente->setEstado($incidencia->getEstado());
             $incidenciaExistente->setFechaIncidencia($incidencia->getFechaIncidencia());
             $incidenciaExistente->setObservacion($incidencia->getObservacion());
+            $incidenciaExistente->setResponsable($incidencia->getResponsable());
             $incidenciaExistente->setUnidad($incidencia->getUnidad());
         
         $this->guardar($incidenciaExistente);
@@ -44,9 +45,9 @@ class IncidenciaManager extends BaseManager
         }
     }
     
-    public function buscarIncidenciasPorFecha($fechaInicio, $fechaFin)
+    public function buscarIncidenciasPorFechaYResponsable($fechaInicio, $fechaFin, $responsable)
     {
-        return $this->repository->buscarIncidenciasPorFecha($fechaInicio, $fechaFin);
+        return $this->repository->buscarIncidenciasPorFechaYResponsable($fechaInicio, $fechaFin, $responsable);
     }
     
     public function resolverIncidencia($form) 

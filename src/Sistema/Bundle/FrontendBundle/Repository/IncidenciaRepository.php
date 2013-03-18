@@ -52,4 +52,20 @@ class IncidenciaRepository extends EntityRepository
         
        return $qb->getQuery()->getResult(); 
     }
+    
+    public function buscarIncidenciasPorFechaYResponsable($fechaInicio, $fechaFin, $responsable)
+    {
+       $qb = $this->createQueryBuilder("b");
+        $fechaIncidencia = 'fecha_incidencia';
+        $qb ->where($qb->expr()->gte('b.'.$fechaIncidencia, ':b_'.'fecha_inicio'))
+                    ->setParameter('b_'.'fecha_inicio', $fechaInicio);
+        $qb ->andWhere($qb->expr()->lte('b.'.$fechaIncidencia, ':b_'.'fecha_fin'))
+                    ->setParameter('b_'.'fecha_fin', $fechaFin);
+        if($responsable != 'all') {
+            $qb->andWhere($qb->expr()->eq('b.responsable', ':b_responsable'))
+                    ->setParameter('b_responsable', $responsable);
+        }
+        
+       return $qb->getQuery()->getResult(); 
+    }
 }

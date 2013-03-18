@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Sistema\Bundle\FrontendBundle\Form\IncidenciaType;
+use Sistema\Bundle\FrontendBundle\Repository\ResponsableRepository;
 use Sistema\Bundle\FrontendBundle\Repository\EstadoRepository;
 
 /**
@@ -28,6 +29,7 @@ class IncidenciaController extends Controller
         $data = ['fechaInicio' => $fechaInicio, 'fechaFin' => $fechaFin];
         $incidenciaManager = $this->get('incidencia.manager');
         $incidencia = $incidenciaManager->crearEntidad();
+        
         $form = $this->createForm(new IncidenciaType(), $incidencia);
         $mensaje = "";
         
@@ -69,10 +71,10 @@ class IncidenciaController extends Controller
         $fechaFin = $request->query->get('fecha_fin', '');
         $accion = 'editar';
         
-        $data = ['fechaInicio' => $fechaInicio, 'fechaFin' => $fechaFin,
-            'accion' => $accion];
-        
         $incidenciaId = $request->query->get('id', '');
+        
+        $data = ['fechaInicio' => $fechaInicio, 'fechaFin' => $fechaFin,
+            'accion' => $accion, 'id' => $incidenciaId];
         
         if($incidenciaId != '') {
             $incidencia = $incidenciaManager->findByPk($incidenciaId);
@@ -80,6 +82,7 @@ class IncidenciaController extends Controller
         }
         else {
             $incidencia = $incidenciaManager->crearEntidad();
+            $data['mostrar'] = true;
         }
         $form = $this->createForm(new IncidenciaType(), $incidencia);
         $mensaje = "";
@@ -150,6 +153,13 @@ class IncidenciaController extends Controller
         $searchForm = $this->createFormBuilder()
                 ->add('fecha_inicio','date', ['widget' => 'single_text', 'required'=> true, 'data' => new \DateTime($fechaInicio)  ])
                 ->add('fecha_fin','date', ['widget' => 'single_text', 'required'=> true, 'data' => new \DateTime($fechaFin) ])
+                ->add('responsable', 'entity', [ 'class' => 'FrontendBundle:Responsable',
+                'property' => 'nombre',
+                'query_builder' => function(ResponsableRepository $responsableRepository) {
+                    return $responsableRepository->getResponsables();
+                },
+                'required' => false, 'empty_value' => 'Todos' ] 
+                )
                 ->getForm();
         $incidencias = [];
         if($request->getMethod()== 'POST') {
@@ -172,13 +182,15 @@ class IncidenciaController extends Controller
     {
         $request = $this->getRequest();
         $fechaInicio = $request->query->get('fecha_inicio', new \DateTime() );
-        
         $fechaFin = $request->query->get('fecha_fin', new \DateTime() );
+        $responsable = $request->query->get('responsable', 'all');
+        if($responsable == '') $responsable = 'all';
         $incidenciaManager = $this->get('incidencia.manager');
         $incidencias = [];
          if($request->getMethod()== 'GET') {
             $incidencias = $incidenciaManager
-                ->buscarIncidenciasPorFecha($fechaInicio, $fechaFin);
+                ->buscarIncidenciasPorFechaYResponsable($fechaInicio, $fechaFin,
+                        $responsable);
         }
         
         return ['incidencias' => $incidencias ];

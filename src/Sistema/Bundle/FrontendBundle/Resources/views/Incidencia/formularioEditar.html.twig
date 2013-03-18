@@ -4,7 +4,7 @@
                                 <a href="#">Registrar Incidencia</a>
                             </h3>
                             <div>
-                                <form id="registrar" action="{{ path('incidencia_editar', {'fecha_inicio': data.fechaInicio, 'fecha_fin': data.fechaFin}) }}" method="post" {{ form_enctype(form) }} >
+                                <form id="registrar" action="{{ path('incidencia_editar', {'id': data.id, 'fecha_inicio': data.fechaInicio, 'fecha_fin': data.fechaFin}) }}" method="post" {{ form_enctype(form) }} >
                                 <table border="0" cellpadding="2" cellspacing="2" style="height:100px" >
                                     <tr>
                                         <td>

@@ -47,6 +47,12 @@ class Incidencia
      * @ORM\ManyToOne(targetEntity="Sistema\Bundle\FrontendBundle\Entity\TipoIncidencia")
      */
     private $tipo_incidencia;
+    
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="Sistema\Bundle\FrontendBundle\Entity\Responsable")
+     */
+    private $responsable;
 
     /**
      *
@@ -176,12 +182,35 @@ class Incidencia
     {
         return $this->tipo_incidencia;
     }
+    
+    /**
+     * Set responsable
+     *
+     * @param Sistema\Bundle\FrontendBundle\Entity\Responsable $responsable
+     * @return Incidencia
+     */
+    public function setResponsable(\Sistema\Bundle\FrontendBundle\Entity\Responsable $responsable)
+    {
+        $this->responsable = $responsable;
+    
+        return $this;
+    }
 
+    /**
+     * Get responsable
+     *
+     * @return Sistema\Bundle\FrontendBundle\Entity\Responsable 
+     */
+    public function getResponsable()
+    {
+        return $this->responsable;
+    }
+    
     /**
      * Set estado
      *
      * @param Sistema\Bundle\FrontendBundle\Entity\BoletaRecepcion $estado
-     * @return Cliente
+     * @return Incidencia
      */
     public function setEstado(\Sistema\Bundle\FrontendBundle\Entity\Estado $estado)
     {
