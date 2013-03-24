@@ -161,7 +161,7 @@ class PedidoController extends Controller
             
             if( $searchForm->isValid()) {
                 $pedidos = $pedidoRepository
-                    ->buscarPedidos($searchForm->getData());
+                    ->buscarPedidosConfirmados($searchForm->getData());
                 $pedidosConDetalle = $pedidoDetalleRepository
                         ->buscarPedidos($pedidos);
             }

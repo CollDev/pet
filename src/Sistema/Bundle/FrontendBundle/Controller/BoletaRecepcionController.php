@@ -95,6 +95,7 @@ class BoletaRecepcionController extends Controller
                 $boletaRecepcionManager
                     ->completarBoleta($boletaRecepcionId);
                 $boletaRecepcion = $boletaRecepcionManager->findByPk($boletaRecepcionId);
+                $this->aumentarStock($boletaRecepcionId);
                 $topeManager->actualizarTope($boletaRecepcion);
                 $estado = $boletaRecepcion->getEstado()->getNombre();
             }
@@ -102,6 +103,18 @@ class BoletaRecepcionController extends Controller
         return ['estado' => $estado ];
         
     }
+    
+    private function aumentarStock($boletaRecepcionId)
+    {
+        $pedidoManager = $this->get('pedido.manager');
+        $recepcionMaterialRepository = $this->get('recepcion_material.repository');
+        $recepciones = $recepcionMaterialRepository->findBy(['boleta_recepcion' => $boletaRecepcionId]);
+        foreach($recepciones as $recepcion) {
+            $pedidoManager->aumentarStock($recepcion->getMaterial()->getId(), $recepcion->getCantidad());
+        }
+        
+    }       
+            
     
 }
 

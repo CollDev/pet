@@ -29,6 +29,27 @@ class PedidoRepository extends EntityRepository
         return $qb->getQuery()->getResult();
     }
     
+    
+    public function buscarPedidosConfirmados($criteria)
+    {
+     $qb = $this->createQueryBuilder("p");
+        
+        foreach ($criteria as $field => $value) {
+            if (!$this->getClassMetadata()->hasField($field)) {
+                continue;
+            }
+            if(!empty($value)) {
+                
+                    $qb ->andWhere($qb->expr()->eq('p.'.$field, ':p_'.$field))
+                    ->setParameter('p_'.$field, $value);
+            }
+        }
+        $qb->andWhere($qb->expr()->eq('p.estado', ':p_estado'))
+                ->setParameter(':p_estado', 5);
+        return $qb->getQuery()->getResult();   
+    }
+
+            
     public function buscarPedidosPorFecha($clienteId, $fechaInicio, $fechaFin)
     {
         $qb = $this->createQueryBuilder("p");
