@@ -91,7 +91,7 @@ class BoletaRecepcionController extends Controller
         $estado = '';
         if($request->getMethod()== 'POST') {
                 $boletaRecepcionId = $request->request->get('boleta_impresion_id','');
-            if( $boletaRecepcionId !='' ) {
+            if( $boletaRecepcionId !='' && $boletaRecepcionManager->isBoletaNoCompletada($boletaRecepcionId)) {
                 $boletaRecepcionManager
                     ->completarBoleta($boletaRecepcionId);
                 $boletaRecepcion = $boletaRecepcionManager->findByPk($boletaRecepcionId);

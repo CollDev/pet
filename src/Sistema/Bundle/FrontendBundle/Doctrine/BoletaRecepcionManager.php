@@ -42,6 +42,24 @@ class BoletaRecepcionManager extends BaseManager
            $this->guardar($boletaRecepcion);
         }
     }
+    public function isBoletaNoCompletada($boletaRecepcionId)
+    {       
+        $boletaRecepcion = $this->repository->find($boletaRecepcionId);
+        if(!is_null($boletaRecepcion)) {
+            $estadoNombre = $boletaRecepcion->getEstado()->getNombre();
+            if($estadoNombre == 'Completado') {
+                return false;
+            }
+            else {
+                return true;
+            }
+
+        }
+        else {
+            return false;
+        }
+        
+    }
     
 }
 

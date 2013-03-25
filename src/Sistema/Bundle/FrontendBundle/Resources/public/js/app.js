@@ -135,8 +135,8 @@ function completar(url)
 {
     var boletaId = $('#boleta_impresion_id').val();
     if (boletaId == '') {
-        $( "#dlgDatos" ).dialog( "open" );
-         $('#boletaRecepcion_estado_div').html('No existe boleta a completar');
+        //$( "#dlgDatos" ).dialog( "open" );
+         $('#boletaRecepcion_estado_div').html('Accion Completar denegado');
     }
     else {
         var xhqr = $.post(url,$('#imprimir').serialize(),  function(data) {
@@ -476,6 +476,7 @@ function elegirBoletaRecepcion(id, targetUrl, boletaEstado)
     $('#sistema_bundle_frontendbundle_recepcionmaterialtype_fecha_ingreso').val('');
     $('#boleta_impresion_id').val(id);
     $('#form_boleta_recepcion').val(id);
+    $('#boletaRecepcion_resultado').html("");
     $('#boletaRecepcion_estado_div').removeClass('hide');
     $('#boletaRecepcion_estado').html('Estado Boleta: '+boletaEstado);
     $("#dlgDatosPopUp").dialog("close");
