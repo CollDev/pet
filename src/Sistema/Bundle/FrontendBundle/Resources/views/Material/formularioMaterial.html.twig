@@ -92,16 +92,17 @@
                                                     <table width="100%" >
                                                         <tr>
                                                             <td align="center" >
-                                                                <button id="grabar" name="grabar" type="submit" >Grabar</button>
-                                                                <button type="button" id="eliminar" >Eliminar</button>
+                                                                {% if isBoletaNoCompletada %}
+                                                                    <button id="grabar" name="grabar" type="submit" >Grabar</button>
+                                                                    <button type="button" id="eliminar" >Eliminar</button>
+                                                                {% endif %}
                                                                 <button type="button" id="limpiar" onclick="refreshParent()">Cerrar</button>
                                                             </td>
                                                         </tr>
                                                     </table>
                                                 </div>
                                             </div>
-                                        </td>
-                                        <td
+                                        </td>                                        
                                     </tr>
 
                                 </table>

@@ -64,6 +64,7 @@ class MaterialController extends Controller
         $accion = $request->query->get('accion',null);
         $recepcionMaterialId = $request->query->get('recepcionMaterial',0);
         $recepcionMaterialManager = $this->get('recepcion_material.manager');
+        $boletaRecepcionManager = $this->get('boleta_recepcion.manager');
         $boletaRecepcion = $recepcionMaterialManager->getBoletaRecepcionByPk($boletaRecepcionId);
         
         if($recepcionMaterialId != 0) {
@@ -71,12 +72,14 @@ class MaterialController extends Controller
             $recepcionMaterial = $recepcionMaterialManager->findByPk($recepcionMaterialId);
         }
         else {
-            $recepcionMaterial = $recepcionMaterialManager->crearEntidad();
+            $recepcionMaterial = $recepcionMaterialManager->crearEntidad();            
         }
         
         if(!is_null($boletaRecepcion)) {
             $recepcionMaterial->setBoletaRecepcion($boletaRecepcion);
+            $isBoletaNoCompletada = ($boletaRecepcion->getEstado()->getNombre() == 'Completado')? false : true;
         }
+        
         
         $form = $this->createForm(new RecepcionMaterialType($accion, $recepcionMaterialId), $recepcionMaterial);
         
@@ -110,7 +113,7 @@ class MaterialController extends Controller
         }
 
         
-        return ['form' => $form->createView(), 'mensaje' => $mensaje];
+        return ['form' => $form->createView(), 'mensaje' => $mensaje, 'isBoletaNoCompletada' => $isBoletaNoCompletada];
     }
     
     /**
