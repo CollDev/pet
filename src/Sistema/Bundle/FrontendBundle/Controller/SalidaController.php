@@ -35,7 +35,8 @@ class SalidaController extends Controller
                         ." con factura: ". $pedidoActualizado->getFactura();
                 }
                 else {
-                    $mensaje ="El Registro no se pudo actualizar correctamente";
+                    $mensaje ="El Registro no se pudo actualizar correctamente. 
+                        Revise que la factura es única y que el pedido exista";
                 }
             }
         }

@@ -102,20 +102,32 @@ class PedidoManager extends BaseManager
         $estadoAtendido = $estadoRepository->findOneBy(['nombre' => 'Atendido']);
         $pedido = $this->repository->find($nroPedido);
         if(!is_null($pedido)) {
-            $pedido->setFactura($factura);
-            $pedido->setEstado($estadoAtendido);
-            $this->guardar($pedido);
+            if($this->esfacturaUnica($factura)) {
+                $pedido->setFactura($factura);
+                $pedido->setEstado($estadoAtendido);
+                $this->guardar($pedido);
             
-            $pedidoDetalleRepository = $this->objectManager
+                $pedidoDetalleRepository = $this->objectManager
                     ->getRepository('FrontendBundle:PedidoDetalle');
             
-            $pedidoDetalle = $pedidoDetalleRepository->findOneBy(['pedido' => $pedido->getId()]);
-            $material = $pedidoDetalle->getMaterial();
-            $cantidad = $pedidoDetalle->getCantidad();
-            $this->disminuirStock($material->getId(), $cantidad);
-            return $pedido;
+                $pedidoDetalle = $pedidoDetalleRepository->findOneBy(['pedido' => $pedido->getId()]);
+                $material = $pedidoDetalle->getMaterial();
+                $cantidad = $pedidoDetalle->getCantidad();
+                $this->disminuirStock($material->getId(), $cantidad);
+                return $pedido;
+            }
+            
         }
         return null;
+    }
+    
+    public function esFacturaUnica($factura){
+        $facturas = $this->repository->findBy(['factura' => $factura]);
+        $esUnica = true;
+        if(count($facturas) > 0 ) {
+            $esUnica = false;
+        }
+        return $esUnica;
     }
     
     public function buscarPedidosPorFecha($form)
