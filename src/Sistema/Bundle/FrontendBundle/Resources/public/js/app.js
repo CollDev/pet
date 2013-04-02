@@ -324,6 +324,23 @@ function limpiarIncidencia(event) {
     return false;
 }
 
+function limpiarPedidoListar(event) {
+    var targetUrl = event.data.url;
+    
+    $('#registrar input:text').val('');
+    $('#registrar textarea').val('');
+    $('#registrar select').val('');
+    $('#registrar input:hidden[name*="accion"]').val('');
+    limpiarFechas(event);
+    iniciarFechasToday();
+    $("#lstSiniestro").GridUnload();
+    crearGrillaPedido(targetUrl);
+    
+    $('#errorMsg').addClass('hide');
+    
+    return false;
+}
+
 function getToday() {
     var now = new Date();
     var day = ("0" + now.getDate()).slice(-2);
