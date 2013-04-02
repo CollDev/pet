@@ -71,6 +71,13 @@ class IncidenciaManager extends BaseManager
         }
         
     }
+    
+    public function getIndicadorTipoIncidencias()
+    {
+        $incidenciaRepository = $this->objectManager
+                ->getRepository('FrontendBundle:Incidencia');
+        return $incidenciaRepository->getTotalPorTipoIncidencias();
+    }
 }
 
 ?>

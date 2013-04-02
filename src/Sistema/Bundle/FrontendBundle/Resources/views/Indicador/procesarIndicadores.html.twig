@@ -42,6 +42,7 @@
 		$("button", ".divBtns").button();
          
                 $(document).on('click', '#limpiar', { url : '{{ url('indicador_analizar') }}'}, limpiarFechas );
+                $(document).on('click', '#imprimir', { url : '{{ url('indicador_imprimir') }}'}, imprimirReporte );
                 
                 //$('#sistema_bundle_frontendbundle_incidenciatype_nro_incidencia').val('');
          

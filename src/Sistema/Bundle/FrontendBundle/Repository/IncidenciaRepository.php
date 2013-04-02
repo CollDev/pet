@@ -68,4 +68,17 @@ class IncidenciaRepository extends EntityRepository
         
        return $qb->getQuery()->getResult(); 
     }
+    
+    public function getTotalPorTipoIncidencias()
+    {
+        $em = $this->getEntityManager();
+        
+        $dqlQuery = "SELECT ti.nombre, COUNT(i.id) AS total
+            FROM FrontendBundle:Incidencia i
+            JOIN i.tipo_incidencia ti 
+            GROUP BY i.tipo_incidencia, ti.nombre";
+        $query = $em->createQuery($dqlQuery);
+        
+        return $query->getResult();
+    }
 }

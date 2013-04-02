@@ -12,4 +12,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class IndicadorRepository extends EntityRepository
 {
+    public function indicadorExiste($nombre)
+    {
+        $indicador = $this->findOneBy(['nombre' => $nombre]);
+        $existe = false;
+        if(!is_null($indicador)) {
+            $existe = true;
+        }
+        return $existe;
+    }
+            
 }

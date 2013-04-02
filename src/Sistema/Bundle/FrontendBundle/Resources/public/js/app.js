@@ -131,6 +131,17 @@ function imprimir(url)
     
 }
 
+function imprimirReporte(event)
+{
+    var url = event.data.url;
+    var xhqr = $.post(url,$('#imprimir').serialize(),  function(data) {
+        
+        $('.impresion').html(data);
+        $('.impresion').printElement({ pageTitle:'Petramas'});
+    });
+    
+}
+
 function completar(url)
 {
     var boletaId = $('#boleta_impresion_id').val();

@@ -77,6 +77,7 @@ class IndicadorController extends Controller
     {
         $request = $this->getRequest();
         $indicadorManager = $this->get('indicador.manager');
+        $incidenciaManager = $this->get('incidencia.manager');
         
         $form = $this->createFormBuilder()
                 ->getForm()
@@ -89,6 +90,8 @@ class IndicadorController extends Controller
             $form->bind($request);
             
             if ($form->isValid()) {
+                $indicadorIncidencias = $incidenciaManager->getIndicadorTipoIncidencias();
+                $indicadorManager->generarIndicadoresIncidencia($indicadorIncidencias);
                 $indicadores = $indicadorManager->procesarIndicadores();
             }                
         }
@@ -97,6 +100,17 @@ class IndicadorController extends Controller
             'indicadores' => $indicadores];
         
         
+    }
+    
+    /**
+     * @Route("/imprimir", name="indicador_imprimir")
+     * @Template()
+     */
+    public function imprimirAction()
+    {
+        $indicadorManager = $this->get('indicador.manager');
+        $indicadores = $indicadorManager->obtenerIndicadores();
+        return [ 'indicadores' => $indicadores ];
     }
 }
 

@@ -152,6 +152,49 @@ class IndicadorManager extends BaseManager
         return $estado;
         
     }
+    
+    public function generarIndicadoresIncidencia($incidencias)
+    {
+        foreach($incidencias as $incidencia) {
+            
+            if($this->repository->indicadorExiste($incidencia['nombre'])) {
+                $indicador = $this->repository->findOneBy(['nombre' => $incidencia['nombre']]);
+                $indicador->setValor($incidencia['total']);
+                $this->guardar($indicador);
+            }
+            else {
+                $indicador = $this->crearEntidad();
+                $indicador->setNombre($incidencia['nombre']);
+                $indicador->setValor($incidencia['total']);
+                $indicador->setEstandar('SI');
+                $this->guardar($indicador);
+                
+            }
+        }
+    }
+    
+    public function obtenerIndicadores()
+    {
+        $indicadores = $this->repository->findAll();
+        
+        $indicadoresReporte = [];
+        
+        foreach($indicadores as $indicador) {
+            $nombre = $indicador->getNombre();
+            if($nombre == 'Mantenimiento') {
+                $estado = $this->calcularEstadoIndirecto($indicador);    
+            }
+            else {
+                $estado = $this->calcularEstadoDirecto($indicador);
+            }
+            $observacion = $indicador->getValor(). ' ' . $indicador->getObservacion();
+            $indicadoresReporte[] = ['nombre' => $nombre, 'valor' =>$indicador->getValor(), 'inferior' => $indicador->getInferior(),
+                'superior'=> $indicador->getSuperior(), 'estado' => $estado,
+                'observacion' => $observacion];
+        }
+        return $indicadoresReporte;        
+        
+    }
 }
 
 ?>

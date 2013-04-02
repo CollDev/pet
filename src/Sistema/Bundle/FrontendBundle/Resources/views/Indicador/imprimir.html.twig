@@ -1,0 +1,33 @@
+{% if indicadores | length <= 0 %}
+    <div>No existen indicadores</div>
+{% else %}
+<h3>Reporte Indicadores</h3>
+<div class="">
+<table id="myTable" border="0" class="ui-widget" style="width:80%;">
+    <thead class="ui-widget-header">
+    <tr class="">
+        <td> Indicadores </td>
+        <td> Valor Calculado</td>
+        <td> M&iacute;nimo</td>
+        <td> M&aacute;ximo</td>
+        <td> Estado </td>
+        <td> Observaciones</td>
+    </tr>
+    </thead>
+    <tbody class="ui-widget-content">
+    {% for indicador in indicadores %}
+    
+    <tr class="">
+        <td>{{ indicador.nombre }}</td>
+        <td>{{ indicador.valor }}</td>
+        <td>{{ indicador.inferior }}</td>
+        <td>{{ indicador.superior }}</td>
+        <td style="text-align:center;"> <img src="{{asset('bundles/frontend/images/'~ indicador.estado ~ '.jpg') }}" border="0" width="24" height="24"/></td>
+        <td>{{ indicador.observacion}}</td>
+    </tr>
+    
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endif %}
