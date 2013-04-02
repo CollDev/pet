@@ -324,6 +324,21 @@ function limpiarIncidencia(event) {
     return false;
 }
 
+function limpiarIncidenciaListar(event) {
+    var targetUrl = event.data.url;
+    $('#registrar input:text').val('');
+    $('#registrar textarea').val('');
+    $('#registrar select').val('');
+    $('#registrar input:hidden[name*="accion"]').val('');
+    limpiarFechas(event);
+    iniciarFechasToday();
+    $("#lstSiniestro").GridUnload();
+    crearGrillaIncidencia(targetUrl);
+    $('#errorMsg').addClass('hide');
+    return false;
+}
+
+
 function limpiarPedidoListar(event) {
     var targetUrl = event.data.url;
     

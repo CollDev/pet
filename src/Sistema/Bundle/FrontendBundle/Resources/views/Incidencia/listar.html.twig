@@ -35,7 +35,7 @@
    	$( "#divFormCompanias" ).accordion({autoHeight:false});
 		$("button", ".divBtns").button();
                 
-                $(document).on('click', '#limpiar', { url : '{{ url('incidencia_listar') }}'}, limpiarIncidencia );
+                $(document).on('click', '#limpiar', { url : '{{ url('incidencia_listar_grilla') }}'}, limpiarIncidenciaListar);
                 $(document).on('click', '#eliminar', { url : '{{ url('material_eliminar') }}', currentUrl : '{{ url('material_listar') }}'}, eliminar );
                 
                 
