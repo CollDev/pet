@@ -23,8 +23,9 @@ class RecepcionMaterialManager extends BaseManager
         $this->class = $fqnClass;
     }
     
-    public function guardarMaterial($recepcionMaterial)
+    public function guardarMaterial($recepcionMaterial, $usuario)
     {
+        $recepcionMaterial->setUsuario($usuario);
         $this->guardar($recepcionMaterial);
         $material = $recepcionMaterial->getMaterial();
         $this->aumentarStock($material->getId(),
@@ -32,7 +33,7 @@ class RecepcionMaterialManager extends BaseManager
     }
             
     
-    public function editar($recepcionMaterialId, $recepcionMaterial)
+    public function editar($recepcionMaterialId, $recepcionMaterial, $usuario)
     {
         $recepcionMaterialExistente = $this->repository->find($recepcionMaterialId);
         $cantidadExistente = $recepcionMaterialExistente->getCantidad();
@@ -42,7 +43,7 @@ class RecepcionMaterialManager extends BaseManager
         $recepcionMaterialExistente->setUnidadMedida($recepcionMaterial->getUnidadMedida());
         $recepcionMaterialExistente->setCantidad($recepcionMaterial->getCantidad());
         $recepcionMaterialExistente->setFechaIngreso($recepcionMaterial->getFechaIngreso());
-        
+        $recepcionMaterialExistente->setUsuario($usuario);
         $this->guardar($recepcionMaterialExistente);
         $cantidad = $recepcionMaterial->getCantidad();
         if($cantidad >= $cantidadExistente) {

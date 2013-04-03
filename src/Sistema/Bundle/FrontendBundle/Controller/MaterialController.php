@@ -65,6 +65,7 @@ class MaterialController extends Controller
         $recepcionMaterialId = $request->query->get('recepcionMaterial',0);
         $recepcionMaterialManager = $this->get('recepcion_material.manager');
         $boletaRecepcionManager = $this->get('boleta_recepcion.manager');
+        $usuario= $this->get('security.context')->getToken()->getUser();
         $boletaRecepcion = $recepcionMaterialManager->getBoletaRecepcionByPk($boletaRecepcionId);
         
         if($recepcionMaterialId != 0) {
@@ -74,7 +75,7 @@ class MaterialController extends Controller
         else {
             $recepcionMaterial = $recepcionMaterialManager->crearEntidad();            
         }
-        
+        $isBoletaNoCompletada = true;
         if(!is_null($boletaRecepcion)) {
             $recepcionMaterial->setBoletaRecepcion($boletaRecepcion);
             $isBoletaNoCompletada = ($boletaRecepcion->getEstado()->getNombre() == 'Completado')? false : true;
@@ -96,7 +97,7 @@ class MaterialController extends Controller
                     
                     if(empty($accion)) {
                         if($recepcionMaterialManager->esMaterialUnico($recepcionMaterial)) {
-                           $recepcionMaterialManager->guardarMaterial($recepcionMaterial);
+                           $recepcionMaterialManager->guardarMaterial($recepcionMaterial, $usuario);
                         }
                         else {
                             $mensaje = "Ya existe ese tipo de material";
@@ -104,7 +105,7 @@ class MaterialController extends Controller
                     }
                     else {
                         $recepcionMaterialId = $form->get('recepcion_material')->getData();
-                        $recepcionMaterialManager->editar($recepcionMaterialId, $recepcionMaterial);
+                        $recepcionMaterialManager->editar($recepcionMaterialId, $recepcionMaterial, $usuario);
                     }
                 
                 //return $this->render('FrontendBundle:Material:formularioMaterial.html.twig', ['form' => $form->createView()] );

@@ -54,7 +54,13 @@ class RecepcionMaterial
      */
     private $cantidad;
 
-
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="Sistema\Bundle\FrontendBundle\Entity\Usuario") 
+     */
+    private $usuario;
+    
+    
     /**
      * Get id
      *
@@ -180,6 +186,27 @@ class RecepcionMaterial
         return $this->cantidad;
     }
     
+    /**
+     * Get usuario
+     *
+     * @return Sistema\Bundle\FrontendBundle\Entity\Usuario 
+     */
+    public function getUsuario() {
+        return $this->usuario;
+    }
+    
+    /**
+     * Set usuario
+     *
+     * @param Sistema\Bundle\FrontendBundle\Entity\Usuario $usuario
+     * @return RecepcionMaterial
+     */
+    public function setUsuario(\Sistema\Bundle\FrontendBundle\Entity\Usuario $usuario) {
+        $this->usuario = $usuario;
+        return $this;
+    }
+
+        
     public function __construct()
     {
         $this->fecha_ingreso = new \DateTime();

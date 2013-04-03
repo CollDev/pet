@@ -182,6 +182,7 @@ function crearGrilla(targetUrl){
                 {name:'fecha_ingreso',index:'fecha_ingreso', width:100},
 		{name:'unidad_medida',index:'unidad_medida', width:100},
 		{name:'cantidad',index:'cantidad', width:100}
+           
             ],
             rowNum:20,
             rowList:[20,40,60,80,100],

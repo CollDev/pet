@@ -172,6 +172,27 @@ class IndicadorManager extends BaseManager
             }
         }
     }
+   
+    public function generarIndicadoresStock($stocks)
+    {
+        foreach($stocks as $stock) {
+            
+            if($this->repository->indicadorExiste($stock->getNombre())) {
+                $indicador = $this->repository->findOneBy(['nombre' => $stock->getNombre()]);
+                $indicador->setValor($stock->getStock());
+                $this->guardar($indicador);
+            }
+            else {
+                $indicador = $this->crearEntidad();
+                $indicador->setNombre($stock->getNombre());
+                $indicador->setValor($stock->getStock());
+                $indicador->setEstandar('SI');
+                $this->guardar($indicador);
+                
+            }
+        }
+    }
+    
     
     public function obtenerIndicadores()
     {
@@ -194,6 +215,14 @@ class IndicadorManager extends BaseManager
         }
         return $indicadoresReporte;        
         
+    }
+    
+    public function getStocks()
+    {
+         $materialRepository = $this->objectManager
+                ->getRepository('FrontendBundle:Material');
+         
+         return $materialRepository->getMateriales()->getQuery()->getResult();
     }
 }
 

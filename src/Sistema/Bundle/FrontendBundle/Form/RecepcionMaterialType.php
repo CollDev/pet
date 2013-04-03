@@ -32,6 +32,7 @@ class RecepcionMaterialType extends AbstractType
                 )
             ->add('fecha_ingreso', 'date', ['widget' => 'single_text', 'required' => true  ])
             ->add('cantidad', 'text', ['attr' => ['class'=> 'inputText required', 'readonly' => true, 'required' => true ] ]);
+            
                 
          if(!is_null($this->accion)) {
              $builder->add('accion', 'hidden', ['mapped' => false, 'data' => $this->accion]);
