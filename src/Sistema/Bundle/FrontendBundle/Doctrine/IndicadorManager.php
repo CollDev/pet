@@ -5,7 +5,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class IndicadorManager extends BaseManager
 {
-    const TOPE_MAXIMO = 8000;
+    const TOPE_MAXIMO = 18000;
     
     public function __construct(ObjectManager $om, $fqnClass)
     {
@@ -23,7 +23,7 @@ class IndicadorManager extends BaseManager
         {
             $nombre = $indicador->getNombre();
             
-            if($indicador->getNombre() == 'Porcentaje Tope') {
+            if($indicador->getNombre() == 'Tope') {
                 $valor = $this->procesarTope();
                 $indicador->setValor($valor);
                 $this->guardar($indicador);
@@ -102,7 +102,7 @@ class IndicadorManager extends BaseManager
             $dias = ($intervalo->days);
             $signo = $intervalo->invert;
             
-            if($signo == 0 ) {
+            if($signo == 0 || $dias == 0) {
                 if ($dias <= $indicadorMantenimiento->getInferior()) {
                     $total++;
                 }
