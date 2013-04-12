@@ -417,6 +417,20 @@ function buscarPedido(event){
         });
 }
 
+function buscarFactura(event){
+        
+    $( "#dlgDatos" ).dialog( "open" );
+    $('#form_id').val('');
+    $('.resultados').html('');
+    $("#buscar-factura")
+        .click(function() {
+            $.post(event.data.url, $('#popup').serialize(), function (data) {
+                $('.resultados').html(data); 
+            });
+            return false;
+        });
+}
+
 function buscarPorPedido(event) {
     $( "#dlgDatosPedido" ).dialog( "open" );
     $('#form_id').val('');
@@ -557,6 +571,14 @@ function elegirPedido(id, pedidoEstado, fechaProgramacion, material, cantidad)
     $('#pedido_material').text(material);
     $('#pedido_cantidad').text(cantidad);
     $("#dlgDatosPopUp").dialog("close");
+    
+    $('#errorMsg').addClass('hide');
+}
+
+function elegirFactura(id)
+{
+    $('#form_factura').val(id);
+    $("#dlgDatos").dialog("close");
     
     $('#errorMsg').addClass('hide');
 }

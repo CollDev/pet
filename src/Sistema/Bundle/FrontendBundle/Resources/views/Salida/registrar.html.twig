@@ -26,6 +26,9 @@
     <div id="dlgDatosPopUp" title="Buscar Pedido">
         {% render url('pedido_buscar') %}
     </div>
+    <div id="dlgDatos" title="Buscar Factura">
+        {% render url('factura_buscar') %}
+    </div>
 
 {% endblock %}
 {% block custom_javascripts %}
@@ -37,9 +40,10 @@
    	$( "#divFormCompanias" ).accordion({autoHeight:false});
 		$("button", ".divBtns").button();
                 $("#nro-pedido").button();
-                
+                $("#nro-factura").button();
                 
                 $(document).on('click', '#nro-pedido', { url : '{{ url("pedido_ajax_listar") }}'}, buscarMiPedido );
+                $(document).on('click', '#nro-factura', { url : '{{ url("factura_ajax_listar") }}'}, buscarFactura );
                 
                 var now = new Date();
                 var day = ("0" + now.getDate()).slice(-2);
@@ -49,6 +53,13 @@
                 $('#form_nro_pedido').val('');
                 $('#form_factura').val('');
 		$("#dlgDatosPopUp").dialog({
+			autoOpen:false,
+			resizable: false,
+			height:250,
+			width:400,
+			modal:true
+		});
+                $("#dlgDatos").dialog({
 			autoOpen:false,
 			resizable: false,
 			height:250,

@@ -48,6 +48,8 @@
         <parameter key="indicador_repository.class">Sistema\Bundle\FrontendBundle\Repository\IndicadorRepository</parameter>
         <parameter key="indicador_entity.class">Sistema\Bundle\FrontendBundle\Entity\Indicador</parameter>
         
+        <parameter key="factura_repository.class">Sistema\Bundle\FrontendBundle\Repository\FacturaRepository</parameter>
+        <parameter key="factura_entity.class">Sistema\Bundle\FrontendBundle\Entity\Factura</parameter>
         
         
     </parameters>
@@ -144,6 +146,12 @@
                  factory-service="doctrine.orm.default_entity_manager"
                  factory-method="getRepository">
             <argument>%material_entity.class%</argument>
+        </service>
+        
+        <service id="factura.repository" class="%factura_repository.class%"
+                 factory-service="doctrine.orm.default_entity_manager"
+                 factory-method="getRepository">
+            <argument>%factura_entity.class%</argument>
         </service>
         
         <service id="sistema.entity_manager" class="Doctrine\ORM\EntityManager" public="false"

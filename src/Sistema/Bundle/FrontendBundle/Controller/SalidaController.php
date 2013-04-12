@@ -21,7 +21,7 @@ class SalidaController extends Controller
         $mensaje = "";
         $form = $this->createFormBuilder()
                     ->add('nro_pedido','text', ['attr' => ['readOnly' => true]])
-                    ->add('factura')
+                    ->add('factura','text', ['attr' => ['readOnly' => true]])
                     ->getForm();
         
         if ($request->isMethod('POST')) {
@@ -32,7 +32,7 @@ class SalidaController extends Controller
                 $pedidoActualizado = $pedidoManager->actualizarFactura($form);
                 if(!is_null($pedidoActualizado)) {
                     $mensaje ="Registro Nro.".$pedidoActualizado->getId()." ingresado exitosamente"
-                        ." con factura: ". $pedidoActualizado->getFactura();
+                        ." con factura: ". $pedidoActualizado->getFactura()->getId();
                 }
                 else {
                     $mensaje ="El Registro no se pudo actualizar correctamente. 

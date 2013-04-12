@@ -16,7 +16,6 @@ namespace Sistema\Bundle\FrontendBundle\Form\DataTransformer;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Doctrine\Common\Persistence\ObjectManager;
-use Acme\TaskBundle\Entity\Issue;
 
 class BoletaRecepcionToNumberTransformer implements DataTransformerInterface
 {

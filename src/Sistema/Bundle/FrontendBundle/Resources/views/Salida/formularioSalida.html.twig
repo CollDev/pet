@@ -52,7 +52,11 @@
                                                         <td><span id="pedido_estado"></span></td>
                                                         
                                                         <td>{{ form_label(form.factura)}}</td>
-                                                        <td>{{ form_widget(form.factura)}}</td>
+                                                        <td>{{ form_widget(form.factura)}}
+                                                         <a id="nro-factura" href="#"  >
+                                                                <img border="0" width="15" src="{{ asset('bundles/frontend/images/toolbar_find.png' ) }}" />  </a>
+                                                                <br />
+                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="2"></td>

@@ -7,7 +7,7 @@ use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class ClienteToNumberTransformer implements DataTransformerInterface
+class FacturaToNumberTransformer implements DataTransformerInterface
 {
     /**
      * @var ObjectManager
@@ -38,11 +38,11 @@ class ClienteToNumberTransformer implements DataTransformerInterface
     }
 
     /**
-     * Transforms a string (number) to an object (cliente).
+     * Transforms a string (number) to an object (factura).
      *
      * @param  string $number
      * @return Issue|null
-     * @throws TransformationFailedException if object (cliente) is not found.
+     * @throws TransformationFailedException if object (factura) is not found.
      */
     public function reverseTransform($number)
     {
@@ -50,19 +50,19 @@ class ClienteToNumberTransformer implements DataTransformerInterface
             return null;
         }
 
-        $cliente = $this->om
-            ->getRepository('FrontendBundle:Cliente')
+        $factura = $this->om
+            ->getRepository('FrontendBundle:Factura')
             ->findOneBy(array('id' => $number))
         ;
 
-        if (null === $cliente) {
+        if (null === $factura) {
             throw new TransformationFailedException(sprintf(
-                'Cliente "%s" no existe!',
+                'Factura "%s" no existe!',
                 $number
             ));
         }
 
-        return $cliente;
+        return $factura;
     }
 }
 

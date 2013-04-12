@@ -1,0 +1,37 @@
+<div class="error red">
+    {{ form_errors(form) }}
+    {% if facturas | length == 0 %} 
+        La factura no fue encontrada.
+    {% endif %}
+</div>
+
+{% if facturas | length > 0 %} 
+<table id="myTable" border="0" class="ui-widget">
+<thead class="ui-widget-header">
+    <tr>
+        <th>Cod. Factura</th>
+        <th>Fecha Factura</th>
+        <th>Cliente</th>
+        <th>Total</th>
+        <th>Acci&oacute;n</th>
+    </tr>
+</thead>
+<tbody class="ui-widget-content">
+    
+    {% for factura in facturas %}
+    <tr>
+        <td >{{ factura.id }}</td>
+        <td >{{ factura.fecha | date('d/m/Y') }}</td>
+        <td >{{ factura.cliente.razonSocial }}</td>
+        <td >{{ factura.total }}</td>
+        <td ><button id="choose-{{ factura.id }}" 
+                     class="ui-button ui-widget ui-corner-all ui-state-default ui-button-text-only"
+                     onclick="elegirFactura('{{ factura.id }}'                             
+                         )"
+                     value="Elegir">Elegir</button></td>
+    </tr>
+    {% endfor %}
+    
+</tbody>
+</table>
+{% endif %}

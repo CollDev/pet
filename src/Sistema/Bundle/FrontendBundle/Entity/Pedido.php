@@ -42,9 +42,8 @@ class Pedido
     private $estado;
     
     /**
-     * @var string
      *
-     * @ORM\Column(name="factura", type="string", length=50, nullable=true)
+     * @ORM\OneToOne(targetEntity="Sistema\Bundle\FrontendBundle\Entity\Factura")
      */
     private $factura;
 
@@ -131,10 +130,10 @@ class Pedido
     /**
      * Set factura
      * 
-     * @param string $factura
+     * @param Sistema\Bundle\FrontendBundle\Entity\Factura $factura
      * @return Pedido
      */
-    public function setFactura($factura) {
+    public function setFactura(\Sistema\Bundle\FrontendBundle\Entity\Factura $factura) {
         $this->factura = $factura;
         return $this;
     }
@@ -143,7 +142,7 @@ class Pedido
      * 
      * Get Factura
      * 
-     * @return string
+     * @return Sistema\Bundle\FrontendBundle\Entity\Factura
      */
     public function getFactura() {
         return $this->factura;

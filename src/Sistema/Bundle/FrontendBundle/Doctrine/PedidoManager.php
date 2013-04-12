@@ -97,12 +97,15 @@ class PedidoManager extends BaseManager
     public function actualizarFactura($form)
     {
         $nroPedido = $form->get('nro_pedido')->getData();
-        $factura = $form->get('factura')->getData();
+        $facturaId = $form->get('factura')->getData();
         $estadoRepository = $this->objectManager->getRepository('FrontendBundle:Estado');
         $estadoAtendido = $estadoRepository->findOneBy(['nombre' => 'Atendido']);
         $pedido = $this->repository->find($nroPedido);
         if(!is_null($pedido)) {
-            if($this->esfacturaUnica($factura)) {
+            if($this->esfacturaUnica($facturaId)) {
+                $factura = $this->objectManager
+                        ->getRepository('FrontendBundle:Factura')
+                        ->find($facturaId);
                 $pedido->setFactura($factura);
                 $pedido->setEstado($estadoAtendido);
                 $this->guardar($pedido);
