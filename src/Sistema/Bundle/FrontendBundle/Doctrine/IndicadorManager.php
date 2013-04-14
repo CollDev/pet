@@ -26,6 +26,8 @@ class IndicadorManager extends BaseManager
             if($indicador->getNombre() == 'Tope') {
                 $valor = $this->procesarTope();
                 $indicador->setValor($valor);
+                $indicador->setTipoId(1);
+                $indicador->setTipoIndicador("Indicador de Tope");
                 $this->guardar($indicador);
                 $estado = $this->calcularEstadoDirecto($indicador);
                 $falta = self::TOPE_MAXIMO - $valor;
@@ -35,6 +37,8 @@ class IndicadorManager extends BaseManager
             else if($indicador->getNombre() == 'Mantenimiento') {
                 $valor = $this->procesarMantenimiento();
                 $indicador->setValor($valor);
+                $indicador->setTipoId(2);
+                $indicador->setTipoIndicador("Indicador de Mantenimiento");
                 $this->guardar($indicador);
                 $estado = $this->calcularEstadoIndirecto($indicador);
                 $observacion = $indicador->getValor(). ' ' . $indicador->getObservacion();
@@ -43,8 +47,14 @@ class IndicadorManager extends BaseManager
                 
                 $valor = $this->procesarUnidades();
                 $indicador->setValor($valor);
+                $indicador->setTipoId(2);
+                $indicador->setTipoIndicador("Indicador de Mantenimiento");
                 $this->guardar($indicador);
                 $estado = $this->calcularEstadoDirecto($indicador);
+                $observacion = $indicador->getValor(). ' ' . $indicador->getObservacion();
+            }
+            else if($indicador->getTipoId() == 4) {
+                $estado = $this->calcularEstadoIndirecto($indicador);
                 $observacion = $indicador->getValor(). ' ' . $indicador->getObservacion();
             }
             else {
@@ -53,9 +63,13 @@ class IndicadorManager extends BaseManager
             }
             
             
+            if(!isset($indicadoresReporte[$indicador->getTipoId()])) {
+                $indicadoresReporte[$indicador->getTipoId()] = [];
+                $indicadoresReporte[$indicador->getTipoId()]['titulo'] = $indicador->getTipoIndicador();
+                
+            }
             
-            
-            $indicadoresReporte[] = ['nombre' => $nombre, 'valor' =>$indicador->getValor(), 'inferior' => $indicador->getInferior(),
+            $indicadoresReporte[$indicador->getTipoId()]['data'][] = ['nombre' => $nombre, 'valor' =>$indicador->getValor(), 'inferior' => $indicador->getInferior(),
                 'superior'=> $indicador->getSuperior(), 'estado' => $estado,
                 'observacion' => $observacion];
         }
@@ -160,12 +174,16 @@ class IndicadorManager extends BaseManager
             if($this->repository->indicadorExiste($incidencia['nombre'])) {
                 $indicador = $this->repository->findOneBy(['nombre' => $incidencia['nombre']]);
                 $indicador->setValor($incidencia['total']);
+                $indicador->setTipoId(3);
+                $indicador->setTipoIndicador("Indicador de Incidencias");
                 $this->guardar($indicador);
             }
             else {
                 $indicador = $this->crearEntidad();
                 $indicador->setNombre($incidencia['nombre']);
                 $indicador->setValor($incidencia['total']);
+                $indicador->setTipoId(3);
+                $indicador->setTipoIndicador("Indicador de Incidencias");
                 $indicador->setEstandar('SI');
                 $this->guardar($indicador);
                 
@@ -180,12 +198,16 @@ class IndicadorManager extends BaseManager
             if($this->repository->indicadorExiste($stock->getNombre())) {
                 $indicador = $this->repository->findOneBy(['nombre' => $stock->getNombre()]);
                 $indicador->setValor($stock->getStock());
+                 $indicador->setTipoId(4);
+                $indicador->setTipoIndicador("Indicador de Stock de Materiales");
                 $this->guardar($indicador);
             }
             else {
                 $indicador = $this->crearEntidad();
                 $indicador->setNombre($stock->getNombre());
                 $indicador->setValor($stock->getStock());
+                 $indicador->setTipoId(4);
+                $indicador->setTipoIndicador("Indicador de Stock de Materiales");
                 $indicador->setEstandar('SI');
                 $this->guardar($indicador);
                 
@@ -209,7 +231,15 @@ class IndicadorManager extends BaseManager
                 $estado = $this->calcularEstadoDirecto($indicador);
             }
             $observacion = $indicador->getValor(). ' ' . $indicador->getObservacion();
-            $indicadoresReporte[] = ['nombre' => $nombre, 'valor' =>$indicador->getValor(), 'inferior' => $indicador->getInferior(),
+            
+            
+           if(!isset($indicadoresReporte[$indicador->getTipoId()])) {
+                $indicadoresReporte[$indicador->getTipoId()] = [];
+                $indicadoresReporte[$indicador->getTipoId()]['titulo'] = $indicador->getTipoIndicador();
+                
+            }
+            
+            $indicadoresReporte[$indicador->getTipoId()]['data'][] = ['nombre' => $nombre, 'valor' =>$indicador->getValor(), 'inferior' => $indicador->getInferior(),
                 'superior'=> $indicador->getSuperior(), 'estado' => $estado,
                 'observacion' => $observacion];
         }

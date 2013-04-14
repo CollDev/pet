@@ -36,6 +36,21 @@ class Indicador
     private $estandar;
     
     /**
+     * @var integer
+     * 
+     * @ORM\Column(name="tipo_id", type="integer", nullable=true)
+     * 
+     */
+    private $tipo_id;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tipo_indicador", type="string", length=200, nullable=true)
+     */
+    private $tipo_indicador;
+    
+    /**
      * @var float
      * 
      * @ORM\Column(name="inferior", type="decimal", precision=10, scale=2, nullable=true )
@@ -120,7 +135,49 @@ class Indicador
         return $this->estandar;
     }
     
+    /*
+     * Get tipo_id
+     * 
+     * @return integer
+     */
+    public function getTipoId() {
+        return $this->tipo_id;
+    }
+    
     /**
+     * Set tipo_id
+     * 
+     * @param integer $tipo_id
+     * @return Indicador
+     */
+    public function setTipoId($tipo_id) {
+        $this->tipo_id = $tipo_id;
+        
+        return $this;
+    }
+    
+    /*
+     * Get tipo_indicador
+     * 
+     * @return string
+     */
+    public function getTipoIndicador() {
+        return $this->tipo_indicador;
+    }
+    
+    /**
+     * Set tipo_indicador
+     * 
+     * @param string $tipo_indicador
+     * @return Indicador
+     */
+    public function setTipoIndicador($tipo_indicador) {
+        $this->tipo_indicador = $tipo_indicador;
+        
+        return $this;
+    }
+
+        /**
      * Get inferior
      *
      * @return float

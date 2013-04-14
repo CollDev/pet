@@ -86,18 +86,29 @@ class BoletaRecepcionController extends Controller
         $request = $this->getRequest();
         $boletaRecepcionManager = $this->get('boleta_recepcion.manager');
         $topeManager = $this->get('tope.manager');
+        $indicadorManager = $this->get('indicador.manager');
         $boletaRecepcion = new BoletaRecepcion();
         
         $estado = '';
         if($request->getMethod()== 'POST') {
                 $boletaRecepcionId = $request->request->get('boleta_impresion_id','');
             if( $boletaRecepcionId !='' && $boletaRecepcionManager->isBoletaNoCompletada($boletaRecepcionId)) {
-                $boletaRecepcionManager
-                    ->completarBoleta($boletaRecepcionId);
                 $boletaRecepcion = $boletaRecepcionManager->findByPk($boletaRecepcionId);
-                $this->aumentarStock($boletaRecepcionId);
-                $topeManager->actualizarTope($boletaRecepcion);
-                $estado = $boletaRecepcion->getEstado()->getNombre();
+                $noRebasaTope = $topeManager->acumuladoNoRebasaTope($boletaRecepcion, $indicadorManager::TOPE_MAXIMO);
+                
+                if($noRebasaTope) {
+                   $boletaRecepcionManager
+                      ->completarBoleta($boletaRecepcionId);
+                   
+                   $this->aumentarStock($boletaRecepcionId);
+                   $topeManager->actualizarTope($boletaRecepcion);
+                   $estado = $boletaRecepcion->getEstado()->getNombre(); 
+                   
+                }
+                else {
+                   $estado = 'No se puede completar esta boleta, rebasa el tope máximo'; 
+                }
+                
             }
         }
         return ['estado' => $estado ];
@@ -113,7 +124,7 @@ class BoletaRecepcionController extends Controller
             $pedidoManager->aumentarStock($recepcion->getMaterial()->getId(), $recepcion->getCantidad());
         }
         
-    }       
+    }
             
     
 }

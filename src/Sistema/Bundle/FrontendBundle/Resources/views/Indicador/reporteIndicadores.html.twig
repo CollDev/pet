@@ -14,16 +14,20 @@
     </tr>
     </thead>
     <tbody class="ui-widget-content">
-    {% for indicador in indicadores %}
-    
-    <tr class="">
-        <td>{{ indicador.nombre }}</td>
-        <td>{{ indicador.valor }}</td>
-        <td>{{ indicador.inferior }}</td>
-        <td>{{ indicador.superior }}</td>
-        <td style="text-align:center;"> <img src="{{asset('bundles/frontend/images/'~ indicador.estado ~ '.jpg') }}" border="0" width="24" height="24"/></td>
-        <td>{{ indicador.observacion}}</td>
-    </tr>
+    {% for indicadorReporte in indicadores %}
+        <tr>
+            <td colspan="6" style="text-align:center;background-color: #08C;"><span style="color: #fff;">{{indicadorReporte.titulo}}</span></td>
+        </tr>
+       {% for  indicador in indicadorReporte.data %}
+        <tr class="">
+            <td>{{ indicador.nombre }}</td>
+            <td>{{ indicador.valor }}</td>
+            <td>{{ indicador.inferior }}</td>
+            <td>{{ indicador.superior }}</td>
+            <td style="text-align:center;"> <img src="{{asset('bundles/frontend/images/'~ indicador.estado ~ '.jpg') }}" border="0" width="24" height="24"/></td>
+            <td>{{ indicador.observacion}}</td>
+        </tr>
+        {% endfor %}
     
     {% endfor %}
     </tbody>

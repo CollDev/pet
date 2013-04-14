@@ -92,8 +92,8 @@ class IndicadorController extends Controller
             if ($form->isValid()) {
                 $indicadorIncidencias = $incidenciaManager->getIndicadorTipoIncidencias();
                 $indicadorStocks = $indicadorManager->getStocks();
-                $indicadorManager->generarIndicadoresStock($indicadorStocks);
                 $indicadorManager->generarIndicadoresIncidencia($indicadorIncidencias);
+                $indicadorManager->generarIndicadoresStock($indicadorStocks);
                 $indicadores = $indicadorManager->procesarIndicadores();
             }                
         }

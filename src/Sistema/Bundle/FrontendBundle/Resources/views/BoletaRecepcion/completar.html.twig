@@ -1,5 +1,11 @@
-{% if estado | length > 0 %}
-Boleta ha sido Completada
+{% if estado | length > 0 %} 
+
+   {% if estado == "completado" %}
+     Boleta ha sido Completada
+   {% else  %}
+     {{ estado }}
+   {% endif %}
 {% else %}
-Esta Boleta ya fue Completada
+     {{ estado }}
+   Esta Boleta ya fue Completada
 {% endif %}

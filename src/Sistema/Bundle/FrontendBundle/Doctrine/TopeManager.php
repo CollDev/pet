@@ -82,6 +82,24 @@ class TopeManager extends BaseManager
         
     }
     
+    public function acumuladoNoRebasaTope($boletaRecepcion, $topeMaximo)
+    {
+        
+        $pesoDesperdicio = $this->calcularDesperdicio($boletaRecepcion);
+        
+        $tope = $this->getUltimoTope();
+        $acumulado = $pesoDesperdicio + $tope->getAcumulado();
+        
+        if($acumulado <= $topeMaximo) {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+        
+    }
+    
     private function calcularDesperdicio($boletaRecepcion)
     {
         return $boletaRecepcion->getTotal() - $boletaRecepcion->getNeto();
