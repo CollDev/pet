@@ -48,7 +48,26 @@ class PedidoRepository extends EntityRepository
                 ->setParameter(':p_estado', 5);
         return $qb->getQuery()->getResult();   
     }
-
+    
+    public function buscarPedidosPendientesPorFecha($clienteId, $fechaInicio, $fechaFin, $pendiente)
+    {
+        $qb = $this->createQueryBuilder("p");
+        
+        $qb ->andWhere($qb->expr()->gt('p.fecha_programacion', ':p_fecha_inicio'))
+                ->setParameter('p_fecha_inicio', $fechaInicio)
+            ->andWhere($qb->expr()->lt('p.fecha_programacion', ':p_fecha_fin'))
+                ->setParameter('p_fecha_fin', $fechaFin)
+            ->andWhere($qb->expr()->eq('p.estado', ':p_estado'))
+                ->setParameter('p_estado', $pendiente);
+        
+        
+        if($clienteId != "") {
+            $qb->andWhere($qb->expr()->eq('p.cliente', ':p_cliente'))
+                ->setParameter('p_cliente', $clienteId);
+        }
+        
+        return $qb->getQuery()->getResult();
+    }
             
     public function buscarPedidosPorFecha($clienteId, $fechaInicio, $fechaFin)
     {

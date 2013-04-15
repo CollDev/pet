@@ -301,7 +301,7 @@ class PedidoController extends Controller
         if($request->isMethod('POST')) {
             $form->bind($request);
             if($form->isValid()) {
-                $pedidos = $pedidoManager->buscarPedidosPorFecha($form);
+                $pedidos = $pedidoManager->buscarPedidosPendientesPorFecha($form);
                 
             }
         }

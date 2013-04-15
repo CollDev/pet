@@ -150,6 +150,25 @@ class PedidoManager extends BaseManager
                 
     }
     
+    public function buscarPedidosPendientesPorFecha($form)
+    {
+        $fechaInicio = $form->get('fecha_inicio')->getData();
+        $fechaFin = $form->get('fecha_fin')->getData();
+        $clienteId = $form->get('cliente')->getData();
+        $pedidosConDetalle = [];
+        $estadoRepository = $this->objectManager->getRepository('FrontendBundle:Estado');
+        $estadoPendiente = $estadoRepository->findOneBy(['nombre' => 'Pendiente']);
+        $pedidos = $this->repository->buscarPedidosPendientesPorFecha($clienteId,
+                $fechaInicio, $fechaFin, $estadoPendiente);
+        $pedidoDetalleRepository = $this->objectManager
+                ->getRepository('FrontendBundle:PedidoDetalle');
+        
+        $pedidosConDetalle = $pedidoDetalleRepository->buscarPedidos($pedidos);
+        
+        return $pedidosConDetalle;
+                
+    }
+    
     public function buscarPedidosPorFechaCliente( $clienteId, $fechaInicio, $fechaFin)
     {
         return $this->repository->buscarPedidosPorFecha( $clienteId, $fechaInicio, $fechaFin);
