@@ -1,0 +1,10 @@
+id         ,nombre                                                                                              
+-----------,----------------------------------------------------------------------------------------------------
+          1,Accidente Mayor                                                                                     
+          2,Accidente Menor                                                                                     
+          3,Choque                                                                                              
+          4,Desborde                                                                                            
+          7,Falto cobertura insecticidas                                                                        
+          8,Falto cobertura agua                                                                                
+
+(6 rows affected)

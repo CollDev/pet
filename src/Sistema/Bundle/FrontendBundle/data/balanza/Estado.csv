@@ -1,0 +1,10 @@
+id         ,nombre                                                                                              
+-----------,----------------------------------------------------------------------------------------------------
+          1,Activo                                                                                              
+          2,Inactivo                                                                                            
+          3,Completado                                                                                          
+          4,Pendiente                                                                                           
+          5,Confirmado                                                                                          
+          6,Atendido                                                                                            
+
+(6 rows affected)
